@@ -60,9 +60,9 @@ export default function CartPage() {
         {/* Line items */}
         <div>
           <ul className="divide-y divide-zinc-200 border-y border-zinc-200">
-            {items.map(({ product, qty }) => (
+            {items.map(({ product, size, qty, unitPrice, unitCompareAt, lineTotal }) => (
               <motion.li
-                key={product.id}
+                key={`${product.id}|${size ?? 'kit'}`}
                 layout
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -89,12 +89,13 @@ export default function CartPage() {
                         >
                           {product.name}
                         </Link>
+                        {size && <span className="ml-2 text-xs text-zinc-500">{size}</span>}
                       </h2>
                     </div>
                     <button
                       type="button"
-                      aria-label={`Remove ${product.name} from cart`}
-                      onClick={() => removeItem(product.id)}
+                      aria-label={`Remove ${product.name}${size ? ` ${size}` : ''} from cart`}
+                      onClick={() => removeItem(product.id, size)}
                       className="cursor-pointer p-2 text-zinc-500 transition-colors hover:text-zinc-900"
                     >
                       <XIcon size={18} weight="light" />
@@ -106,7 +107,7 @@ export default function CartPage() {
                       <button
                         type="button"
                         aria-label={`Decrease quantity of ${product.name}`}
-                        onClick={() => setQty(product.id, qty - 1)}
+                        onClick={() => setQty(product.id, size, qty - 1)}
                         className="cursor-pointer p-2.5 text-zinc-600 transition-colors hover:text-zinc-900"
                       >
                         <MinusIcon size={14} weight="light" />
@@ -117,7 +118,7 @@ export default function CartPage() {
                       <button
                         type="button"
                         aria-label={`Increase quantity of ${product.name}`}
-                        onClick={() => setQty(product.id, qty + 1)}
+                        onClick={() => setQty(product.id, size, qty + 1)}
                         className="cursor-pointer p-2.5 text-zinc-600 transition-colors hover:text-zinc-900"
                       >
                         <PlusIcon size={14} weight="light" />
@@ -125,11 +126,9 @@ export default function CartPage() {
                     </div>
                     <p className="flex items-baseline gap-2.5 text-sm">
                       <span className="text-zinc-500 line-through">
-                        {formatPrice(product.compareAt * qty)}
+                        {formatPrice(unitCompareAt * qty)}
                       </span>
-                      <span className="font-semibold text-zinc-900">
-                        {formatPrice(product.price * qty)}
-                      </span>
+                      <span className="font-semibold text-zinc-900">{formatPrice(lineTotal)}</span>
                     </p>
                   </div>
                 </div>

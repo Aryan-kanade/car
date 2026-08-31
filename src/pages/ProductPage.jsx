@@ -1,19 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { CheckCircleIcon } from '@phosphor-icons/react/dist/csr/CheckCircle'
 import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
 import { MinusIcon } from '@phosphor-icons/react/dist/csr/Minus'
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus'
 import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
 import { StarIcon } from '@phosphor-icons/react/dist/csr/Star'
+import { TruckIcon } from '@phosphor-icons/react/dist/csr/Truck'
 import PageHeader from '../components/PageHeader'
 import Placeholder from '../components/Placeholder'
 import ProductCard from '../components/ProductCard'
+import ReviewSection from '../components/ReviewSection'
 import NotFoundPage from './NotFoundPage'
 import {
+  defaultSizeLabel,
   formatPrice,
   getCategoryForProduct,
+  getSizes,
+  getVariant,
   getProductById,
   products,
   valueProps,
@@ -21,6 +26,7 @@ import {
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { readReviews } from '../hooks/useProductReviews'
 
 const RECENT_KEY = 'kmkiramyki-recently-viewed'
 
@@ -34,51 +40,61 @@ function readRecentlyViewed() {
   }
 }
 
-function QtyStepper({ qty, onChange }) {
+function QtyStepper({ qty, onChange, compact = false }) {
+  const pad = compact ? 'p-2.5' : 'p-3'
+  const icon = compact ? 14 : 16
   return (
     <div className="flex items-center border border-zinc-200">
       <button
         type="button"
         aria-label="Decrease quantity"
         onClick={() => onChange(Math.max(1, qty - 1))}
-        className="cursor-pointer p-3 text-zinc-600 transition-colors hover:text-zinc-900"
+        className={`cursor-pointer ${pad} text-zinc-600 transition-colors hover:text-zinc-900`}
       >
-        <MinusIcon size={16} weight="light" />
+        <MinusIcon size={icon} weight="light" />
       </button>
-      <span aria-live="polite" className="min-w-10 text-center text-sm font-semibold text-zinc-900">
+      <span
+        aria-live="polite"
+        className={`${compact ? 'min-w-8 text-xs' : 'min-w-10 text-sm'} text-center font-semibold text-zinc-900`}
+      >
         {qty}
       </span>
       <button
         type="button"
         aria-label="Increase quantity"
         onClick={() => onChange(Math.min(99, qty + 1))}
-        className="cursor-pointer p-3 text-zinc-600 transition-colors hover:text-zinc-900"
+        className={`cursor-pointer ${pad} text-zinc-600 transition-colors hover:text-zinc-900`}
       >
-        <PlusIcon size={16} weight="light" />
+        <PlusIcon size={icon} weight="light" />
       </button>
     </div>
   )
 }
 
-/** Product detail page — gallery, buy box, specs, recently viewed and related products. */
+/** Product detail page — gallery, variants, buy box, reviews, recently viewed. */
 export default function ProductPage() {
   const { id } = useParams()
   const product = getProductById(id)
   const [qty, setQty] = useState(1)
+  const [sizeLabel, setSizeLabel] = useState(null)
+  const [view, setView] = useState(0)
   const [recent, setRecent] = useState([])
+  const [showStickyBar, setShowStickyBar] = useState(false)
+  const buyBoxRef = useRef(null)
   const { addItem } = useCart()
   const { has, toggle } = useWishlist()
-
-  const wished = product ? has(product.id) : false
 
   usePageMeta(
     product ? product.name : 'Product not found',
     product ? product.description.slice(0, 155) : undefined,
   )
 
-  // Track this product in "recently viewed" (max 5, most recent first)
+  // Reset per-product state and track "recently viewed" on navigation
   useEffect(() => {
     if (!product) return
+    setSizeLabel(defaultSizeLabel(product))
+    setQty(1)
+    setView(0)
     setRecent(readRecentlyViewed().filter((recentId) => recentId !== product.id))
     try {
       const next = [product.id, ...readRecentlyViewed().filter((r) => r !== product.id)].slice(0, 5)
@@ -88,17 +104,34 @@ export default function ProductPage() {
     }
   }, [product])
 
+  // Sticky add-to-cart bar appears once the buy box scrolls out of view
+  useEffect(() => {
+    const node = buyBoxRef.current
+    if (!node || typeof IntersectionObserver === 'undefined') return
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+      { threshold: 0 },
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [product])
+
   if (!product) return <NotFoundPage />
 
   const category = getCategoryForProduct(product)
+  const sizes = getSizes(product)
+  const variant = getVariant(product, sizeLabel)
+  const wished = has(product.id)
+  const reviewCount = readReviews(product.id).length
+  const rating = product.rating
+
   const related = products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .concat(products.filter((p) => p.category !== product.category && p.id !== product.id))
     .slice(0, 3)
 
   const recentProducts = recent.map(getProductById).filter(Boolean)
-
-  const thumbs = [
+  const views = [
     `${product.imageLabel} (front)`,
     `${product.imageLabel} (angle)`,
     `${product.imageLabel} (in use)`,
@@ -115,7 +148,7 @@ export default function ProductPage() {
         title={product.name}
       />
 
-      <div className="mx-auto max-w-7xl px-6 py-14 md:py-20">
+      <div className="mx-auto max-w-7xl px-6 pb-28 py-14 md:py-20">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Gallery */}
           <motion.div
@@ -123,16 +156,37 @@ export default function ProductPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
           >
-            <Placeholder label={product.imageLabel} iconSize={48} className="aspect-square rounded-xl" />
-            <div className="mt-4 grid grid-cols-3 gap-4" aria-hidden="true">
-              {thumbs.map((label) => (
-                <Placeholder key={label} label={label} iconSize={20} className="aspect-square rounded-lg" />
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={view}
+                initial={{ opacity: 0.4 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Placeholder label={views[view]} iconSize={48} className="aspect-square rounded-xl" />
+              </motion.div>
+            </AnimatePresence>
+            <div className="mt-4 grid grid-cols-3 gap-4">
+              {views.map((label, index) => (
+                <button
+                  key={label}
+                  type="button"
+                  aria-label={`Show image ${index + 1} of 3`}
+                  aria-pressed={view === index}
+                  onClick={() => setView(index)}
+                  className={`cursor-pointer overflow-hidden rounded-lg border-2 transition-colors ${
+                    view === index ? 'border-zinc-900' : 'border-transparent hover:border-zinc-300'
+                  }`}
+                >
+                  <Placeholder label={label} iconSize={20} className="aspect-square rounded-md" />
+                </button>
               ))}
             </div>
           </motion.div>
 
           {/* Buy box */}
           <motion.div
+            ref={buyBoxRef}
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
@@ -148,21 +202,21 @@ export default function ProductPage() {
               )}
             </p>
 
-            {product.rating && (
+            {(rating || reviewCount > 0) && (
               <div className="mt-3 flex items-center gap-1.5">
                 <span className="flex gap-0.5">
-                  {Array.from({ length: product.rating.stars }).map((_, i) => (
+                  {Array.from({ length: rating?.stars ?? 5 }).map((_, i) => (
                     <StarIcon key={i} size={14} weight="fill" className="text-zinc-900" />
                   ))}
                 </span>
-                <span className="text-xs text-zinc-500">({product.rating.reviews} review)</span>
+                <span className="text-xs text-zinc-500">({reviewCount} review{reviewCount === 1 ? '' : 's'})</span>
               </div>
             )}
 
             <div className="mt-4 flex flex-wrap items-baseline gap-3">
-              <span className="text-3xl font-bold text-zinc-900">{formatPrice(product.price)}</span>
+              <span className="text-3xl font-bold text-zinc-900">{formatPrice(variant.price)}</span>
               <span className="text-base text-zinc-500 line-through">
-                {formatPrice(product.compareAt)}
+                {formatPrice(variant.compareAt)}
               </span>
               <span className="rounded-full bg-zinc-900 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-white uppercase">
                 {product.badge}
@@ -182,6 +236,33 @@ export default function ProductPage() {
               </ul>
             )}
 
+            {/* Size selector */}
+            {sizes && (
+              <fieldset className="mt-7">
+                <legend className="text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase">
+                  Size
+                </legend>
+                <div className="mt-3 flex flex-wrap gap-2.5" role="radiogroup" aria-label="Size">
+                  {sizes.map((size) => (
+                    <button
+                      key={size.label}
+                      type="button"
+                      role="radio"
+                      aria-checked={sizeLabel === size.label}
+                      onClick={() => setSizeLabel(size.label)}
+                      className={`cursor-pointer rounded-md border px-5 py-2.5 text-sm transition-colors ${
+                        sizeLabel === size.label
+                          ? 'border-zinc-900 bg-zinc-900 text-white'
+                          : 'border-zinc-200 text-zinc-700 hover:border-zinc-400'
+                      }`}
+                    >
+                      {size.label}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+            )}
+
             {product.usage && (
               <div className="mt-6 rounded-lg border border-zinc-200 bg-zinc-50 p-5">
                 <h2 className="text-[11px] font-semibold tracking-[0.2em] text-zinc-900 uppercase">
@@ -195,7 +276,7 @@ export default function ProductPage() {
               <QtyStepper qty={qty} onChange={setQty} />
               <button
                 type="button"
-                onClick={() => addItem(product.id, qty)}
+                onClick={() => addItem(product.id, qty, sizeLabel)}
                 className="flex flex-1 cursor-pointer items-center justify-center gap-3 bg-zinc-900 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
               >
                 <ShoppingCartIcon size={16} weight="light" />
@@ -216,6 +297,13 @@ export default function ProductPage() {
               </button>
             </div>
 
+            {/* Delivery strip */}
+            <p className="mt-5 flex items-center gap-2.5 text-xs text-zinc-600">
+              <TruckIcon size={18} weight="light" className="shrink-0 text-zinc-900" aria-hidden="true" />
+              Ordered before 4 PM IST on working days ships the same day · Metro delivery in 2–3
+              days
+            </p>
+
             <ul className="mt-8 grid grid-cols-1 gap-3 border-t border-zinc-200 pt-6 sm:grid-cols-3">
               {valueProps.map((prop) => (
                 <li key={prop.title} className="text-xs leading-relaxed text-zinc-500">
@@ -226,8 +314,11 @@ export default function ProductPage() {
           </motion.div>
         </div>
 
+        {/* Reviews */}
+        <ReviewSection productId={product.id} />
+
         {/* Related */}
-        <div className="mt-24 border-t border-zinc-200 pt-14 md:mt-32">
+        <div className="mt-20 border-t border-zinc-200 pt-14 md:mt-24">
           <h2 className="font-display text-xl font-bold tracking-[0.12em] uppercase text-zinc-900 md:text-2xl">
             Complete the routine
           </h2>
@@ -260,6 +351,43 @@ export default function ProductPage() {
           </div>
         )}
       </div>
+
+      {/* Sticky add-to-cart bar */}
+      <AnimatePresence>
+        {showStickyBar && (
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-200 bg-white/95 backdrop-blur-md"
+          >
+            <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-6 py-3">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-zinc-900">
+                  {product.name}
+                  {variant.label && <span className="ml-2 text-xs text-zinc-500">{variant.label}</span>}
+                </p>
+                <p className="mt-0.5 flex items-baseline gap-2 text-sm">
+                  <span className="text-zinc-500 line-through">{formatPrice(variant.compareAt)}</span>
+                  <span className="font-semibold text-zinc-900">{formatPrice(variant.price)}</span>
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <QtyStepper qty={qty} onChange={setQty} compact />
+                <button
+                  type="button"
+                  onClick={() => addItem(product.id, qty, sizeLabel)}
+                  className="flex cursor-pointer items-center justify-center gap-2 bg-zinc-900 px-6 py-3 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
+                >
+                  <ShoppingCartIcon size={14} weight="light" />
+                  Add to cart
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

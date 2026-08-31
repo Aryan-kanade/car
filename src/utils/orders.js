@@ -28,11 +28,12 @@ export function saveOrder({ email, name, items, subtotal }) {
     number: generateOrderNumber(),
     email,
     name,
-    items: items.map(({ product, qty }) => ({
+    items: items.map(({ product, size, qty, unitPrice }) => ({
       id: product.id,
       name: product.name,
+      size,
       qty,
-      unitPrice: product.price,
+      unitPrice,
     })),
     subtotal,
     shipping,

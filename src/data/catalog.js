@@ -273,6 +273,48 @@ export const products = [
 
 export const getProductById = (id) => products.find((p) => p.id === id)
 
+// ── Size variants ────────────────────────────────────────────
+// Kits ship as single boxes; bottles come in two sizes each.
+
+const SIZES_STANDARD = [
+  { label: '500 ml', multiplier: 1 },
+  { label: '1 L', multiplier: 1.8 },
+]
+
+const SIZES_SMALL = [
+  { label: '300 ml', multiplier: 1 },
+  { label: '500 ml', multiplier: 1.55 },
+]
+
+const sizeOptions = {
+  'pre-wash-shampoo': SIZES_STANDARD,
+  'washberry-shampoo': SIZES_STANDARD,
+  'wax-shampoo': SIZES_STANDARD,
+  degreaser: SIZES_STANDARD,
+  'wheel-cleaner': SIZES_STANDARD,
+  'glass-cleaner': SIZES_STANDARD,
+  'dashboard-polish': SIZES_SMALL,
+  'tyre-polish': SIZES_SMALL,
+}
+
+export const getSizes = (product) => sizeOptions[product.id] ?? null
+
+export const defaultSizeLabel = (product) => getSizes(product)?.[0]?.label ?? null
+
+/** Resolve a product + size label to concrete pricing (rounded to ₹10). */
+export function getVariant(product, sizeLabel) {
+  const sizes = getSizes(product)
+  const size = sizes?.find((s) => s.label === sizeLabel) ?? sizes?.[0]
+  const multiplier = size?.multiplier ?? 1
+  const round = (value) => Math.round((value * multiplier) / 10) * 10
+  return {
+    label: size?.label ?? null,
+    multiplier,
+    price: multiplier === 1 ? product.price : round(product.price),
+    compareAt: multiplier === 1 ? product.compareAt : round(product.compareAt),
+  }
+}
+
 // ── Bundles ──────────────────────────────────────────────────
 
 export const bundles = [

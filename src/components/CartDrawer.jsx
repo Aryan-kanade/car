@@ -109,8 +109,8 @@ export default function CartDrawer() {
 
                 {/* Items */}
                 <ul className="flex-1 divide-y divide-zinc-200 overflow-y-auto px-6">
-                  {items.map(({ product, qty }) => (
-                    <li key={product.id} className="flex gap-4 py-5">
+                  {items.map(({ product, size, qty, lineTotal }) => (
+                    <li key={`${product.id}|${size ?? 'kit'}`} className="flex gap-4 py-5">
                       <Link
                         to={`/product/${product.id}`}
                         onClick={closeDrawer}
@@ -125,11 +125,14 @@ export default function CartDrawer() {
                       </Link>
                       <div className="flex flex-1 flex-col">
                         <div className="flex items-start justify-between gap-3">
-                          <p className="text-sm font-medium text-zinc-900">{product.name}</p>
+                          <p className="text-sm font-medium text-zinc-900">
+                            {product.name}
+                            {size && <span className="block text-xs text-zinc-500">{size}</span>}
+                          </p>
                           <button
                             type="button"
-                            aria-label={`Remove ${product.name}`}
-                            onClick={() => removeItem(product.id)}
+                            aria-label={`Remove ${product.name}${size ? ` ${size}` : ''}`}
+                            onClick={() => removeItem(product.id, size)}
                             className="cursor-pointer p-1 text-zinc-500 transition-colors hover:text-zinc-900"
                           >
                             <XIcon size={14} weight="light" />
@@ -140,7 +143,7 @@ export default function CartDrawer() {
                             <button
                               type="button"
                               aria-label={`Decrease quantity of ${product.name}`}
-                              onClick={() => setQty(product.id, qty - 1)}
+                              onClick={() => setQty(product.id, size, qty - 1)}
                               className="cursor-pointer p-2 text-zinc-600 transition-colors hover:text-zinc-900"
                             >
                               <MinusIcon size={12} weight="light" />
@@ -151,14 +154,14 @@ export default function CartDrawer() {
                             <button
                               type="button"
                               aria-label={`Increase quantity of ${product.name}`}
-                              onClick={() => setQty(product.id, qty + 1)}
+                              onClick={() => setQty(product.id, size, qty + 1)}
                               className="cursor-pointer p-2 text-zinc-600 transition-colors hover:text-zinc-900"
                             >
                               <PlusIcon size={12} weight="light" />
                             </button>
                           </div>
                           <p className="text-sm font-semibold text-zinc-900">
-                            {formatPrice(product.price * qty)}
+                            {formatPrice(lineTotal)}
                           </p>
                         </div>
                       </div>

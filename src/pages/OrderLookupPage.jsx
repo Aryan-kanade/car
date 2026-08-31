@@ -115,7 +115,9 @@ export default function OrderLookupPage() {
               {result.items.map((item) => (
                 <li key={item.id} className="flex items-center justify-between gap-4 py-3.5 text-sm">
                   <span className="text-zinc-700">
-                    {item.name} <span className="text-zinc-500">× {item.qty}</span>
+                    {item.name}
+                    {item.size && <span className="text-zinc-500"> · {item.size}</span>}{' '}
+                    <span className="text-zinc-500">× {item.qty}</span>
                   </span>
                   <span className="font-medium text-zinc-900">
                     {formatPrice(item.unitPrice * item.qty)}

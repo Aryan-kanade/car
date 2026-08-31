@@ -193,7 +193,9 @@ export default function CheckoutPage() {
                 {placedOrder.items.map((item) => (
                   <li key={item.id} className="flex items-center justify-between gap-4 py-3.5 text-sm">
                     <span className="text-zinc-700">
-                      {item.name} <span className="text-zinc-500">× {item.qty}</span>
+                      {item.name}
+                      {item.size && <span className="text-zinc-500"> · {item.size}</span>}{' '}
+                      <span className="text-zinc-500">× {item.qty}</span>
                     </span>
                     <span className="font-medium text-zinc-900">
                       {formatPrice(item.unitPrice * item.qty)}
@@ -368,15 +370,16 @@ export default function CheckoutPage() {
                 Order summary
               </h2>
               <ul className="mt-5 space-y-4">
-                {items.map(({ product, qty }) => (
-                  <li key={product.id} className="flex items-center gap-4">
+                {items.map(({ product, size, qty, lineTotal }) => (
+                  <li key={`${product.id}|${size ?? 'kit'}`} className="flex items-center gap-4">
                     <Placeholder label={product.imageLabel} iconSize={14} className="w-12 shrink-0 rounded-md" />
                     <span className="flex-1 text-sm text-zinc-700">
                       {product.name}
+                      {size && <span className="block text-xs text-zinc-500">{size}</span>}
                       <span className="block text-xs text-zinc-500">Qty {qty}</span>
                     </span>
                     <span className="text-sm font-medium text-zinc-900">
-                      {formatPrice(product.price * qty)}
+                      {formatPrice(lineTotal)}
                     </span>
                   </li>
                 ))}
