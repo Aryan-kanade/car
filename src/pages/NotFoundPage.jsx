@@ -13,8 +13,8 @@ export default function NotFoundPage() {
         Lost the gloss
       </h1>
       <p className="mt-6 max-w-md text-sm leading-relaxed text-zinc-600">
-        The page you are looking for has been polished away. The rest of the studio is exactly
-        where you left it.
+        The page you are looking for has been polished away. The rest of the studio is exactly where
+        you left it.
       </p>
       <div className="mt-10 flex flex-col gap-4 sm:flex-row">
         <Link

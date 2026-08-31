@@ -54,7 +54,7 @@ export function saveOrder({ email, name, items, subtotal }) {
 export function findOrder(number, email) {
   const norm = (value) => (value ?? '').toString().trim().toLowerCase()
   return readOrders().find(
-    (order) => norm(order.number) === norm(number) && norm(order.email) === norm(email),
+    (order) => norm(order.number) === norm(number) && norm(order.email) === norm(email)
   )
 }
 
@@ -65,7 +65,13 @@ export function getOrderStatus(placedAt) {
     return { label: 'Placed', detail: 'We are preparing your parcel. Tracking arrives by email.' }
   }
   if (ageHours < 72) {
-    return { label: 'Shipped', detail: 'Your parcel is on the way — typically 2–3 days for metro PIN codes.' }
+    return {
+      label: 'Shipped',
+      detail: 'Your parcel is on the way — typically 2–3 days for metro PIN codes.',
+    }
   }
-  return { label: 'Out for delivery', detail: 'Almost there. Keep your phone handy for the delivery agent.' }
+  return {
+    label: 'Out for delivery',
+    detail: 'Almost there. Keep your phone handy for the delivery agent.',
+  }
 }

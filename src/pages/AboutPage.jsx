@@ -8,7 +8,10 @@ import { usePageMeta } from '../hooks/usePageMeta'
 
 /** About — brand story with alternating image/text sections and a stats row. */
 export default function AboutPage() {
-  usePageMeta('About Us', 'KMKIRAMYKI formulates, not relabels — in-house detailing chemistry tested on real paint.')
+  usePageMeta(
+    'About Us',
+    'KMKIRAMYKI formulates, not relabels — in-house detailing chemistry tested on real paint.'
+  )
   return (
     <>
       <PageHeader

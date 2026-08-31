@@ -9,7 +9,11 @@ import { bundles, formatPrice } from '../data/catalog'
 export default function Bundles() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-24 md:py-32">
-      <SectionHeader title="Curated Bundles" subtext="Start with a kit. Finish faster." to="/kits" />
+      <SectionHeader
+        title="Curated Bundles"
+        subtext="Start with a kit. Finish faster."
+        to="/kits"
+      />
 
       <div className="grid gap-6 md:grid-cols-2 md:gap-8">
         {bundles.map((bundle, index) => (

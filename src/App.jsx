@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { MotionConfig } from 'framer-motion'
 import { CartProvider } from './context/CartContext'

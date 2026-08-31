@@ -11,7 +11,10 @@ const inputClasses =
 export default function ContactPage() {
   const [sent, setSent] = useState(false)
 
-  usePageMeta('Contact Us', 'Product advice, order help and accessibility reports — straight to the studio.')
+  usePageMeta(
+    'Contact Us',
+    'Product advice, order help and accessibility reports — straight to the studio.'
+  )
 
   if (sent) {
     return (
@@ -46,7 +49,13 @@ export default function ContactPage() {
         subtext="Product advice, order help, accessibility reports or the accessories waitlist — this form reaches the studio directly."
       />
       <div className="mx-auto max-w-xl px-6 py-14 md:py-20">
-        <form onSubmit={(e) => { e.preventDefault(); setSent(true) }} className="space-y-5">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            setSent(true)
+          }}
+          className="space-y-5"
+        >
           <div>
             <label
               htmlFor="contact-name"

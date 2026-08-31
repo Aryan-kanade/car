@@ -19,7 +19,10 @@ const inputClasses =
 function Field({ id, label, error, children }) {
   return (
     <div>
-      <label htmlFor={id} className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase">
+      <label
+        htmlFor={id}
+        className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase"
+      >
         {label}
       </label>
       {children}
@@ -35,7 +38,8 @@ function Field({ id, label, error, children }) {
 function validateShipping(form) {
   const errors = {}
   if (!form.name.trim()) errors.name = 'Enter your full name.'
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = 'Enter a valid email address.'
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
+    errors.email = 'Enter a valid email address.'
   if (!form.address.trim()) errors.address = 'Enter your street address.'
   if (!form.city.trim()) errors.city = 'Enter your city.'
   if (!form.state.trim()) errors.state = 'Enter your state.'
@@ -46,8 +50,10 @@ function validateShipping(form) {
 function validatePayment(method, form) {
   const errors = {}
   if (method === 'card') {
-    if (!/^\d{16}$/.test(form.cardNumber.replace(/\s/g, ''))) errors.cardNumber = 'Enter the 16-digit card number.'
-    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(form.cardExpiry.trim())) errors.cardExpiry = 'Use MM/YY format.'
+    if (!/^\d{16}$/.test(form.cardNumber.replace(/\s/g, '')))
+      errors.cardNumber = 'Enter the 16-digit card number.'
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(form.cardExpiry.trim()))
+      errors.cardExpiry = 'Use MM/YY format.'
     if (!/^\d{3,4}$/.test(form.cardCvv.trim())) errors.cardCvv = 'CVV is 3 digits.'
   } else if (!/^[^\s@]+@[^\s@]+$/.test(form.upiId.trim())) {
     errors.upiId = 'Enter a valid UPI ID (name@bank).'
@@ -87,7 +93,10 @@ export default function CheckoutPage() {
   if (items.length === 0 && step < 3) {
     return (
       <>
-        <PageHeader breadcrumb={[{ label: 'Cart', to: '/cart' }, { label: 'Checkout' }]} title="Checkout" />
+        <PageHeader
+          breadcrumb={[{ label: 'Cart', to: '/cart' }, { label: 'Checkout' }]}
+          title="Checkout"
+        />
         <div className="mx-auto flex max-w-7xl flex-col items-center px-6 py-24 text-center md:py-32">
           <p className="text-sm text-zinc-600">There is nothing to check out yet.</p>
           <Link
@@ -153,7 +162,9 @@ export default function CheckoutPage() {
                     </span>
                     {label}
                   </span>
-                  {index === 0 && <span className="h-px w-10 bg-zinc-300 md:w-16" aria-hidden="true" />}
+                  {index === 0 && (
+                    <span className="h-px w-10 bg-zinc-300 md:w-16" aria-hidden="true" />
+                  )}
                 </li>
               )
             })}
@@ -171,7 +182,12 @@ export default function CheckoutPage() {
             className="mx-auto max-w-2xl"
           >
             <div className="flex flex-col items-center rounded-2xl border border-zinc-200 bg-zinc-50 px-6 py-14 text-center">
-              <SealCheckIcon size={48} weight="light" className="text-zinc-900" aria-hidden="true" />
+              <SealCheckIcon
+                size={48}
+                weight="light"
+                className="text-zinc-900"
+                aria-hidden="true"
+              />
               <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900">
                 Thank you, {placedOrder.name.split(' ')[0]}
               </h2>
@@ -182,7 +198,9 @@ export default function CheckoutPage() {
               <p className="font-display mt-8 text-3xl font-bold tracking-[0.1em] text-zinc-900">
                 {placedOrder.number}
               </p>
-              <p className="mt-1.5 text-xs tracking-[0.2em] text-zinc-500 uppercase">Order number</p>
+              <p className="mt-1.5 text-xs tracking-[0.2em] text-zinc-500 uppercase">
+                Order number
+              </p>
             </div>
 
             <div className="mt-8 rounded-2xl border border-zinc-200 p-7">
@@ -191,7 +209,10 @@ export default function CheckoutPage() {
               </h3>
               <ul className="mt-4 divide-y divide-zinc-200">
                 {placedOrder.items.map((item) => (
-                  <li key={item.id} className="flex items-center justify-between gap-4 py-3.5 text-sm">
+                  <li
+                    key={item.id}
+                    className="flex items-center justify-between gap-4 py-3.5 text-sm"
+                  >
                     <span className="text-zinc-700">
                       {item.name}
                       {item.size && <span className="text-zinc-500"> · {item.size}</span>}{' '}
@@ -219,7 +240,11 @@ export default function CheckoutPage() {
                 className="group inline-flex items-center justify-center gap-3 bg-zinc-900 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
               >
                 Track this order
-                <ArrowRightIcon size={14} weight="light" className="transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRightIcon
+                  size={14}
+                  weight="light"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
               </Link>
               <Link
                 to="/shop"
@@ -247,23 +272,85 @@ export default function CheckoutPage() {
                     Contact & shipping
                   </h2>
                   <Field id="co-name" label="Full name" error={errors.name}>
-                    <input id="co-name" type="text" required autoComplete="name" value={form.name} onChange={set('name')} className={inputClasses} placeholder="Your name" aria-invalid={!!errors.name} />
+                    <input
+                      id="co-name"
+                      type="text"
+                      required
+                      autoComplete="name"
+                      value={form.name}
+                      onChange={set('name')}
+                      className={inputClasses}
+                      placeholder="Your name"
+                      aria-invalid={!!errors.name}
+                    />
                   </Field>
                   <Field id="co-email" label="Email" error={errors.email}>
-                    <input id="co-email" type="email" required autoComplete="email" value={form.email} onChange={set('email')} className={inputClasses} placeholder="you@example.com" aria-invalid={!!errors.email} />
+                    <input
+                      id="co-email"
+                      type="email"
+                      required
+                      autoComplete="email"
+                      value={form.email}
+                      onChange={set('email')}
+                      className={inputClasses}
+                      placeholder="you@example.com"
+                      aria-invalid={!!errors.email}
+                    />
                   </Field>
                   <Field id="co-address" label="Street address" error={errors.address}>
-                    <input id="co-address" type="text" required autoComplete="street-address" value={form.address} onChange={set('address')} className={inputClasses} placeholder="House, street, landmark" aria-invalid={!!errors.address} />
+                    <input
+                      id="co-address"
+                      type="text"
+                      required
+                      autoComplete="street-address"
+                      value={form.address}
+                      onChange={set('address')}
+                      className={inputClasses}
+                      placeholder="House, street, landmark"
+                      aria-invalid={!!errors.address}
+                    />
                   </Field>
                   <div className="grid gap-5 sm:grid-cols-3">
                     <Field id="co-city" label="City" error={errors.city}>
-                      <input id="co-city" type="text" required autoComplete="address-level2" value={form.city} onChange={set('city')} className={inputClasses} placeholder="City" aria-invalid={!!errors.city} />
+                      <input
+                        id="co-city"
+                        type="text"
+                        required
+                        autoComplete="address-level2"
+                        value={form.city}
+                        onChange={set('city')}
+                        className={inputClasses}
+                        placeholder="City"
+                        aria-invalid={!!errors.city}
+                      />
                     </Field>
                     <Field id="co-state" label="State" error={errors.state}>
-                      <input id="co-state" type="text" required autoComplete="address-level1" value={form.state} onChange={set('state')} className={inputClasses} placeholder="State" aria-invalid={!!errors.state} />
+                      <input
+                        id="co-state"
+                        type="text"
+                        required
+                        autoComplete="address-level1"
+                        value={form.state}
+                        onChange={set('state')}
+                        className={inputClasses}
+                        placeholder="State"
+                        aria-invalid={!!errors.state}
+                      />
                     </Field>
                     <Field id="co-pin" label="PIN code" error={errors.pincode}>
-                      <input id="co-pin" type="text" required inputMode="numeric" maxLength={6} autoComplete="postal-code" value={form.pincode} onChange={set('pincode')} className={inputClasses} placeholder="560001" aria-invalid={!!errors.pincode} />
+                      <input
+                        id="co-pin"
+                        type="text"
+                        required
+                        inputMode="numeric"
+                        maxLength={6}
+                        autoComplete="postal-code"
+                        value={form.pincode}
+                        onChange={set('pincode')}
+                        className={inputClasses}
+                        placeholder="560001"
+                        aria-invalid={!!errors.pincode}
+                      />
                     </Field>
                   </div>
                   <button
@@ -290,8 +377,8 @@ export default function CheckoutPage() {
                     Payment
                   </h2>
                   <p className="rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-xs leading-relaxed text-zinc-600">
-                    Demo checkout — card details are validated in the browser only and never
-                    stored or transmitted.
+                    Demo checkout — card details are validated in the browser only and never stored
+                    or transmitted.
                   </p>
 
                   <fieldset>
@@ -328,20 +415,60 @@ export default function CheckoutPage() {
                   {method === 'card' ? (
                     <div className="space-y-5">
                       <Field id="co-card" label="Card number" error={errors.cardNumber}>
-                        <input id="co-card" type="text" required inputMode="numeric" placeholder="1234 5678 9012 3456" value={form.cardNumber} onChange={set('cardNumber')} className={inputClasses} aria-invalid={!!errors.cardNumber} />
+                        <input
+                          id="co-card"
+                          type="text"
+                          required
+                          inputMode="numeric"
+                          placeholder="1234 5678 9012 3456"
+                          value={form.cardNumber}
+                          onChange={set('cardNumber')}
+                          className={inputClasses}
+                          aria-invalid={!!errors.cardNumber}
+                        />
                       </Field>
                       <div className="grid gap-5 sm:grid-cols-2">
                         <Field id="co-expiry" label="Expiry (MM/YY)" error={errors.cardExpiry}>
-                          <input id="co-expiry" type="text" required placeholder="08/27" maxLength={5} value={form.cardExpiry} onChange={set('cardExpiry')} className={inputClasses} aria-invalid={!!errors.cardExpiry} />
+                          <input
+                            id="co-expiry"
+                            type="text"
+                            required
+                            placeholder="08/27"
+                            maxLength={5}
+                            value={form.cardExpiry}
+                            onChange={set('cardExpiry')}
+                            className={inputClasses}
+                            aria-invalid={!!errors.cardExpiry}
+                          />
                         </Field>
                         <Field id="co-cvv" label="CVV" error={errors.cardCvv}>
-                          <input id="co-cvv" type="password" required inputMode="numeric" maxLength={4} placeholder="•••" value={form.cardCvv} onChange={set('cardCvv')} className={inputClasses} aria-invalid={!!errors.cardCvv} />
+                          <input
+                            id="co-cvv"
+                            type="password"
+                            required
+                            inputMode="numeric"
+                            maxLength={4}
+                            placeholder="•••"
+                            value={form.cardCvv}
+                            onChange={set('cardCvv')}
+                            className={inputClasses}
+                            aria-invalid={!!errors.cardCvv}
+                          />
                         </Field>
                       </div>
                     </div>
                   ) : (
                     <Field id="co-upi" label="UPI ID" error={errors.upiId}>
-                      <input id="co-upi" type="text" required placeholder="name@bank" value={form.upiId} onChange={set('upiId')} className={inputClasses} aria-invalid={!!errors.upiId} />
+                      <input
+                        id="co-upi"
+                        type="text"
+                        required
+                        placeholder="name@bank"
+                        value={form.upiId}
+                        onChange={set('upiId')}
+                        className={inputClasses}
+                        aria-invalid={!!errors.upiId}
+                      />
                     </Field>
                   )}
 
@@ -372,7 +499,11 @@ export default function CheckoutPage() {
               <ul className="mt-5 space-y-4">
                 {items.map(({ product, size, qty, lineTotal }) => (
                   <li key={`${product.id}|${size ?? 'kit'}`} className="flex items-center gap-4">
-                    <Placeholder label={product.imageLabel} iconSize={14} className="w-12 shrink-0 rounded-md" />
+                    <Placeholder
+                      label={product.imageLabel}
+                      iconSize={14}
+                      className="w-12 shrink-0 rounded-md"
+                    />
                     <span className="flex-1 text-sm text-zinc-700">
                       {product.name}
                       {size && <span className="block text-xs text-zinc-500">{size}</span>}

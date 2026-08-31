@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import { formatPrice, products } from '../data/catalog'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 /**
  * Full-screen search overlay — live type-ahead across product names
@@ -12,6 +13,9 @@ import { formatPrice, products } from '../data/catalog'
 export default function SearchOverlay({ open, onClose }) {
   const [query, setQuery] = useState('')
   const inputRef = useRef(null)
+  const panelRef = useRef(null)
+
+  useFocusTrap(panelRef, open)
 
   // Focus the input on open, lock body scroll, close on Escape
   useEffect(() => {
@@ -32,9 +36,7 @@ export default function SearchOverlay({ open, onClose }) {
     const q = query.trim().toLowerCase()
     if (!q) return products.slice(0, 5)
     return products
-      .filter(
-        (p) => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q),
-      )
+      .filter((p) => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q))
       .slice(0, 8)
   }, [query])
 
@@ -53,6 +55,7 @@ export default function SearchOverlay({ open, onClose }) {
           aria-label="Search products"
         >
           <motion.div
+            ref={panelRef}
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
@@ -85,7 +88,9 @@ export default function SearchOverlay({ open, onClose }) {
             {/* Results */}
             <div className="max-h-[55vh] overflow-y-auto p-2">
               <p className="px-3 pt-2 pb-1 text-[11px] tracking-[0.2em] text-zinc-500 uppercase">
-                {query.trim() ? `${results.length} result${results.length === 1 ? '' : 's'}` : 'Popular right now'}
+                {query.trim()
+                  ? `${results.length} result${results.length === 1 ? '' : 's'}`
+                  : 'Popular right now'}
               </p>
               {results.length === 0 ? (
                 <div className="px-3 py-8 text-center">

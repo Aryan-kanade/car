@@ -60,7 +60,7 @@ export default function CartPage() {
         {/* Line items */}
         <div>
           <ul className="divide-y divide-zinc-200 border-y border-zinc-200">
-            {items.map(({ product, size, qty, unitPrice, unitCompareAt, lineTotal }) => (
+            {items.map(({ product, size, qty, unitCompareAt, lineTotal }) => (
               <motion.li
                 key={`${product.id}|${size ?? 'kit'}`}
                 layout
@@ -73,7 +73,11 @@ export default function CartPage() {
                   aria-label={product.name}
                   className="w-24 shrink-0 sm:w-28"
                 >
-                  <Placeholder label={product.imageLabel} iconSize={20} className="aspect-[4/5] rounded-lg" />
+                  <Placeholder
+                    label={product.imageLabel}
+                    iconSize={20}
+                    className="aspect-[4/5] rounded-lg"
+                  />
                 </Link>
 
                 <div className="flex flex-1 flex-col">
@@ -166,9 +170,7 @@ export default function CartPage() {
               {freeShipping ? (
                 <span>Free shipping unlocked</span>
               ) : (
-                <span>
-                  Add {formatPrice(remaining)} more for free shipping
-                </span>
+                <span>Add {formatPrice(remaining)} more for free shipping</span>
               )}
             </div>
             <div

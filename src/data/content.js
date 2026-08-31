@@ -171,7 +171,7 @@ export const contentPages = {
         heading: 'What we build to',
         body: [
           'We target WCAG 2.1 AA: text contrast of at least 4.5:1, visible keyboard focus on every interactive element, touch targets of at least 44 pixels, and full keyboard navigation of menus, filters and the cart.',
-          'The site respects your operating system\'s reduced-motion setting — animations and the scrolling banner are disabled automatically when you ask for less motion.',
+          "The site respects your operating system's reduced-motion setting — animations and the scrolling banner are disabled automatically when you ask for less motion.",
         ],
       },
       {
@@ -186,8 +186,7 @@ export const contentPages = {
   terms: {
     slug: 'terms',
     title: 'Terms & Conditions',
-    intro:
-      'The rules for using this website and buying from KMKIRAMYKI, in plain language.',
+    intro: 'The rules for using this website and buying from KMKIRAMYKI, in plain language.',
     sections: [
       {
         heading: 'Orders and pricing',
@@ -220,7 +219,7 @@ export const contentPages = {
       {
         heading: 'What we store',
         body: [
-          'When you add items to the cart, we keep that cart in your own browser\'s local storage — it never leaves your device until you choose to check out. We do not use third-party ad trackers.',
+          "When you add items to the cart, we keep that cart in your own browser's local storage — it never leaves your device until you choose to check out. We do not use third-party ad trackers.",
           'If you contact us, we keep your message and reply email address solely to answer you.',
         ],
       },

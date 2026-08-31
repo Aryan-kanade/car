@@ -13,7 +13,7 @@ export default function KitsPage() {
 
   usePageMeta(
     'Curated Bundles',
-    'WASH and PRO detailing kits — complete routines priced below the sum of their parts.',
+    'WASH and PRO detailing kits — complete routines priced below the sum of their parts.'
   )
 
   return (
@@ -71,7 +71,11 @@ export default function KitsPage() {
                 <ul className="mt-4 space-y-2.5">
                   {bundle.includes.map((item) => (
                     <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-700">
-                      <CheckCircleIcon size={18} weight="light" className="mt-0.5 shrink-0 text-zinc-900" />
+                      <CheckCircleIcon
+                        size={18}
+                        weight="light"
+                        className="mt-0.5 shrink-0 text-zinc-900"
+                      />
                       {item}
                     </li>
                   ))}

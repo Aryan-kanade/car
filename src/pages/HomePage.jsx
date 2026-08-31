@@ -11,7 +11,7 @@ import { usePageMeta } from '../hooks/usePageMeta'
 export default function HomePage() {
   usePageMeta(
     null,
-    'pH-balanced detailing chemistry, ceramic-grade protection and studio-tested tools — engineered for the enthusiast who notices every detail.',
+    'pH-balanced detailing chemistry, ceramic-grade protection and studio-tested tools — engineered for the enthusiast who notices every detail.'
   )
 
   return (

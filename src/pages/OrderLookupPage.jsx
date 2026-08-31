@@ -34,7 +34,10 @@ export default function OrderLookupPage() {
       <div className="mx-auto max-w-xl px-6 py-14 md:py-20">
         <form onSubmit={submit} className="space-y-5">
           <div>
-            <label htmlFor="order-id" className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase">
+            <label
+              htmlFor="order-id"
+              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase"
+            >
               Order number
             </label>
             <input
@@ -50,7 +53,10 @@ export default function OrderLookupPage() {
             />
           </div>
           <div>
-            <label htmlFor="order-email" className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase">
+            <label
+              htmlFor="order-email"
+              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase"
+            >
               Email address
             </label>
             <input
@@ -94,7 +100,8 @@ export default function OrderLookupPage() {
                   {result.number}
                 </p>
                 <p className="mt-1 text-xs text-zinc-500">
-                  Placed {new Date(result.placedAt).toLocaleDateString('en-IN', {
+                  Placed{' '}
+                  {new Date(result.placedAt).toLocaleDateString('en-IN', {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric',
@@ -113,7 +120,10 @@ export default function OrderLookupPage() {
 
             <ul className="mt-5 divide-y divide-zinc-200 border-t border-zinc-200">
               {result.items.map((item) => (
-                <li key={item.id} className="flex items-center justify-between gap-4 py-3.5 text-sm">
+                <li
+                  key={item.id}
+                  className="flex items-center justify-between gap-4 py-3.5 text-sm"
+                >
                   <span className="text-zinc-700">
                     {item.name}
                     {item.size && <span className="text-zinc-500"> · {item.size}</span>}{' '}

@@ -11,10 +11,7 @@ export default function NotePage() {
   const { slug } = useParams()
   const note = getNoteBySlug(slug)
 
-  usePageMeta(
-    note ? note.title : 'Guide not found',
-    note ? note.dek : undefined,
-  )
+  usePageMeta(note ? note.title : 'Guide not found', note ? note.dek : undefined)
 
   if (!note) return <NotFoundPage />
 
@@ -44,13 +41,19 @@ export default function NotePage() {
         className="mx-auto max-w-3xl px-6 py-14 md:py-20"
       >
         {note.sections.map((section) => (
-          <section key={section.heading} className="border-t border-zinc-200 py-9 first:border-t-0 first:pt-0">
+          <section
+            key={section.heading}
+            className="border-t border-zinc-200 py-9 first:border-t-0 first:pt-0"
+          >
             <h2 className="font-display text-lg font-bold tracking-[0.06em] uppercase text-zinc-900 md:text-xl">
               {section.heading}
             </h2>
             <div className="mt-4 space-y-4">
               {section.body.map((paragraph, index) => (
-                <p key={index} className="max-w-[70ch] text-sm leading-relaxed text-zinc-600 md:text-base">
+                <p
+                  key={index}
+                  className="max-w-[70ch] text-sm leading-relaxed text-zinc-600 md:text-base"
+                >
                   {paragraph}
                 </p>
               ))}
@@ -63,15 +66,19 @@ export default function NotePage() {
             Shop the formulas in this guide
           </h2>
           <p className="mx-auto mt-2.5 max-w-md text-sm leading-relaxed text-zinc-600">
-            Every routine in Lab Notes runs on KMKIRAMYKI chemistry — coating-safe and
-            pH-balanced by default.
+            Every routine in Lab Notes runs on KMKIRAMYKI chemistry — coating-safe and pH-balanced
+            by default.
           </p>
           <Link
             to="/shop"
             className="group mt-6 inline-flex items-center gap-3 bg-zinc-900 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
           >
             Browse products
-            <ArrowRightIcon size={14} weight="light" className="transition-transform duration-300 group-hover:translate-x-1" />
+            <ArrowRightIcon
+              size={14}
+              weight="light"
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
           </Link>
         </div>
       </motion.article>

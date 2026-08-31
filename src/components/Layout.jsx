@@ -6,6 +6,7 @@ import Footer from './Footer'
 import SearchOverlay from './SearchOverlay'
 import CartDrawer from './CartDrawer'
 import { useCart } from '../context/CartContext'
+import { prefetchRoutes } from '../utils/prefetch'
 
 /** Resets scroll on every route change so new pages open at the top. */
 function ScrollToTop() {
@@ -21,7 +22,11 @@ function ScrollToTop() {
 /** Minimal route fallback while lazy pages load. */
 function RouteFallback() {
   return (
-    <div className="flex min-h-[60vh] items-center justify-center" role="status" aria-label="Loading page">
+    <div
+      className="flex min-h-[60vh] items-center justify-center"
+      role="status"
+      aria-label="Loading page"
+    >
       <span className="font-display text-sm font-bold tracking-[0.4em] text-zinc-300 uppercase select-none">
         KMKIRAMYKI
       </span>
@@ -35,8 +40,16 @@ export default function Layout() {
   const [searchOpen, setSearchOpen] = useState(false)
   const { announcement } = useCart()
 
+  // Warm lazy route chunks once the browser is idle
+  useEffect(() => {
+    prefetchRoutes()
+  }, [])
+
   return (
-    <div id="top" className="flex min-h-screen flex-col bg-white font-sans text-zinc-900 antialiased">
+    <div
+      id="top"
+      className="flex min-h-screen flex-col bg-white font-sans text-zinc-900 antialiased"
+    >
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-100 focus:rounded-md focus:bg-zinc-900 focus:px-4 focus:py-2.5 focus:text-xs focus:font-semibold focus:tracking-[0.2em] focus:text-white focus:uppercase"
@@ -45,9 +58,7 @@ export default function Layout() {
       </a>
       {/* Screen-reader announcements for cart changes */}
       <p aria-live="polite" className="sr-only">
-        {announcement.key > 0 && (
-          <span key={announcement.key}>{announcement.message}</span>
-        )}
+        {announcement.key > 0 && <span key={announcement.key}>{announcement.message}</span>}
       </p>
       <ScrollToTop />
       <header className="fixed inset-x-0 top-0 z-50">
@@ -84,7 +95,7 @@ export function Breadcrumb({ items }) {
             Home
           </Link>
         </li>
-        {items.map((item, index) => (
+        {items.map((item) => (
           <li key={item.label} className="flex items-center gap-2">
             <span aria-hidden="true" className="text-zinc-300">
               /

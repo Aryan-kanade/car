@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
 import { ListIcon } from '@phosphor-icons/react/dist/csr/List'
@@ -37,7 +37,6 @@ export default function Navbar({ onOpenSearch }) {
   const { count: wishlistCount } = useWishlist()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const location = useLocation()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -45,11 +44,6 @@ export default function Navbar({ onOpenSearch }) {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
-
-  // Close the mobile menu whenever the route changes
-  useEffect(() => {
-    setMenuOpen(false)
-  }, [location.pathname])
 
   return (
     <div
@@ -162,6 +156,7 @@ export default function Navbar({ onOpenSearch }) {
                     <li key={category.slug}>
                       <Link
                         to={`/shop/${category.slug}`}
+                        onClick={() => setMenuOpen(false)}
                         className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-600 uppercase transition-colors hover:text-zinc-900"
                       >
                         {category.name}
@@ -174,6 +169,7 @@ export default function Navbar({ onOpenSearch }) {
                 <li key={link.label}>
                   <Link
                     to={link.to}
+                    onClick={() => setMenuOpen(false)}
                     className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-600 uppercase transition-colors hover:text-zinc-900"
                   >
                     {link.label}

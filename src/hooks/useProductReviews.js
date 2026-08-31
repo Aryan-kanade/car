@@ -42,7 +42,7 @@ export function useProductReviews(productId) {
       }
       setReviews(readReviews(productId))
     },
-    [productId],
+    [productId]
   )
 
   const average =

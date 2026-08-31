@@ -8,7 +8,10 @@ import { usePageMeta } from '../hooks/usePageMeta'
 
 /** Lab Notes index — detailing guides from the studio. */
 export default function NotesIndexPage() {
-  usePageMeta('Lab Notes', 'Detailing guides from the KMKIRAMYKI studio — wash method, decontamination, coating prep.')
+  usePageMeta(
+    'Lab Notes',
+    'Detailing guides from the KMKIRAMYKI studio — wash method, decontamination, coating prep.'
+  )
 
   return (
     <>
@@ -41,7 +44,10 @@ export default function NotesIndexPage() {
                   {note.category} · {note.readingTime}
                 </p>
                 <h2 className="font-display mt-2.5 text-lg font-bold tracking-[0.04em] uppercase text-zinc-900">
-                  <Link to={`/notes/${note.slug}`} className="transition-colors hover:text-zinc-600">
+                  <Link
+                    to={`/notes/${note.slug}`}
+                    className="transition-colors hover:text-zinc-600"
+                  >
                     {note.title}
                   </Link>
                 </h2>

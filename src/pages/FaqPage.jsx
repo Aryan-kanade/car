@@ -45,7 +45,7 @@ function AccordionItem({ q, a, index }) {
 export default function FaqPage() {
   usePageMeta(
     'Help & FAQ',
-    'Dilutions, shipping, coating safety and the 60-day guarantee — answered.',
+    'Dilutions, shipping, coating safety and the 60-day guarantee — answered.'
   )
   return (
     <>

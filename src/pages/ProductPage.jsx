@@ -71,38 +71,43 @@ function QtyStepper({ qty, onChange, compact = false }) {
   )
 }
 
-/** Product detail page — gallery, variants, buy box, reviews, recently viewed. */
+/** Product detail page — resolves the route, delegates to a keyed view. */
 export default function ProductPage() {
   const { id } = useParams()
   const product = getProductById(id)
+
+  usePageMeta(
+    product ? product.name : 'Product not found',
+    product ? product.description.slice(0, 155) : undefined
+  )
+
+  if (!product) return <NotFoundPage />
+
+  // Keyed by product id so all view state resets naturally on navigation
+  return <ProductView key={product.id} product={product} />
+}
+
+function ProductView({ product }) {
   const [qty, setQty] = useState(1)
-  const [sizeLabel, setSizeLabel] = useState(null)
+  const [sizeLabel, setSizeLabel] = useState(() => defaultSizeLabel(product))
   const [view, setView] = useState(0)
-  const [recent, setRecent] = useState([])
+  const [recent] = useState(() =>
+    readRecentlyViewed().filter((recentId) => recentId !== product.id)
+  )
   const [showStickyBar, setShowStickyBar] = useState(false)
   const buyBoxRef = useRef(null)
   const { addItem } = useCart()
   const { has, toggle } = useWishlist()
 
-  usePageMeta(
-    product ? product.name : 'Product not found',
-    product ? product.description.slice(0, 155) : undefined,
-  )
-
-  // Reset per-product state and track "recently viewed" on navigation
+  // Track in "recently viewed" (sync with localStorage — external system)
   useEffect(() => {
-    if (!product) return
-    setSizeLabel(defaultSizeLabel(product))
-    setQty(1)
-    setView(0)
-    setRecent(readRecentlyViewed().filter((recentId) => recentId !== product.id))
     try {
       const next = [product.id, ...readRecentlyViewed().filter((r) => r !== product.id)].slice(0, 5)
       window.localStorage.setItem(RECENT_KEY, JSON.stringify(next))
     } catch {
       /* storage unavailable */
     }
-  }, [product])
+  }, [product.id])
 
   // Sticky add-to-cart bar appears once the buy box scrolls out of view
   useEffect(() => {
@@ -110,13 +115,11 @@ export default function ProductPage() {
     if (!node || typeof IntersectionObserver === 'undefined') return
     const observer = new IntersectionObserver(
       ([entry]) => setShowStickyBar(!entry.isIntersecting && entry.boundingClientRect.top < 0),
-      { threshold: 0 },
+      { threshold: 0 }
     )
     observer.observe(node)
     return () => observer.disconnect()
   }, [product])
-
-  if (!product) return <NotFoundPage />
 
   const category = getCategoryForProduct(product)
   const sizes = getSizes(product)
@@ -178,7 +181,11 @@ export default function ProductPage() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                <Placeholder label={views[view]} iconSize={48} className="aspect-square rounded-xl" />
+                <Placeholder
+                  label={views[view]}
+                  iconSize={48}
+                  className="aspect-square rounded-xl"
+                />
               </motion.div>
             </AnimatePresence>
             <div className="mt-4 grid grid-cols-3 gap-4">
@@ -209,7 +216,10 @@ export default function ProductPage() {
           >
             <p className="text-[11px] tracking-[0.2em] text-zinc-500 uppercase">
               {category ? (
-                <Link to={`/shop/${category.slug}`} className="transition-colors hover:text-zinc-900">
+                <Link
+                  to={`/shop/${category.slug}`}
+                  className="transition-colors hover:text-zinc-900"
+                >
                   {category.name}
                 </Link>
               ) : (
@@ -224,7 +234,9 @@ export default function ProductPage() {
                     <StarIcon key={i} size={14} weight="fill" className="text-zinc-900" />
                   ))}
                 </span>
-                <span className="text-xs text-zinc-500">({reviewCount} review{reviewCount === 1 ? '' : 's'})</span>
+                <span className="text-xs text-zinc-500">
+                  ({reviewCount} review{reviewCount === 1 ? '' : 's'})
+                </span>
               </div>
             )}
 
@@ -244,7 +256,11 @@ export default function ProductPage() {
               <ul className="mt-6 space-y-2.5">
                 {product.highlights.map((line) => (
                   <li key={line} className="flex items-start gap-2.5 text-sm text-zinc-700">
-                    <CheckCircleIcon size={18} weight="light" className="mt-0.5 shrink-0 text-zinc-900" />
+                    <CheckCircleIcon
+                      size={18}
+                      weight="light"
+                      className="mt-0.5 shrink-0 text-zinc-900"
+                    />
                     {line}
                   </li>
                 ))}
@@ -299,7 +315,11 @@ export default function ProductPage() {
               </button>
               <button
                 type="button"
-                aria-label={wished ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+                aria-label={
+                  wished
+                    ? `Remove ${product.name} from wishlist`
+                    : `Add ${product.name} to wishlist`
+                }
                 aria-pressed={wished}
                 onClick={() => toggle(product.id)}
                 className={`cursor-pointer border p-4 transition-colors ${
@@ -314,7 +334,12 @@ export default function ProductPage() {
 
             {/* Delivery strip */}
             <p className="mt-5 flex items-center gap-2.5 text-xs text-zinc-600">
-              <TruckIcon size={18} weight="light" className="shrink-0 text-zinc-900" aria-hidden="true" />
+              <TruckIcon
+                size={18}
+                weight="light"
+                className="shrink-0 text-zinc-900"
+                aria-hidden="true"
+              />
               Ordered before 4 PM IST on working days ships the same day · Metro delivery in 2–3
               days
             </p>
@@ -381,10 +406,14 @@ export default function ProductPage() {
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-zinc-900">
                   {product.name}
-                  {variant.label && <span className="ml-2 text-xs text-zinc-500">{variant.label}</span>}
+                  {variant.label && (
+                    <span className="ml-2 text-xs text-zinc-500">{variant.label}</span>
+                  )}
                 </p>
                 <p className="mt-0.5 flex items-baseline gap-2 text-sm">
-                  <span className="text-zinc-500 line-through">{formatPrice(variant.compareAt)}</span>
+                  <span className="text-zinc-500 line-through">
+                    {formatPrice(variant.compareAt)}
+                  </span>
                   <span className="font-semibold text-zinc-900">{formatPrice(variant.price)}</span>
                 </p>
               </div>

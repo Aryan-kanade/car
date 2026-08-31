@@ -211,7 +211,8 @@ export const products = [
     imageLabel: 'Minimalist product bottle on dark background: washberry shampooo',
     description:
       'Our gentlest daily shampoo, built on soapberry extract instead of harsh surfactants. Huge slick foam, wildberry scent, and zero stripping of wax, sealant or ceramic coatings.',
-    usage: 'Two capfuls in a 10-litre bucket. Wash top to bottom with a plush mitt, then rinse and dry.',
+    usage:
+      'Two capfuls in a 10-litre bucket. Wash top to bottom with a plush mitt, then rinse and dry.',
     highlights: ['Soapberry-based surfactants', 'Wax and coating safe', 'Lubricous slick foam'],
   },
   {
@@ -266,7 +267,8 @@ export const products = [
     imageLabel: 'Minimalist product bottle on dark background: glass cleaner',
     description:
       'A fast-evaporating glass formula that cuts films, fingerprints and traffic grime without streaking. Tint-safe, ammonia-free, and works in direct sun where most cleaners fail.',
-    usage: 'Spray onto a short-pile glass towel — not the glass — and wipe in one direction. Buff with a dry side.',
+    usage:
+      'Spray onto a short-pile glass towel — not the glass — and wipe in one direction. Buff with a dry side.',
     highlights: ['Streak-free finish', 'Tint safe, ammonia-free', 'Direct-sun friendly'],
   },
 ]

@@ -12,7 +12,12 @@ export default function Newsletter() {
         role="status"
         className="flex items-center gap-3 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3.5"
       >
-        <SealCheckIcon size={20} weight="light" className="shrink-0 text-zinc-900" aria-hidden="true" />
+        <SealCheckIcon
+          size={20}
+          weight="light"
+          className="shrink-0 text-zinc-900"
+          aria-hidden="true"
+        />
         <p className="text-sm text-zinc-700">You are on the list. Welcome to the studio.</p>
       </div>
     )

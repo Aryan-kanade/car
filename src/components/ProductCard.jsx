@@ -32,7 +32,9 @@ export default function ProductCard({ product }) {
 
         <button
           type="button"
-          aria-label={wished ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`}
+          aria-label={
+            wished ? `Remove ${product.name} from wishlist` : `Add ${product.name} to wishlist`
+          }
           aria-pressed={wished}
           onClick={() => toggle(product.id)}
           className={`absolute top-3 right-3 cursor-pointer rounded-full bg-white/90 p-2.5 backdrop-blur-sm transition-colors ${

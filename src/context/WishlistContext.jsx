@@ -27,13 +27,13 @@ export function WishlistProvider({ children }) {
 
   const toggle = useCallback((id) => {
     setIds((current) =>
-      current.includes(id) ? current.filter((item) => item !== id) : [...current, id],
+      current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
     )
   }, [])
 
   const value = useMemo(
     () => ({ ids, count: ids.length, toggle, has: (id) => ids.includes(id) }),
-    [ids, toggle],
+    [ids, toggle]
   )
 
   return <WishlistContext.Provider value={value}>{children}</WishlistContext.Provider>

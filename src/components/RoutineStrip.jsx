@@ -46,7 +46,9 @@ export default function RoutineStrip() {
               to={step.to}
               className="group flex h-full flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-colors hover:bg-white hover:border-zinc-400"
             >
-              <span className="text-xs font-medium tracking-[0.2em] text-zinc-400">{step.number}</span>
+              <span className="text-xs font-medium tracking-[0.2em] text-zinc-400">
+                {step.number}
+              </span>
               <span className="font-display mt-4 text-lg font-bold tracking-[0.04em] uppercase text-zinc-900">
                 {step.title}
               </span>

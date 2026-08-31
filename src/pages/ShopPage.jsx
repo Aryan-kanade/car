@@ -40,7 +40,7 @@ export default function ShopPage() {
 
   usePageMeta(
     category ? category.name : 'Shop All',
-    category ? category.description : 'Every KMKIRAMYKI formula and tool in one place.',
+    category ? category.description : 'Every KMKIRAMYKI formula and tool in one place.'
   )
 
   // Unknown category slug → 404 (after all hooks have run)
@@ -48,7 +48,7 @@ export default function ShopPage() {
 
   const visible = sortProducts(
     category ? products.filter((p) => p.category === category.productCategory) : products,
-    sort,
+    sort
   )
   const isEmpty = visible.length === 0
 
@@ -57,7 +57,9 @@ export default function ShopPage() {
       <PageHeader
         breadcrumb={category ? [{ label: 'Shop', to: '/shop' }] : []}
         title={category ? category.name : 'Shop All'}
-        subtext={category ? category.description : 'Every formula and tool in the KMKIRAMYKI range.'}
+        subtext={
+          category ? category.description : 'Every formula and tool in the KMKIRAMYKI range.'
+        }
       />
 
       <div className="mx-auto max-w-7xl px-6 py-14 md:py-20">
@@ -92,7 +94,9 @@ export default function ShopPage() {
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
           <p className="text-sm text-zinc-500">
-            {isEmpty ? 'No products yet' : `${visible.length} product${visible.length === 1 ? '' : 's'}`}
+            {isEmpty
+              ? 'No products yet'
+              : `${visible.length} product${visible.length === 1 ? '' : 's'}`}
           </p>
           {!isEmpty && (
             <label className="flex items-center gap-3 text-xs tracking-[0.15em] text-zinc-500 uppercase">

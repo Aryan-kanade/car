@@ -38,7 +38,11 @@ export default function MegaMenu() {
             className="group/all mt-3 flex items-center gap-2 px-3 text-[11px] font-semibold tracking-[0.2em] text-zinc-600 uppercase transition-colors hover:text-zinc-900"
           >
             View all products
-            <ArrowRightIcon size={13} weight="light" className="transition-transform duration-300 group-hover/all:translate-x-1" />
+            <ArrowRightIcon
+              size={13}
+              weight="light"
+              className="transition-transform duration-300 group-hover/all:translate-x-1"
+            />
           </Link>
         </nav>
 
@@ -56,7 +60,9 @@ export default function MegaMenu() {
               />
               <p className="mt-4 text-sm font-medium text-zinc-900">{featured.name}</p>
               <p className="mt-1.5 flex items-baseline gap-2 text-sm">
-                <span className="text-zinc-500 line-through">{formatPrice(featured.compareAt)}</span>
+                <span className="text-zinc-500 line-through">
+                  {formatPrice(featured.compareAt)}
+                </span>
                 <span className="font-semibold text-zinc-900">{formatPrice(featured.price)}</span>
               </p>
               <span className="mt-3 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-zinc-600 uppercase transition-colors group-hover:text-zinc-900">

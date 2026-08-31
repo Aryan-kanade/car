@@ -54,7 +54,7 @@ export function CartProvider({ children }) {
         return current.map((item) =>
           item.id === id && item.size === size
             ? { ...item, qty: Math.min(item.qty + qty, 99) }
-            : item,
+            : item
         )
       }
       return [...current, { id, size, qty }]
@@ -75,8 +75,8 @@ export function CartProvider({ children }) {
       qty <= 0
         ? current.filter((item) => !(item.id === id && item.size === size))
         : current.map((item) =>
-            item.id === id && item.size === size ? { ...item, qty: Math.min(qty, 99) } : item,
-          ),
+            item.id === id && item.size === size ? { ...item, qty: Math.min(qty, 99) } : item
+          )
     )
   }, [])
 
@@ -119,7 +119,17 @@ export function CartProvider({ children }) {
       closeDrawer,
       announcement,
     }
-  }, [items, addItem, setQty, removeItem, clearCart, drawerOpen, openDrawer, closeDrawer, announcement])
+  }, [
+    items,
+    addItem,
+    setQty,
+    removeItem,
+    clearCart,
+    drawerOpen,
+    openDrawer,
+    closeDrawer,
+    announcement,
+  ])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

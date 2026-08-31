@@ -8,7 +8,11 @@ import { testimonials } from '../data/content'
 export default function Testimonials() {
   return (
     <section className="mx-auto max-w-7xl px-6 pb-24 md:pb-32">
-      <SectionHeader title="Loved by Detailers" subtext="Real cars. Real paint. Real results." to="/about" />
+      <SectionHeader
+        title="Loved by Detailers"
+        subtext="Real cars. Real paint. Real results."
+        to="/about"
+      />
 
       <div className="grid gap-6 md:grid-cols-3">
         {testimonials.map((testimonial, index) => (
@@ -25,7 +29,10 @@ export default function Testimonials() {
               {testimonial.quote}
             </blockquote>
             <figcaption className="mt-6 border-t border-zinc-200 pt-5">
-              <span className="flex gap-0.5" aria-label={`Rated ${testimonial.stars} out of 5 stars`}>
+              <span
+                className="flex gap-0.5"
+                aria-label={`Rated ${testimonial.stars} out of 5 stars`}
+              >
                 {Array.from({ length: testimonial.stars }).map((_, i) => (
                   <StarIcon key={i} size={12} weight="fill" className="text-zinc-900" />
                 ))}

@@ -37,7 +37,10 @@ function WriteForm({ onSubmit }) {
     <form onSubmit={submit} noValidate className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="review-name" className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase">
+          <label
+            htmlFor="review-name"
+            className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase"
+          >
             Name
           </label>
           <input
@@ -75,7 +78,10 @@ function WriteForm({ onSubmit }) {
         </div>
       </div>
       <div>
-        <label htmlFor="review-text" className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase">
+        <label
+          htmlFor="review-text"
+          className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase"
+        >
           Review
         </label>
         <textarea
@@ -147,7 +153,10 @@ export default function ReviewSection({ productId }) {
               Write a review
             </button>
           ) : justPosted ? (
-            <p role="status" className="mt-7 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">
+            <p
+              role="status"
+              className="mt-7 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700"
+            >
               Thanks — your review is live below.
             </p>
           ) : (
@@ -192,7 +201,9 @@ export default function ReviewSection({ productId }) {
               <div className="mt-2">
                 <Stars value={review.stars} />
               </div>
-              <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-zinc-600">{review.text}</p>
+              <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-zinc-600">
+                {review.text}
+              </p>
             </motion.li>
           ))}
         </ul>

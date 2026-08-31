@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MinusIcon } from '@phosphor-icons/react/dist/csr/Minus'
@@ -8,10 +8,14 @@ import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import Placeholder from './Placeholder'
 import { formatPrice, FREE_SHIPPING_THRESHOLD } from '../data/catalog'
 import { useCart } from '../context/CartContext'
+import { useFocusTrap } from '../hooks/useFocusTrap'
 
 /** Slide-out cart quick view — opens on add-to-cart and from the nav cart icon. */
 export default function CartDrawer() {
   const { items, count, subtotal, setQty, removeItem, drawerOpen, closeDrawer } = useCart()
+  const drawerRef = useRef(null)
+
+  useFocusTrap(drawerRef, drawerOpen)
 
   // Lock body scroll + close on Escape while the drawer is open
   useEffect(() => {
@@ -45,6 +49,7 @@ export default function CartDrawer() {
             aria-hidden="true"
           />
           <motion.aside
+            ref={drawerRef}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}

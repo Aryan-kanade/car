@@ -10,10 +10,7 @@ import { usePageMeta } from '../hooks/usePageMeta'
 export default function WishlistPage() {
   const { ids } = useWishlist()
 
-  usePageMeta(
-    'Wishlist',
-    'Your saved KMKIRAMYKI formulas and kits, ready when you are.',
-  )
+  usePageMeta('Wishlist', 'Your saved KMKIRAMYKI formulas and kits, ready when you are.')
 
   const saved = ids.map((id) => products.find((p) => p.id === id)).filter(Boolean)
 
@@ -37,8 +34,8 @@ export default function WishlistPage() {
               Nothing saved yet
             </h2>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600">
-              Browse the range and tap the heart on anything worth a second look. Your list stays
-              on this device.
+              Browse the range and tap the heart on anything worth a second look. Your list stays on
+              this device.
             </p>
             <Link
               to="/shop"

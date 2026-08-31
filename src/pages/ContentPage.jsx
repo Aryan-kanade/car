@@ -10,24 +10,20 @@ import { usePageMeta } from '../hooks/usePageMeta'
 export default function ContentPage({ slug }) {
   const page = contentPages[slug]
 
-  usePageMeta(
-    page ? page.title : 'Page not found',
-    page ? page.intro.slice(0, 155) : undefined,
-  )
+  usePageMeta(page ? page.title : 'Page not found', page ? page.intro.slice(0, 155) : undefined)
 
   if (!page) return <NotFoundPage />
 
   return (
     <>
-      <PageHeader
-        breadcrumb={[{ label: page.title }]}
-        title={page.title}
-        subtext={page.intro}
-      />
+      <PageHeader breadcrumb={[{ label: page.title }]} title={page.title} subtext={page.intro} />
 
       <div className="mx-auto max-w-3xl px-6 py-14 md:py-20">
         {page.sections.map((section) => (
-          <section key={section.heading} className="border-t border-zinc-200 py-8 first:border-t-0 first:pt-0">
+          <section
+            key={section.heading}
+            className="border-t border-zinc-200 py-8 first:border-t-0 first:pt-0"
+          >
             <h2 className="font-display text-lg font-bold tracking-[0.06em] uppercase text-zinc-900">
               {section.heading}
             </h2>
