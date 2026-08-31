@@ -5,6 +5,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import SearchOverlay from './SearchOverlay'
 import CartDrawer from './CartDrawer'
+import { useCart } from '../context/CartContext'
 
 /** Resets scroll on every route change so new pages open at the top. */
 function ScrollToTop() {
@@ -32,15 +33,28 @@ function RouteFallback() {
 export default function Layout() {
   const { pathname } = useLocation()
   const [searchOpen, setSearchOpen] = useState(false)
+  const { announcement } = useCart()
 
   return (
     <div id="top" className="flex min-h-screen flex-col bg-white font-sans text-zinc-900 antialiased">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-100 focus:rounded-md focus:bg-zinc-900 focus:px-4 focus:py-2.5 focus:text-xs focus:font-semibold focus:tracking-[0.2em] focus:text-white focus:uppercase"
+      >
+        Skip to content
+      </a>
+      {/* Screen-reader announcements for cart changes */}
+      <p aria-live="polite" className="sr-only">
+        {announcement.key > 0 && (
+          <span key={announcement.key}>{announcement.message}</span>
+        )}
+      </p>
       <ScrollToTop />
       <header className="fixed inset-x-0 top-0 z-50">
         <Navbar onOpenSearch={() => setSearchOpen(true)} />
       </header>
 
-      <main className="flex-1 pt-16 md:pt-20">
+      <main id="main-content" className="flex-1 pt-16 md:pt-20">
         <motion.div
           key={pathname}
           initial={{ opacity: 0, y: 10 }}

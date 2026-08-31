@@ -204,15 +204,14 @@ export default function CartPage() {
             </div>
           </dl>
 
-          <button
-            type="button"
-            className="mt-6 w-full cursor-pointer bg-zinc-900 py-4 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
-            title="Demo storefront: checkout is not connected to a payment provider"
+          <Link
+            to="/checkout"
+            className="mt-6 flex w-full bg-zinc-900 py-4 text-center text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
           >
             Proceed to checkout
-          </button>
+          </Link>
           <p className="mt-3 text-center text-xs text-zinc-500">
-            Demo storefront — checkout is not connected to a payment provider.
+            Demo checkout — no payment is processed.
           </p>
         </aside>
       </div>

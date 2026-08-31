@@ -25,6 +25,7 @@ function readStoredCart() {
 export function CartProvider({ children }) {
   const [items, setItems] = useState(readStoredCart)
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [announcement, setAnnouncement] = useState({ key: 0, message: '' })
 
   useEffect(() => {
     try {
@@ -44,6 +45,10 @@ export function CartProvider({ children }) {
       }
       return [...current, { id, qty }]
     })
+    const product = getProductById(id)
+    if (product) {
+      setAnnouncement({ key: Date.now(), message: `${product.name} added to cart` })
+    }
     if (openDrawer) setDrawerOpen(true)
   }, [])
 
@@ -86,8 +91,9 @@ export function CartProvider({ children }) {
       drawerOpen,
       openDrawer,
       closeDrawer,
+      announcement,
     }
-  }, [items, addItem, setQty, removeItem, clearCart, drawerOpen, openDrawer, closeDrawer])
+  }, [items, addItem, setQty, removeItem, clearCart, drawerOpen, openDrawer, closeDrawer, announcement])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

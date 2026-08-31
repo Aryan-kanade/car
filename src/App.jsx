@@ -11,6 +11,7 @@ const ShopPage = lazy(() => import('./pages/ShopPage'))
 const ProductPage = lazy(() => import('./pages/ProductPage'))
 const KitsPage = lazy(() => import('./pages/KitsPage'))
 const CartPage = lazy(() => import('./pages/CartPage'))
+const CheckoutPage = lazy(() => import('./pages/CheckoutPage'))
 const FaqPage = lazy(() => import('./pages/FaqPage'))
 const OrderLookupPage = lazy(() => import('./pages/OrderLookupPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
@@ -34,6 +35,7 @@ export default function App() {
                 <Route path="product/:id" element={<ProductPage />} />
                 <Route path="kits" element={<KitsPage />} />
                 <Route path="cart" element={<CartPage />} />
+                <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="wishlist" element={<WishlistPage />} />
                 <Route path="help" element={<FaqPage />} />
                 <Route path="order-lookup" element={<OrderLookupPage />} />

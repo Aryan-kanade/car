@@ -1,22 +1,26 @@
 import { useState } from 'react'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
+import { TruckIcon } from '@phosphor-icons/react/dist/csr/Truck'
 import PageHeader from '../components/PageHeader'
+import { formatPrice } from '../data/catalog'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { findOrder, getOrderStatus } from '../utils/orders'
 
 const inputClasses =
   'w-full rounded-md border border-zinc-200 bg-white px-4 py-3.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:border-zinc-900 focus:outline-none'
 
-/** Order lookup — demo form with a graceful "not wired to a backend" result. */
+/** Order lookup — finds real demo orders placed on this device. */
 export default function OrderLookupPage() {
   const [orderId, setOrderId] = useState('')
   const [email, setEmail] = useState('')
-  const [result, setResult] = useState(null)
+  const [result, setResult] = useState(null) // 'not-found' | order object
 
   usePageMeta('Order Lookup', 'Track your KMKIRAMYKI order status and delivery.')
 
   const submit = (event) => {
     event.preventDefault()
-    setResult('not-found')
+    const order = findOrder(orderId, email)
+    setResult(order ?? 'not-found')
   }
 
   return (
@@ -28,12 +32,9 @@ export default function OrderLookupPage() {
       />
 
       <div className="mx-auto max-w-xl px-6 py-14 md:py-20">
-        <form onSubmit={submit} className="space-y-5" noValidate={false}>
+        <form onSubmit={submit} className="space-y-5">
           <div>
-            <label
-              htmlFor="order-id"
-              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase"
-            >
+            <label htmlFor="order-id" className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase">
               Order number
             </label>
             <input
@@ -49,10 +50,7 @@ export default function OrderLookupPage() {
             />
           </div>
           <div>
-            <label
-              htmlFor="order-email"
-              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase"
-            >
+            <label htmlFor="order-email" className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase">
               Email address
             </label>
             <input
@@ -82,9 +80,55 @@ export default function OrderLookupPage() {
               No order found for {orderId || 'that number'}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-              This is a demo storefront — order lookup is not connected to a backend yet. When it
-              ships, this panel will show live status and tracking for your parcel.
+              Orders placed through this demo storefront on this device are searchable. Double-check
+              the number and email, or place a test order from the shop.
             </p>
+          </div>
+        )}
+
+        {result && result !== 'not-found' && (
+          <div role="status" className="mt-8 rounded-2xl border border-zinc-200 p-7">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="font-display text-xl font-bold tracking-[0.08em] text-zinc-900">
+                  {result.number}
+                </p>
+                <p className="mt-1 text-xs text-zinc-500">
+                  Placed {new Date(result.placedAt).toLocaleDateString('en-IN', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
+                  })}
+                </p>
+              </div>
+              <span className="flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-3.5 py-1.5 text-[11px] font-semibold tracking-wider text-white uppercase">
+                <TruckIcon size={14} weight="light" aria-hidden="true" />
+                {getOrderStatus(result.placedAt).label}
+              </span>
+            </div>
+
+            <p className="mt-4 text-sm leading-relaxed text-zinc-600">
+              {getOrderStatus(result.placedAt).detail}
+            </p>
+
+            <ul className="mt-5 divide-y divide-zinc-200 border-t border-zinc-200">
+              {result.items.map((item) => (
+                <li key={item.id} className="flex items-center justify-between gap-4 py-3.5 text-sm">
+                  <span className="text-zinc-700">
+                    {item.name} <span className="text-zinc-500">× {item.qty}</span>
+                  </span>
+                  <span className="font-medium text-zinc-900">
+                    {formatPrice(item.unitPrice * item.qty)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 flex items-baseline justify-between border-t border-zinc-200 pt-4">
+              <span className="text-sm text-zinc-600">Total</span>
+              <span className="text-base font-semibold text-zinc-900">
+                {formatPrice(result.total)}
+              </span>
+            </div>
           </div>
         )}
       </div>
