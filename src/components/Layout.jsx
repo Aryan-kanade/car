@@ -6,6 +6,7 @@ import Footer from './Footer'
 import SearchOverlay from './SearchOverlay'
 import CartDrawer from './CartDrawer'
 import BackToTop from './BackToTop'
+import ErrorBoundary from './ErrorBoundary'
 import { useCart } from '../context/CartContext'
 import { prefetchRoutes } from '../utils/prefetch'
 
@@ -73,9 +74,11 @@ export default function Layout() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
         >
-          <Suspense fallback={<RouteFallback />}>
-            <Outlet />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<RouteFallback />}>
+              <Outlet />
+            </Suspense>
+          </ErrorBoundary>
         </motion.div>
       </main>
 
