@@ -1,0 +1,92 @@
+import { Suspense, useEffect, useState } from 'react'
+import { Link, Outlet, useLocation } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import Navbar from './Navbar'
+import Footer from './Footer'
+import SearchOverlay from './SearchOverlay'
+import CartDrawer from './CartDrawer'
+
+/** Resets scroll on every route change so new pages open at the top. */
+function ScrollToTop() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [pathname])
+
+  return null
+}
+
+/** Minimal route fallback while lazy pages load. */
+function RouteFallback() {
+  return (
+    <div className="flex min-h-[60vh] items-center justify-center" role="status" aria-label="Loading page">
+      <span className="font-display text-sm font-bold tracking-[0.4em] text-zinc-300 uppercase select-none">
+        KMKIRAMYKI
+      </span>
+    </div>
+  )
+}
+
+/** Shared chrome: fixed navbar, routed page content, footer, overlays. */
+export default function Layout() {
+  const { pathname } = useLocation()
+  const [searchOpen, setSearchOpen] = useState(false)
+
+  return (
+    <div id="top" className="flex min-h-screen flex-col bg-white font-sans text-zinc-900 antialiased">
+      <ScrollToTop />
+      <header className="fixed inset-x-0 top-0 z-50">
+        <Navbar onOpenSearch={() => setSearchOpen(true)} />
+      </header>
+
+      <main className="flex-1 pt-16 md:pt-20">
+        <motion.div
+          key={pathname}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+        >
+          <Suspense fallback={<RouteFallback />}>
+            <Outlet />
+          </Suspense>
+        </motion.div>
+      </main>
+
+      <Footer />
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <CartDrawer />
+    </div>
+  )
+}
+
+/** Breadcrumb helper for inner pages — sentence case, sits above the page title. */
+export function Breadcrumb({ items }) {
+  return (
+    <nav aria-label="Breadcrumb" className="text-sm text-zinc-500">
+      <ol className="flex flex-wrap items-center gap-2">
+        <li>
+          <Link to="/" className="transition-colors hover:text-zinc-900">
+            Home
+          </Link>
+        </li>
+        {items.map((item, index) => (
+          <li key={item.label} className="flex items-center gap-2">
+            <span aria-hidden="true" className="text-zinc-300">
+              /
+            </span>
+            {item.to ? (
+              <Link to={item.to} className="transition-colors hover:text-zinc-900">
+                {item.label}
+              </Link>
+            ) : (
+              <span aria-current="page" className="font-medium text-zinc-900">
+                {item.label}
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
