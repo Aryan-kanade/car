@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CheckCircleIcon } from '@phosphor-icons/react/dist/csr/CheckCircle'
+import { FireIcon } from '@phosphor-icons/react/dist/csr/Fire'
 import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
 import { MinusIcon } from '@phosphor-icons/react/dist/csr/Minus'
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus'
@@ -347,6 +348,14 @@ function ProductView({ product }) {
                 <HeartIcon size={18} weight={wished ? 'fill' : 'light'} />
               </button>
             </div>
+
+            {/* Stock urgency */}
+            {product.stock <= 5 && (
+              <p className="mt-4 flex items-center gap-2 text-xs font-medium text-amber-600 dark:text-amber-400">
+                <FireIcon size={16} weight="fill" aria-hidden="true" />
+                Only {product.stock} left in stock — ships while it lasts
+              </p>
+            )}
 
             {/* Delivery strip */}
             <p className="mt-5 flex items-center gap-2.5 text-xs text-zinc-600 dark:text-zinc-400">

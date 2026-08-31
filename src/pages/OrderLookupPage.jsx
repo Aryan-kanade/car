@@ -143,6 +143,16 @@ export default function OrderLookupPage() {
                 </li>
               ))}
             </ul>
+            {result.discount > 0 && (
+              <div className="mt-4 flex items-baseline justify-between border-t border-zinc-200 dark:border-zinc-800 pt-4">
+                <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Discount {result.promoCode ? `(${result.promoCode})` : ''}
+                </span>
+                <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                  −{formatPrice(result.discount)}
+                </span>
+              </div>
+            )}
             <div className="mt-4 flex items-baseline justify-between border-t border-zinc-200 dark:border-zinc-800 pt-4">
               <span className="text-sm text-zinc-600 dark:text-zinc-400">Total</span>
               <span className="text-base font-semibold text-zinc-900 dark:text-zinc-100">

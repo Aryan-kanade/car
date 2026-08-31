@@ -4,6 +4,7 @@
 // ─────────────────────────────────────────────────────────────
 
 import { FREE_SHIPPING_THRESHOLD } from '../data/catalog'
+import { promoDiscount, promoGivesFreeShipping } from './promos'
 
 const KEY = 'kmkiramyki-orders'
 
@@ -22,8 +23,10 @@ export function generateOrderNumber() {
 }
 
 /** Snapshot the current cart into a persisted order and return it. */
-export function saveOrder({ email, name, items, subtotal }) {
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 199
+export function saveOrder({ email, name, items, subtotal, promo }) {
+  const discount = promoDiscount(promo, subtotal)
+  const shipping =
+    subtotal - discount >= FREE_SHIPPING_THRESHOLD || promoGivesFreeShipping(promo) ? 0 : 199
   const order = {
     number: generateOrderNumber(),
     email,
@@ -36,8 +39,10 @@ export function saveOrder({ email, name, items, subtotal }) {
       unitPrice,
     })),
     subtotal,
+    discount,
+    promoCode: promo?.code ?? null,
     shipping,
-    total: subtotal + shipping,
+    total: subtotal - discount + shipping,
     placedAt: Date.now(),
   }
 

@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { defaultSizeLabel, getProductById, getVariant } from '../data/catalog'
+import { lookupPromo, promoDiscount } from '../utils/promos'
 
 const STORAGE_KEY = 'kmkiramyki-cart'
 const CartContext = createContext(null)
@@ -86,6 +87,20 @@ export function CartProvider({ children }) {
 
   const clearCart = useCallback(() => setItems([]), [])
 
+  const [promoCode, setPromoCode] = useState(null)
+
+  /** Validates and applies a promo code; returns {ok, error|promo}. */
+  const applyPromo = useCallback((code) => {
+    const promo = lookupPromo(code)
+    if (!promo) {
+      return { ok: false, error: 'That code is not valid. Try WELCOME10 or FREESHIP.' }
+    }
+    setPromoCode(promo.code)
+    return { ok: true, promo }
+  }, [])
+
+  const clearPromo = useCallback(() => setPromoCode(null), [])
+
   const value = useMemo(() => {
     const detailed = items
       .map(({ id, size, qty }) => {
@@ -105,11 +120,17 @@ export function CartProvider({ children }) {
 
     const count = detailed.reduce((total, { qty }) => total + qty, 0)
     const subtotal = detailed.reduce((total, { lineTotal }) => total + lineTotal, 0)
+    const promo = promoCode ? lookupPromo(promoCode) : null
+    const discount = promoDiscount(promo, subtotal)
 
     return {
       items: detailed,
       count,
       subtotal,
+      promo,
+      discount,
+      applyPromo,
+      clearPromo,
       addItem,
       setQty,
       removeItem,
@@ -121,6 +142,9 @@ export function CartProvider({ children }) {
     }
   }, [
     items,
+    promoCode,
+    applyPromo,
+    clearPromo,
     addItem,
     setQty,
     removeItem,

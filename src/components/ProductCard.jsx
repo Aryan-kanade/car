@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { FireIcon } from '@phosphor-icons/react/dist/csr/Fire'
 import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
 import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
 import { StarIcon } from '@phosphor-icons/react/dist/csr/Star'
@@ -97,6 +98,13 @@ export default function ProductCard({ product }) {
             {formatPrice(product.price)}
           </span>
         </p>
+
+        {product.stock <= 5 && (
+          <p className="mt-1.5 flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400">
+            <FireIcon size={13} weight="fill" aria-hidden="true" />
+            Only {product.stock} left
+          </p>
+        )}
       </div>
     </article>
   )

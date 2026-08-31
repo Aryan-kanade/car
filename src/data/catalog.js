@@ -129,6 +129,7 @@ export const products = [
     price: 18125,
     compareAt: 20501,
     badge: 'Save 12%',
+    stock: 9,
     rating: { stars: 5, reviews: 1 },
     imageLabel: 'Minimalist product bottles arranged as a kit on a dark background',
     description:
@@ -148,6 +149,7 @@ export const products = [
     price: 7631,
     compareAt: 8581,
     badge: 'Save 11%',
+    stock: 7,
     imageLabel: 'Array of wash products and microfiber towels arranged as a starter kit',
     description:
       'Everything a maintenance wash needs: pre-wash soak, two wash shampoos and plush microfibres. The kit we recommend to anyone starting serious detailing — enough chemistry for months of weekly washes.',
@@ -166,6 +168,7 @@ export const products = [
     price: 549,
     compareAt: 999,
     badge: 'Save 45%',
+    stock: 3,
     imageLabel: 'Minimalist product bottle on dark background: dashboard polish',
     description:
       'A satin-finish interior protectant that feeds plastics and vinyl back to factory look — no gloss, no grease, no sling. UV inhibitors slow fading and cracking on dashboards exposed to harsh sun.',
@@ -180,6 +183,7 @@ export const products = [
     price: 549,
     compareAt: 999,
     badge: 'Save 45%',
+    stock: 11,
     imageLabel: 'Minimalist product bottle on dark background: pre wash shampoo',
     description:
       'A touchless pre-wash soak that dissolves traffic film and lifts grit before your wash mitt ever touches paint. The single biggest scratch-prevention upgrade to any wash routine.',
@@ -194,6 +198,7 @@ export const products = [
     price: 425,
     compareAt: 800,
     badge: 'Save 47%',
+    stock: 14,
     imageLabel: 'Minimalist product bottle on dark background: degreaser',
     description:
       'Heavy-duty water-based degreaser for engine bays, door shuts, arches and badges. Cuts grease and caked-on grime fast, then rinses clean without staining plastics or trim.',
@@ -208,6 +213,7 @@ export const products = [
     price: 389,
     compareAt: 749,
     badge: 'Save 48%',
+    stock: 5,
     imageLabel: 'Minimalist product bottle on dark background: washberry shampooo',
     description:
       'Our gentlest daily shampoo, built on soapberry extract instead of harsh surfactants. Huge slick foam, wildberry scent, and zero stripping of wax, sealant or ceramic coatings.',
@@ -222,6 +228,7 @@ export const products = [
     price: 439,
     compareAt: 699,
     badge: 'Save 37%',
+    stock: 8,
     imageLabel: 'Minimalist product bottle on dark background: wax shampoo',
     description:
       'A wash-and-enhance shampoo that lays down a layer of carnauba gloss every time you wash. Beading returns after the first use and builds with each maintenance wash.',
@@ -236,6 +243,7 @@ export const products = [
     price: 649,
     compareAt: 1199,
     badge: 'Save 46%',
+    stock: 10,
     imageLabel: 'Minimalist product bottle on dark background: tyre polish',
     description:
       'A solvent-based tyre dressing that dries to the touch and survives rain, washes and hundreds of kilometres. Adjustable sheen — one coat for satin, two for a deep showroom gloss.',
@@ -250,6 +258,7 @@ export const products = [
     price: 679,
     compareAt: 1149,
     badge: 'Save 41%',
+    stock: 9,
     imageLabel: 'Minimalist product bottle on dark background: wheel cleaner',
     description:
       'Colour-changing wheel cleaner that dissolves embedded iron and brake dust on contact. Safe for painted, powder-coated and machined finishes when used as directed.',
@@ -264,6 +273,7 @@ export const products = [
     price: 325,
     compareAt: 549,
     badge: 'Save 41%',
+    stock: 4,
     imageLabel: 'Minimalist product bottle on dark background: glass cleaner',
     description:
       'A fast-evaporating glass formula that cuts films, fingerprints and traffic grime without streaking. Tint-safe, ammonia-free, and works in direct sun where most cleaners fail.',

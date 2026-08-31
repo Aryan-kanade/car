@@ -10,6 +10,7 @@ import { formatPrice, FREE_SHIPPING_THRESHOLD } from '../data/catalog'
 import { useCart } from '../context/CartContext'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { saveOrder } from '../utils/orders'
+import { promoGivesFreeShipping } from '../utils/promos'
 
 const STEPS = ['Shipping', 'Payment', 'Confirmed']
 
@@ -63,7 +64,7 @@ function validatePayment(method, form) {
 
 /** Demo checkout — shipping → payment → confirmation. Orders persist for lookup. */
 export default function CheckoutPage() {
-  const { items, subtotal, clearCart } = useCart()
+  const { items, subtotal, promo, discount, clearCart } = useCart()
   const [step, setStep] = useState(1)
   const [method, setMethod] = useState('card')
   const [errors, setErrors] = useState({})
@@ -86,8 +87,8 @@ export default function CheckoutPage() {
   const set = (key) => (event) => setForm((f) => ({ ...f, [key]: event.target.value }))
 
   const freeShipping = subtotal >= FREE_SHIPPING_THRESHOLD
-  const shipping = freeShipping ? 0 : 199
-  const total = subtotal + shipping
+  const shipping = freeShipping || promoGivesFreeShipping(promo) ? 0 : 199
+  const total = Math.max(0, subtotal - discount) + shipping
 
   // Empty cart (and not showing a confirmation) → guide back to the shop
   if (items.length === 0 && step < 3) {
@@ -125,7 +126,7 @@ export default function CheckoutPage() {
     setErrors(next)
     if (Object.keys(next).length > 0) return
 
-    const order = saveOrder({ email: form.email, name: form.name, items, subtotal })
+    const order = saveOrder({ email: form.email, name: form.name, items, subtotal, promo })
     clearCart()
     setPlacedOrder(order)
     setStep(3)
@@ -538,6 +539,14 @@ export default function CheckoutPage() {
                     {formatPrice(subtotal)}
                   </dd>
                 </div>
+                {discount > 0 && (
+                  <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
+                    <dt>Discount ({promo.code})</dt>
+                    <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                      −{formatPrice(discount)}
+                    </dd>
+                  </div>
+                )}
                 <div className="flex items-center justify-between text-zinc-600 dark:text-zinc-400">
                   <dt className="flex items-center gap-1.5">
                     <TruckIcon size={15} weight="light" aria-hidden="true" />

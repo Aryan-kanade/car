@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { MinusIcon } from '@phosphor-icons/react/dist/csr/Minus'
@@ -7,22 +8,41 @@ import { TruckIcon } from '@phosphor-icons/react/dist/csr/Truck'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import PageHeader from '../components/PageHeader'
 import Placeholder from '../components/Placeholder'
-import { formatPrice, FREE_SHIPPING_THRESHOLD } from '../data/catalog'
+import ProductCard from '../components/ProductCard'
+import { formatPrice, products, FREE_SHIPPING_THRESHOLD } from '../data/catalog'
+import { promoGivesFreeShipping } from '../utils/promos'
 import { useCart } from '../context/CartContext'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 const SHIPPING_FEE = 199
 
-/** Cart — line items, free-shipping progress and order summary. */
+/** Cart — line items, cross-sells, promo code, free-shipping progress and order summary. */
 export default function CartPage() {
-  const { items, subtotal, setQty, removeItem, clearCart } = useCart()
+  const {
+    items,
+    subtotal,
+    promo,
+    discount,
+    applyPromo,
+    clearPromo,
+    setQty,
+    removeItem,
+    clearCart,
+  } = useCart()
+  const [promoError, setPromoError] = useState(null)
 
   usePageMeta('Your Cart', 'Review your KMKIRAMYKI order — free shipping over ₹7,155.')
 
   const freeShipping = subtotal >= FREE_SHIPPING_THRESHOLD
   const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal)
   const progress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100)
-  const shipping = items.length === 0 || freeShipping ? 0 : SHIPPING_FEE
+  const shipping =
+    items.length === 0 || freeShipping || promoGivesFreeShipping(promo) ? 0 : SHIPPING_FEE
+  const total = Math.max(0, subtotal - discount) + shipping
+
+  const crossSells = products
+    .filter((product) => !items.some((item) => item.product.id === product.id))
+    .slice(0, 3)
 
   if (items.length === 0) {
     return (
@@ -166,6 +186,20 @@ export default function CartPage() {
               Clear cart
             </button>
           </div>
+
+          {/* Cross-sells */}
+          {crossSells.length > 0 && (
+            <div className="mt-16 border-t border-zinc-200 dark:border-zinc-800 pt-10">
+              <h2 className="font-display text-lg font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
+                Complete your routine
+              </h2>
+              <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-3">
+                {crossSells.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Summary */}
@@ -206,6 +240,14 @@ export default function CartPage() {
                 {formatPrice(subtotal)}
               </dd>
             </div>
+            {discount > 0 && (
+              <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
+                <dt>Discount ({promo.code})</dt>
+                <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                  −{formatPrice(discount)}
+                </dd>
+              </div>
+            )}
             <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
               <dt>Shipping</dt>
               <dd className="font-medium text-zinc-900 dark:text-zinc-100">
@@ -214,9 +256,62 @@ export default function CartPage() {
             </div>
             <div className="flex justify-between border-t border-zinc-200 dark:border-zinc-800 pt-3 text-base font-semibold text-zinc-900 dark:text-zinc-100">
               <dt>Total</dt>
-              <dd>{formatPrice(subtotal + shipping)}</dd>
+              <dd>{formatPrice(total)}</dd>
             </div>
           </dl>
+
+          {/* Promo code */}
+          <div className="mt-5 border-t border-zinc-200 dark:border-zinc-800 pt-5">
+            {promo ? (
+              <p className="flex items-center justify-between gap-3 text-xs text-zinc-600 dark:text-zinc-400">
+                <span>
+                  <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    {promo.code}
+                  </span>{' '}
+                  · {promo.label}
+                </span>
+                <button
+                  type="button"
+                  onClick={clearPromo}
+                  className="cursor-pointer p-2 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                  aria-label={`Remove promo code ${promo.code}`}
+                >
+                  <XIcon size={14} weight="light" />
+                </button>
+              </p>
+            ) : (
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault()
+                  const input = event.currentTarget.elements['promo-code']
+                  const result = applyPromo(input.value)
+                  setPromoError(result.ok ? null : result.error)
+                  if (result.ok) input.value = ''
+                }}
+                className="flex gap-2"
+              >
+                <label htmlFor="cart-promo" className="sr-only">
+                  Promo code
+                </label>
+                <input
+                  id="cart-promo"
+                  name="promo-code"
+                  type="text"
+                  placeholder="Promo code"
+                  className="min-w-0 flex-1 rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3.5 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-500 dark:placeholder:text-zinc-400 focus:border-zinc-900 dark:focus:border-white focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="cursor-pointer rounded-md border border-zinc-300 dark:border-zinc-700 px-4 text-xs font-semibold tracking-[0.15em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
+                >
+                  Apply
+                </button>
+              </form>
+            )}
+            {promoError && (
+              <p className="mt-2 text-xs text-red-600 dark:text-red-400">{promoError}</p>
+            )}
+          </div>
 
           <Link
             to="/checkout"
