@@ -37,17 +37,25 @@ export default function MegaMenu() {
               </li>
             ))}
           </ul>
-          <Link
-            to="/shop"
-            className="group/all mt-3 flex items-center gap-2 px-3 text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
-          >
-            View all products
-            <ArrowRightIcon
-              size={13}
-              weight="light"
-              className="transition-transform duration-300 group-hover/all:translate-x-1"
-            />
-          </Link>
+          <div className="mt-3 flex items-center justify-between px-3">
+            <Link
+              to="/shop"
+              className="group/all flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+            >
+              View all products
+              <ArrowRightIcon
+                size={13}
+                weight="light"
+                className="transition-transform duration-300 group-hover/all:translate-x-1"
+              />
+            </Link>
+            <Link
+              to="/calculator"
+              className="text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+            >
+              Dilution calculator
+            </Link>
+          </div>
         </nav>
 
         {/* Featured kit */}

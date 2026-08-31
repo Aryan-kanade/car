@@ -21,6 +21,7 @@ const groups = [
     heading: 'Support',
     links: [
       { label: 'Help & FAQ', to: '/help' },
+      { label: 'Dilution Calculator', to: '/calculator' },
       { label: 'Shipping & Delivery', to: '/shipping' },
       { label: 'Returns & Exchanges', to: '/returns' },
       { label: 'Order Lookup', to: '/order-lookup' },

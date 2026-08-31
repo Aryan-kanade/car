@@ -184,6 +184,7 @@ export const products = [
     compareAt: 999,
     badge: 'Save 45%',
     stock: 11,
+    dilutionMlPerLitre: 10,
     imageLabel: 'Minimalist product bottle on dark background: pre wash shampoo',
     description:
       'A touchless pre-wash soak that dissolves traffic film and lifts grit before your wash mitt ever touches paint. The single biggest scratch-prevention upgrade to any wash routine.',
@@ -199,6 +200,7 @@ export const products = [
     compareAt: 800,
     badge: 'Save 47%',
     stock: 14,
+    dilutionMlPerLitre: 20,
     imageLabel: 'Minimalist product bottle on dark background: degreaser',
     description:
       'Heavy-duty water-based degreaser for engine bays, door shuts, arches and badges. Cuts grease and caked-on grime fast, then rinses clean without staining plastics or trim.',
@@ -214,6 +216,7 @@ export const products = [
     compareAt: 749,
     badge: 'Save 48%',
     stock: 5,
+    dilutionMlPerLitre: 8,
     imageLabel: 'Minimalist product bottle on dark background: washberry shampooo',
     description:
       'Our gentlest daily shampoo, built on soapberry extract instead of harsh surfactants. Huge slick foam, wildberry scent, and zero stripping of wax, sealant or ceramic coatings.',
@@ -229,6 +232,7 @@ export const products = [
     compareAt: 699,
     badge: 'Save 37%',
     stock: 8,
+    dilutionMlPerLitre: 8,
     imageLabel: 'Minimalist product bottle on dark background: wax shampoo',
     description:
       'A wash-and-enhance shampoo that lays down a layer of carnauba gloss every time you wash. Beading returns after the first use and builds with each maintenance wash.',
@@ -259,6 +263,7 @@ export const products = [
     compareAt: 1149,
     badge: 'Save 41%',
     stock: 9,
+    dilutionMlPerLitre: 25,
     imageLabel: 'Minimalist product bottle on dark background: wheel cleaner',
     description:
       'Colour-changing wheel cleaner that dissolves embedded iron and brake dust on contact. Safe for painted, powder-coated and machined finishes when used as directed.',
@@ -274,6 +279,7 @@ export const products = [
     compareAt: 549,
     badge: 'Save 41%',
     stock: 4,
+    dilutionMlPerLitre: 15,
     imageLabel: 'Minimalist product bottle on dark background: glass cleaner',
     description:
       'A fast-evaporating glass formula that cuts films, fingerprints and traffic grime without streaking. Tint-safe, ammonia-free, and works in direct sun where most cleaners fail.',
@@ -402,6 +408,7 @@ export const footerColumns = [
     heading: 'Support',
     links: [
       { label: 'Help & FAQ', to: '/help' },
+      { label: 'Dilution Calculator', to: '/calculator' },
       { label: 'Shipping & Delivery', to: '/shipping' },
       { label: 'Returns & Exchanges', to: '/returns' },
       { label: 'Order Lookup', to: '/order-lookup' },

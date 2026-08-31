@@ -21,6 +21,7 @@ const SitemapPage = lazy(() => import('./pages/SitemapPage'))
 const NotesIndexPage = lazy(() => import('./pages/NotesIndexPage'))
 const NotePage = lazy(() => import('./pages/NotePage'))
 const WishlistPage = lazy(() => import('./pages/WishlistPage'))
+const CalculatorPage = lazy(() => import('./pages/CalculatorPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 export default function App() {
@@ -39,6 +40,7 @@ export default function App() {
                 <Route path="cart" element={<CartPage />} />
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="wishlist" element={<WishlistPage />} />
+                <Route path="calculator" element={<CalculatorPage />} />
                 <Route path="help" element={<FaqPage />} />
                 <Route path="order-lookup" element={<OrderLookupPage />} />
                 <Route path="contact" element={<ContactPage />} />

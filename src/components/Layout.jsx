@@ -5,6 +5,7 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import SearchOverlay from './SearchOverlay'
 import CartDrawer from './CartDrawer'
+import BackToTop from './BackToTop'
 import { useCart } from '../context/CartContext'
 import { prefetchRoutes } from '../utils/prefetch'
 
@@ -81,6 +82,7 @@ export default function Layout() {
       <Footer />
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       <CartDrawer />
+      <BackToTop />
     </div>
   )
 }
