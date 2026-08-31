@@ -8,6 +8,8 @@ import { promoDiscount, promoGivesFreeShipping } from './promos'
 
 const KEY = 'kmkiramyki-orders'
 
+export const SHIPPING_FEE = 199
+
 export function readOrders() {
   try {
     const raw = window.localStorage.getItem(KEY)
@@ -26,7 +28,9 @@ export function generateOrderNumber() {
 export function saveOrder({ email, name, items, subtotal, promo }) {
   const discount = promoDiscount(promo, subtotal)
   const shipping =
-    subtotal - discount >= FREE_SHIPPING_THRESHOLD || promoGivesFreeShipping(promo) ? 0 : 199
+    subtotal - discount >= FREE_SHIPPING_THRESHOLD || promoGivesFreeShipping(promo)
+      ? 0
+      : SHIPPING_FEE
   const order = {
     number: generateOrderNumber(),
     email,

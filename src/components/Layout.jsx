@@ -92,8 +92,23 @@ export default function Layout() {
 
 /** Breadcrumb helper for inner pages — sentence case, sits above the page title. */
 export function Breadcrumb({ items }) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: '/' },
+      ...items.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 2,
+        name: item.label,
+        ...(item.to ? { item: item.to } : {}),
+      })),
+    ],
+  }
+
   return (
     <nav aria-label="Breadcrumb" className="text-sm text-zinc-500 dark:text-zinc-400">
+      <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       <ol className="flex flex-wrap items-center gap-2">
         <li>
           <Link to="/" className="transition-colors hover:text-zinc-900 dark:hover:text-white">

@@ -13,8 +13,7 @@ import { formatPrice, products, FREE_SHIPPING_THRESHOLD } from '../data/catalog'
 import { promoGivesFreeShipping } from '../utils/promos'
 import { useCart } from '../context/CartContext'
 import { usePageMeta } from '../hooks/usePageMeta'
-
-const SHIPPING_FEE = 199
+import { SHIPPING_FEE } from '../utils/orders'
 
 /** Cart — line items, cross-sells, promo code, free-shipping progress and order summary. */
 export default function CartPage() {

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#09090b" />
+  <circle cx="1030" cy="140" r="320" fill="#18181b" />
+  <circle cx="1030" cy="140" r="320" fill="none" stroke="#27272a" stroke-width="2" />
+  <path
+    d="M180 250 V400 M180 335 L295 235 M232 320 L340 415"
+    stroke="#fafafa"
+    stroke-width="18"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <text x="180" y="480" font-family="system-ui, sans-serif" font-size="64" font-weight="800" letter-spacing="14" fill="#fafafa">KMKIRAMYKI</text>
+  <text x="184" y="535" font-family="system-ui, sans-serif" font-size="26" font-weight="500" letter-spacing="10" fill="#a1a1aa">ADVANCED CHEMISTRY</text>
+  <text x="184" y="585" font-family="system-ui, sans-serif" font-size="20" font-weight="400" fill="#71717a">Premium car care. Professional detailing. Obsessive by design.</text>
+</svg>

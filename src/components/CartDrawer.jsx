@@ -14,12 +14,14 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 export default function CartDrawer() {
   const { items, count, subtotal, setQty, removeItem, drawerOpen, closeDrawer } = useCart()
   const drawerRef = useRef(null)
+  const triggerRef = useRef(null)
 
   useFocusTrap(drawerRef, drawerOpen)
 
-  // Lock body scroll + close on Escape while the drawer is open
+  // Lock body scroll, close on Escape, return focus to the trigger on close
   useEffect(() => {
     if (!drawerOpen) return
+    triggerRef.current = document.activeElement
     document.body.style.overflow = 'hidden'
     const onKey = (event) => {
       if (event.key === 'Escape') closeDrawer()
@@ -28,6 +30,7 @@ export default function CartDrawer() {
     return () => {
       document.body.style.overflow = ''
       window.removeEventListener('keydown', onKey)
+      if (triggerRef.current instanceof HTMLElement) triggerRef.current.focus()
     }
   }, [drawerOpen, closeDrawer])
 

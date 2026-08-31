@@ -100,7 +100,7 @@ export default function ProductCard({ product }) {
         </p>
 
         {product.stock <= 5 && (
-          <p className="mt-1.5 flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400">
+          <p className="mt-1.5 flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400">
             <FireIcon size={13} weight="fill" aria-hidden="true" />
             Only {product.stock} left
           </p>
