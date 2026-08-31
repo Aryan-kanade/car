@@ -27,7 +27,7 @@ function RouteFallback() {
       role="status"
       aria-label="Loading page"
     >
-      <span className="font-display text-sm font-bold tracking-[0.4em] text-zinc-300 uppercase select-none">
+      <span className="font-display text-sm font-bold tracking-[0.4em] text-zinc-300 dark:text-zinc-600 uppercase select-none">
         KMKIRAMYKI
       </span>
     </div>
@@ -48,11 +48,11 @@ export default function Layout() {
   return (
     <div
       id="top"
-      className="flex min-h-screen flex-col bg-white font-sans text-zinc-900 antialiased"
+      className="flex min-h-screen flex-col bg-white dark:bg-zinc-950 font-sans text-zinc-900 dark:text-zinc-100 antialiased"
     >
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-100 focus:rounded-md focus:bg-zinc-900 focus:px-4 focus:py-2.5 focus:text-xs focus:font-semibold focus:tracking-[0.2em] focus:text-white focus:uppercase"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-100 focus:rounded-md focus:bg-zinc-900 dark:focus:bg-white focus:px-4 focus:py-2.5 focus:text-xs focus:font-semibold focus:tracking-[0.2em] focus:text-white dark:focus:text-zinc-900 focus:uppercase"
       >
         Skip to content
       </a>
@@ -88,24 +88,27 @@ export default function Layout() {
 /** Breadcrumb helper for inner pages — sentence case, sits above the page title. */
 export function Breadcrumb({ items }) {
   return (
-    <nav aria-label="Breadcrumb" className="text-sm text-zinc-500">
+    <nav aria-label="Breadcrumb" className="text-sm text-zinc-500 dark:text-zinc-400">
       <ol className="flex flex-wrap items-center gap-2">
         <li>
-          <Link to="/" className="transition-colors hover:text-zinc-900">
+          <Link to="/" className="transition-colors hover:text-zinc-900 dark:hover:text-white">
             Home
           </Link>
         </li>
         {items.map((item) => (
           <li key={item.label} className="flex items-center gap-2">
-            <span aria-hidden="true" className="text-zinc-300">
+            <span aria-hidden="true" className="text-zinc-300 dark:text-zinc-600">
               /
             </span>
             {item.to ? (
-              <Link to={item.to} className="transition-colors hover:text-zinc-900">
+              <Link
+                to={item.to}
+                className="transition-colors hover:text-zinc-900 dark:hover:text-white"
+              >
                 {item.label}
               </Link>
             ) : (
-              <span aria-current="page" className="font-medium text-zinc-900">
+              <span aria-current="page" className="font-medium text-zinc-900 dark:text-zinc-100">
                 {item.label}
               </span>
             )}

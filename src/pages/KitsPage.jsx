@@ -35,7 +35,7 @@ export default function KitsPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="grid items-stretch gap-0 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 lg:grid-cols-2"
+              className="grid items-stretch gap-0 overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 lg:grid-cols-2"
             >
               {/* Image */}
               <div className={`relative min-h-[280px] ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
@@ -48,33 +48,38 @@ export default function KitsPage() {
 
               {/* Content */}
               <div className="flex flex-col p-8 md:p-12">
-                <h2 className="font-display mt-4 text-5xl font-bold tracking-tight text-zinc-900 uppercase md:text-6xl">
+                <h2 className="font-display mt-4 text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 uppercase md:text-6xl">
                   {bundle.title}
                 </h2>
-                <p className="mt-4 text-sm text-zinc-600 md:text-base">{bundle.product}</p>
+                <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400 md:text-base">
+                  {bundle.product}
+                </p>
 
                 <div className="mt-5 flex flex-wrap items-baseline gap-3">
-                  <span className="text-2xl font-bold text-zinc-900">
+                  <span className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
                     {formatPrice(bundle.price)}
                   </span>
-                  <span className="text-sm text-zinc-500 line-through">
+                  <span className="text-sm text-zinc-500 dark:text-zinc-400 line-through">
                     {formatPrice(bundle.compareAt)}
                   </span>
-                  <span className="rounded-full bg-zinc-900 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-white uppercase">
+                  <span className="rounded-full bg-zinc-900 dark:bg-white px-2.5 py-1 text-[11px] font-semibold tracking-wider text-white dark:text-zinc-900 uppercase">
                     Save {formatPrice(saving)}
                   </span>
                 </div>
 
-                <h3 className="mt-8 text-[11px] font-semibold tracking-[0.2em] text-zinc-900 uppercase">
+                <h3 className="mt-8 text-[11px] font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase">
                   What is inside
                 </h3>
                 <ul className="mt-4 space-y-2.5">
                   {bundle.includes.map((item) => (
-                    <li key={item} className="flex items-start gap-2.5 text-sm text-zinc-700">
+                    <li
+                      key={item}
+                      className="flex items-start gap-2.5 text-sm text-zinc-700 dark:text-zinc-300"
+                    >
                       <CheckCircleIcon
                         size={18}
                         weight="light"
-                        className="mt-0.5 shrink-0 text-zinc-900"
+                        className="mt-0.5 shrink-0 text-zinc-900 dark:text-zinc-100"
                       />
                       {item}
                     </li>
@@ -85,7 +90,7 @@ export default function KitsPage() {
                   <button
                     type="button"
                     onClick={() => addItem(bundle.productId)}
-                    className="flex w-full cursor-pointer items-center justify-center gap-3 bg-zinc-900 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800 sm:w-auto"
+                    className="flex w-full cursor-pointer items-center justify-center gap-3 bg-zinc-900 dark:bg-white px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200 sm:w-auto"
                   >
                     <ShoppingCartIcon size={16} weight="light" />
                     Add {bundle.title} kit to cart

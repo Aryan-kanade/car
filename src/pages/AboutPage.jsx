@@ -21,14 +21,14 @@ export default function AboutPage() {
       />
 
       {/* Stats */}
-      <div className="border-b border-zinc-200 bg-zinc-50">
-        <dl className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-zinc-200 px-6 py-10 sm:grid-cols-3 sm:divide-x sm:divide-y-0 md:py-12">
+      <div className="border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
+        <dl className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-zinc-200 dark:divide-zinc-800 px-6 py-10 sm:grid-cols-3 sm:divide-x sm:divide-y-0 md:py-12">
           {about.stats.map((stat) => (
             <div key={stat.label} className="px-6 py-6 text-center sm:py-0">
-              <dt className="order-2 mt-2 text-xs tracking-[0.15em] text-zinc-500 uppercase sm:mt-3">
+              <dt className="order-2 mt-2 text-xs tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase sm:mt-3">
                 {stat.label}
               </dt>
-              <dd className="font-display order-1 text-4xl font-bold text-zinc-900 md:text-5xl">
+              <dd className="font-display order-1 text-4xl font-bold text-zinc-900 dark:text-zinc-100 md:text-5xl">
                 {stat.value}
               </dd>
             </div>
@@ -55,10 +55,10 @@ export default function AboutPage() {
               />
             </div>
             <div>
-              <h2 className="font-display text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 md:text-3xl">
+              <h2 className="font-display text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100 md:text-3xl">
                 {section.title}
               </h2>
-              <p className="mt-5 text-sm leading-relaxed text-zinc-600 md:text-base">
+              <p className="mt-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base">
                 {section.body}
               </p>
             </div>
@@ -67,18 +67,18 @@ export default function AboutPage() {
       </div>
 
       {/* CTA */}
-      <div className="border-t border-zinc-200 bg-zinc-50">
+      <div className="border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
         <div className="mx-auto flex max-w-7xl flex-col items-center px-6 py-16 text-center md:py-20">
-          <h2 className="font-display text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 md:text-3xl">
+          <h2 className="font-display text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100 md:text-3xl">
             Try the chemistry
           </h2>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             Every bottle carries the 60-day performance guarantee. If it does not outperform what
             you use today, it is on us.
           </p>
           <Link
             to="/shop"
-            className="group mt-8 inline-flex items-center gap-3 bg-zinc-900 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
+            className="group mt-8 inline-flex items-center gap-3 bg-zinc-900 dark:bg-white px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
           >
             Shop the range
             <ArrowRightIcon

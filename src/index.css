@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, sans-serif;
@@ -14,12 +16,22 @@ body {
   color: #18181b;
 }
 
+.dark body {
+  background-color: #09090b;
+  color: #fafafa;
+}
+
 /* Visible keyboard focus for every interactive element (a11y — never remove) */
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid #18181b;
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+.dark a:focus-visible,
+.dark button:focus-visible {
+  outline-color: #fafafa;
 }
 
 /* Respect users who prefer reduced motion */
@@ -29,7 +41,7 @@ button:focus-visible {
   }
 }
 
-/* Slim, light scrollbar to match the theme */
+/* Slim scrollbar matched to the active theme */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -45,4 +57,16 @@ button:focus-visible {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a1a1aa;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #27272a;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
 }

@@ -56,13 +56,15 @@ export default function CategoryList() {
                   to={category.to}
                   onMouseEnter={() => setActive(index)}
                   onFocus={() => setActive(index)}
-                  className={`group relative z-10 flex items-center gap-6 border-t border-zinc-200 px-2 py-7 transition-colors duration-300 md:gap-10 md:px-4 md:py-9 ${
-                    isActive ? 'border-zinc-400' : 'last:border-b'
+                  className={`group relative z-10 flex items-center gap-6 border-t border-zinc-200 dark:border-zinc-800 px-2 py-7 transition-colors duration-300 md:gap-10 md:px-4 md:py-9 ${
+                    isActive ? 'border-zinc-400 dark:border-zinc-600' : 'last:border-b'
                   }`}
                 >
                   <span
                     className={`text-xs font-medium tracking-[0.2em] transition-colors duration-300 md:text-sm ${
-                      isActive ? 'text-zinc-900' : 'text-zinc-500'
+                      isActive
+                        ? 'text-zinc-900 dark:text-zinc-100'
+                        : 'text-zinc-500 dark:text-zinc-400'
                     }`}
                   >
                     {category.number}
@@ -70,8 +72,8 @@ export default function CategoryList() {
                   <span
                     className={`font-display text-xl font-semibold tracking-[0.05em] uppercase transition-all duration-300 md:text-3xl lg:text-4xl ${
                       isActive
-                        ? 'translate-x-2 text-zinc-900 md:translate-x-3'
-                        : 'text-zinc-700 group-hover:text-zinc-900'
+                        ? 'translate-x-2 text-zinc-900 dark:text-zinc-100 md:translate-x-3'
+                        : 'text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white'
                     }`}
                   >
                     {category.name}
@@ -81,8 +83,8 @@ export default function CategoryList() {
                     weight="light"
                     className={`ml-auto shrink-0 transition-all duration-300 ${
                       isActive
-                        ? 'translate-x-0 text-zinc-900 opacity-100'
-                        : '-translate-x-2 text-zinc-500 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'
+                        ? 'translate-x-0 text-zinc-900 dark:text-zinc-100 opacity-100'
+                        : '-translate-x-2 text-zinc-500 dark:text-zinc-400 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'
                     }`}
                   />
                 </Link>

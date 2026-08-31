@@ -54,7 +54,7 @@ export default function SitemapPage() {
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-14 sm:grid-cols-2 md:py-20 lg:grid-cols-4">
         {groups.map((group) => (
           <nav key={group.heading} aria-label={group.heading}>
-            <h2 className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 uppercase">
+            <h2 className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
               {group.heading}
             </h2>
             <ul className="mt-5 space-y-3">
@@ -62,7 +62,7 @@ export default function SitemapPage() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-sm text-zinc-500 transition-colors hover:text-zinc-900"
+                    className="text-sm text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                   >
                     {link.label}
                   </Link>

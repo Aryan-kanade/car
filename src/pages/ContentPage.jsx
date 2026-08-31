@@ -22,21 +22,26 @@ export default function ContentPage({ slug }) {
         {page.sections.map((section) => (
           <section
             key={section.heading}
-            className="border-t border-zinc-200 py-8 first:border-t-0 first:pt-0"
+            className="border-t border-zinc-200 dark:border-zinc-800 py-8 first:border-t-0 first:pt-0"
           >
-            <h2 className="font-display text-lg font-bold tracking-[0.06em] uppercase text-zinc-900">
+            <h2 className="font-display text-lg font-bold tracking-[0.06em] uppercase text-zinc-900 dark:text-zinc-100">
               {section.heading}
             </h2>
             <div className="mt-4 space-y-4">
               {section.body.map((paragraph, index) => (
-                <p key={index} className="text-sm leading-relaxed text-zinc-600 md:text-base">
+                <p
+                  key={index}
+                  className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base"
+                >
                   {paragraph}
                 </p>
               ))}
             </div>
           </section>
         ))}
-        <p className="mt-10 text-xs text-zinc-500">Last updated: {page.updated}</p>
+        <p className="mt-10 text-xs text-zinc-500 dark:text-zinc-400">
+          Last updated: {page.updated}
+        </p>
       </div>
     </>
   )

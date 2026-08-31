@@ -10,15 +10,17 @@ export default function Newsletter() {
     return (
       <div
         role="status"
-        className="flex items-center gap-3 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3.5"
+        className="flex items-center gap-3 rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3.5"
       >
         <SealCheckIcon
           size={20}
           weight="light"
-          className="shrink-0 text-zinc-900"
+          className="shrink-0 text-zinc-900 dark:text-zinc-100"
           aria-hidden="true"
         />
-        <p className="text-sm text-zinc-700">You are on the list. Welcome to the studio.</p>
+        <p className="text-sm text-zinc-700 dark:text-zinc-300">
+          You are on the list. Welcome to the studio.
+        </p>
       </div>
     )
   }
@@ -33,7 +35,7 @@ export default function Newsletter() {
     >
       <label
         htmlFor="newsletter-email"
-        className="text-xs font-medium tracking-[0.15em] text-zinc-700 uppercase"
+        className="text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
       >
         Join the studio list
       </label>
@@ -45,12 +47,12 @@ export default function Newsletter() {
           required
           autoComplete="email"
           placeholder="you@example.com"
-          className="min-w-0 flex-1 rounded-md border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-500 focus:border-zinc-900 focus:outline-none"
+          className="min-w-0 flex-1 rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-500 dark:placeholder:text-zinc-400 focus:border-zinc-900 dark:focus:border-white focus:outline-none"
         />
         <button
           type="submit"
           aria-label="Subscribe to the newsletter"
-          className="group flex cursor-pointer items-center justify-center rounded-md bg-zinc-900 px-5 text-white transition-colors hover:bg-zinc-800"
+          className="group flex cursor-pointer items-center justify-center rounded-md bg-zinc-900 dark:bg-white px-5 text-white dark:text-zinc-900 transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
         >
           <ArrowRightIcon
             size={16}
@@ -59,7 +61,9 @@ export default function Newsletter() {
           />
         </button>
       </div>
-      <p className="text-xs text-zinc-500">Drops, restocks and lab notes. No spam, ever.</p>
+      <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        Drops, restocks and lab notes. No spam, ever.
+      </p>
     </form>
   )
 }

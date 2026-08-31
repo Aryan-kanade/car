@@ -22,23 +22,35 @@ export default function Testimonials() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.55, delay: index * 0.1, ease: 'easeOut' }}
-            className="flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-8"
+            className="flex flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-8"
           >
-            <QuotesIcon size={28} weight="light" className="text-zinc-400" aria-hidden="true" />
-            <blockquote className="mt-5 flex-1 text-sm leading-relaxed text-zinc-700">
+            <QuotesIcon
+              size={28}
+              weight="light"
+              className="text-zinc-400 dark:text-zinc-500"
+              aria-hidden="true"
+            />
+            <blockquote className="mt-5 flex-1 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
               {testimonial.quote}
             </blockquote>
-            <figcaption className="mt-6 border-t border-zinc-200 pt-5">
+            <figcaption className="mt-6 border-t border-zinc-200 dark:border-zinc-800 pt-5">
               <span
                 className="flex gap-0.5"
                 aria-label={`Rated ${testimonial.stars} out of 5 stars`}
               >
                 {Array.from({ length: testimonial.stars }).map((_, i) => (
-                  <StarIcon key={i} size={12} weight="fill" className="text-zinc-900" />
+                  <StarIcon
+                    key={i}
+                    size={12}
+                    weight="fill"
+                    className="text-zinc-900 dark:text-zinc-100"
+                  />
                 ))}
               </span>
-              <p className="mt-2.5 text-sm font-medium text-zinc-900">{testimonial.name}</p>
-              <p className="mt-0.5 text-xs text-zinc-500">{testimonial.car}</p>
+              <p className="mt-2.5 text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                {testimonial.name}
+              </p>
+              <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">{testimonial.car}</p>
             </figcaption>
           </motion.figure>
         ))}

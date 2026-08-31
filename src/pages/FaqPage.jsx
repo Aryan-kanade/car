@@ -10,7 +10,7 @@ function AccordionItem({ q, a, index }) {
   const [open, setOpen] = useState(index === 0)
 
   return (
-    <div className="border-t border-zinc-200 last:border-b">
+    <div className="border-t border-zinc-200 dark:border-zinc-800 last:border-b">
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
@@ -18,8 +18,10 @@ function AccordionItem({ q, a, index }) {
         aria-controls={`faq-answer-${index}`}
         className="flex w-full cursor-pointer items-center justify-between gap-6 py-6 text-left"
       >
-        <span className="text-sm font-medium text-zinc-900 md:text-base">{q}</span>
-        <span className="shrink-0 rounded-full border border-zinc-200 p-2 text-zinc-600">
+        <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100 md:text-base">
+          {q}
+        </span>
+        <span className="shrink-0 rounded-full border border-zinc-200 dark:border-zinc-800 p-2 text-zinc-600 dark:text-zinc-400">
           {open ? <MinusIcon size={14} weight="light" /> : <PlusIcon size={14} weight="light" />}
         </span>
       </button>
@@ -33,7 +35,9 @@ function AccordionItem({ q, a, index }) {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <p className="max-w-[70ch] pb-6 text-sm leading-relaxed text-zinc-600">{a}</p>
+            <p className="max-w-[70ch] pb-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              {a}
+            </p>
           </motion.div>
         )}
       </AnimatePresence>

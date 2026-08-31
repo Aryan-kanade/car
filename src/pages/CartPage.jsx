@@ -29,17 +29,22 @@ export default function CartPage() {
       <>
         <PageHeader breadcrumb={[{ label: 'Cart' }]} title="Your Cart" />
         <div className="mx-auto flex max-w-7xl flex-col items-center px-6 py-24 text-center md:py-32">
-          <ShoppingCartIcon size={48} weight="light" className="text-zinc-400" aria-hidden="true" />
-          <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900">
+          <ShoppingCartIcon
+            size={48}
+            weight="light"
+            className="text-zinc-400 dark:text-zinc-500"
+            aria-hidden="true"
+          />
+          <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
             Your cart is empty
           </h2>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             Chemistry, kits and studio-tested tools are waiting. Free shipping kicks in at{' '}
             {formatPrice(FREE_SHIPPING_THRESHOLD)}.
           </p>
           <Link
             to="/shop"
-            className="mt-8 bg-zinc-900 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
+            className="mt-8 bg-zinc-900 dark:bg-white px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
           >
             Continue shopping
           </Link>
@@ -59,7 +64,7 @@ export default function CartPage() {
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-14 md:py-20 lg:grid-cols-[1.7fr_1fr] lg:gap-16">
         {/* Line items */}
         <div>
-          <ul className="divide-y divide-zinc-200 border-y border-zinc-200">
+          <ul className="divide-y divide-zinc-200 dark:divide-zinc-800 border-y border-zinc-200 dark:border-zinc-800">
             {items.map(({ product, size, qty, unitCompareAt, lineTotal }) => (
               <motion.li
                 key={`${product.id}|${size ?? 'kit'}`}
@@ -83,56 +88,62 @@ export default function CartPage() {
                 <div className="flex flex-1 flex-col">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-[11px] tracking-[0.15em] text-zinc-500 uppercase">
+                      <p className="text-[11px] tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase">
                         {product.category}
                       </p>
-                      <h2 className="mt-1 text-sm font-medium text-zinc-900">
+                      <h2 className="mt-1 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                         <Link
                           to={`/product/${product.id}`}
-                          className="transition-colors hover:text-zinc-600"
+                          className="transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
                         >
                           {product.name}
                         </Link>
-                        {size && <span className="ml-2 text-xs text-zinc-500">{size}</span>}
+                        {size && (
+                          <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
+                            {size}
+                          </span>
+                        )}
                       </h2>
                     </div>
                     <button
                       type="button"
                       aria-label={`Remove ${product.name}${size ? ` ${size}` : ''} from cart`}
                       onClick={() => removeItem(product.id, size)}
-                      className="cursor-pointer p-2 text-zinc-500 transition-colors hover:text-zinc-900"
+                      className="cursor-pointer p-2 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                     >
                       <XIcon size={18} weight="light" />
                     </button>
                   </div>
 
                   <div className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-4">
-                    <div className="flex items-center border border-zinc-200">
+                    <div className="flex items-center border border-zinc-200 dark:border-zinc-800">
                       <button
                         type="button"
                         aria-label={`Decrease quantity of ${product.name}`}
                         onClick={() => setQty(product.id, size, qty - 1)}
-                        className="cursor-pointer p-2.5 text-zinc-600 transition-colors hover:text-zinc-900"
+                        className="cursor-pointer p-2.5 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                       >
                         <MinusIcon size={14} weight="light" />
                       </button>
-                      <span className="min-w-9 text-center text-sm font-semibold text-zinc-900">
+                      <span className="min-w-9 text-center text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                         {qty}
                       </span>
                       <button
                         type="button"
                         aria-label={`Increase quantity of ${product.name}`}
                         onClick={() => setQty(product.id, size, qty + 1)}
-                        className="cursor-pointer p-2.5 text-zinc-600 transition-colors hover:text-zinc-900"
+                        className="cursor-pointer p-2.5 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                       >
                         <PlusIcon size={14} weight="light" />
                       </button>
                     </div>
                     <p className="flex items-baseline gap-2.5 text-sm">
-                      <span className="text-zinc-500 line-through">
+                      <span className="text-zinc-500 dark:text-zinc-400 line-through">
                         {formatPrice(unitCompareAt * qty)}
                       </span>
-                      <span className="font-semibold text-zinc-900">{formatPrice(lineTotal)}</span>
+                      <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                        {formatPrice(lineTotal)}
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -143,14 +154,14 @@ export default function CartPage() {
           <div className="mt-6 flex items-center justify-between">
             <Link
               to="/shop"
-              className="text-xs font-medium tracking-[0.15em] text-zinc-500 uppercase transition-colors hover:text-zinc-900"
+              className="text-xs font-medium tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
             >
               Continue shopping
             </Link>
             <button
               type="button"
               onClick={clearCart}
-              className="cursor-pointer text-xs font-medium tracking-[0.15em] text-zinc-500 uppercase transition-colors hover:text-zinc-900"
+              className="cursor-pointer text-xs font-medium tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
             >
               Clear cart
             </button>
@@ -158,14 +169,14 @@ export default function CartPage() {
         </div>
 
         {/* Summary */}
-        <aside className="h-fit rounded-2xl border border-zinc-200 bg-zinc-50 p-7 lg:sticky lg:top-28">
-          <h2 className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 uppercase">
+        <aside className="h-fit rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-7 lg:sticky lg:top-28">
+          <h2 className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
             Order summary
           </h2>
 
           {/* Free shipping progress */}
           <div className="mt-5">
-            <div className="flex items-center gap-2 text-xs text-zinc-600">
+            <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
               <TruckIcon size={16} weight="light" aria-hidden="true" />
               {freeShipping ? (
                 <span>Free shipping unlocked</span>
@@ -174,7 +185,7 @@ export default function CartPage() {
               )}
             </div>
             <div
-              className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-zinc-200"
+              className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800"
               role="progressbar"
               aria-valuenow={Math.round(progress)}
               aria-valuemin={0}
@@ -182,24 +193,26 @@ export default function CartPage() {
               aria-label="Progress toward free shipping"
             >
               <div
-                className="h-full rounded-full bg-zinc-900 transition-all duration-500"
+                className="h-full rounded-full bg-zinc-900 dark:bg-white transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
 
-          <dl className="mt-6 space-y-3 border-t border-zinc-200 pt-5 text-sm">
-            <div className="flex justify-between text-zinc-600">
+          <dl className="mt-6 space-y-3 border-t border-zinc-200 dark:border-zinc-800 pt-5 text-sm">
+            <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
               <dt>Subtotal</dt>
-              <dd className="font-medium text-zinc-900">{formatPrice(subtotal)}</dd>
+              <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                {formatPrice(subtotal)}
+              </dd>
             </div>
-            <div className="flex justify-between text-zinc-600">
+            <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
               <dt>Shipping</dt>
-              <dd className="font-medium text-zinc-900">
+              <dd className="font-medium text-zinc-900 dark:text-zinc-100">
                 {shipping === 0 ? 'Free' : formatPrice(shipping)}
               </dd>
             </div>
-            <div className="flex justify-between border-t border-zinc-200 pt-3 text-base font-semibold text-zinc-900">
+            <div className="flex justify-between border-t border-zinc-200 dark:border-zinc-800 pt-3 text-base font-semibold text-zinc-900 dark:text-zinc-100">
               <dt>Total</dt>
               <dd>{formatPrice(subtotal + shipping)}</dd>
             </div>
@@ -207,11 +220,11 @@ export default function CartPage() {
 
           <Link
             to="/checkout"
-            className="mt-6 flex w-full bg-zinc-900 py-4 text-center text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
+            className="mt-6 flex w-full bg-zinc-900 dark:bg-white py-4 text-center text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
           >
             Proceed to checkout
           </Link>
-          <p className="mt-3 text-center text-xs text-zinc-500">
+          <p className="mt-3 text-center text-xs text-zinc-500 dark:text-zinc-400">
             Demo checkout — no payment is processed.
           </p>
         </aside>

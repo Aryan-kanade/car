@@ -54,21 +54,21 @@ export default function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed inset-y-0 right-0 z-70 flex w-full max-w-md flex-col border-l border-zinc-200 bg-white"
+            className="fixed inset-y-0 right-0 z-70 flex w-full max-w-md flex-col border-l border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950"
             role="dialog"
             aria-modal="true"
             aria-label="Cart quick view"
           >
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-5">
-              <h2 className="font-display text-lg font-bold tracking-[0.08em] uppercase text-zinc-900">
-                Cart <span className="text-zinc-400">({count})</span>
+            <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 px-6 py-5">
+              <h2 className="font-display text-lg font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
+                Cart <span className="text-zinc-400 dark:text-zinc-500">({count})</span>
               </h2>
               <button
                 type="button"
                 aria-label="Close cart"
                 onClick={closeDrawer}
-                className="cursor-pointer p-2.5 text-zinc-500 transition-colors hover:text-zinc-900"
+                className="cursor-pointer p-2.5 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 <XIcon size={20} weight="light" />
               </button>
@@ -76,11 +76,11 @@ export default function CartDrawer() {
 
             {items.length === 0 ? (
               <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-                <p className="text-sm text-zinc-600">Your cart is empty.</p>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">Your cart is empty.</p>
                 <Link
                   to="/shop"
                   onClick={closeDrawer}
-                  className="mt-5 bg-zinc-900 px-7 py-3.5 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
+                  className="mt-5 bg-zinc-900 dark:bg-white px-7 py-3.5 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
                 >
                   Start shopping
                 </Link>
@@ -88,8 +88,8 @@ export default function CartDrawer() {
             ) : (
               <>
                 {/* Free shipping progress */}
-                <div className="border-b border-zinc-200 px-6 py-4">
-                  <div className="flex items-center gap-2 text-xs text-zinc-600">
+                <div className="border-b border-zinc-200 dark:border-zinc-800 px-6 py-4">
+                  <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
                     <TruckIcon size={16} weight="light" aria-hidden="true" />
                     {freeShipping ? (
                       <span>Free shipping unlocked</span>
@@ -98,7 +98,7 @@ export default function CartDrawer() {
                     )}
                   </div>
                   <div
-                    className="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-200"
+                    className="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800"
                     role="progressbar"
                     aria-valuenow={Math.round(progress)}
                     aria-valuemin={0}
@@ -106,14 +106,14 @@ export default function CartDrawer() {
                     aria-label="Progress toward free shipping"
                   >
                     <div
-                      className="h-full rounded-full bg-zinc-900 transition-all duration-500"
+                      className="h-full rounded-full bg-zinc-900 dark:bg-white transition-all duration-500"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
                 </div>
 
                 {/* Items */}
-                <ul className="flex-1 divide-y divide-zinc-200 overflow-y-auto px-6">
+                <ul className="flex-1 divide-y divide-zinc-200 dark:divide-zinc-800 overflow-y-auto px-6">
                   {items.map(({ product, size, qty, lineTotal }) => (
                     <li key={`${product.id}|${size ?? 'kit'}`} className="flex gap-4 py-5">
                       <Link
@@ -130,42 +130,46 @@ export default function CartDrawer() {
                       </Link>
                       <div className="flex flex-1 flex-col">
                         <div className="flex items-start justify-between gap-3">
-                          <p className="text-sm font-medium text-zinc-900">
+                          <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                             {product.name}
-                            {size && <span className="block text-xs text-zinc-500">{size}</span>}
+                            {size && (
+                              <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                                {size}
+                              </span>
+                            )}
                           </p>
                           <button
                             type="button"
                             aria-label={`Remove ${product.name}${size ? ` ${size}` : ''}`}
                             onClick={() => removeItem(product.id, size)}
-                            className="cursor-pointer p-1 text-zinc-500 transition-colors hover:text-zinc-900"
+                            className="cursor-pointer p-1 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                           >
                             <XIcon size={14} weight="light" />
                           </button>
                         </div>
                         <div className="mt-auto flex items-center justify-between pt-3">
-                          <div className="flex items-center border border-zinc-200">
+                          <div className="flex items-center border border-zinc-200 dark:border-zinc-800">
                             <button
                               type="button"
                               aria-label={`Decrease quantity of ${product.name}`}
                               onClick={() => setQty(product.id, size, qty - 1)}
-                              className="cursor-pointer p-2 text-zinc-600 transition-colors hover:text-zinc-900"
+                              className="cursor-pointer p-2 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                             >
                               <MinusIcon size={12} weight="light" />
                             </button>
-                            <span className="min-w-8 text-center text-xs font-semibold text-zinc-900">
+                            <span className="min-w-8 text-center text-xs font-semibold text-zinc-900 dark:text-zinc-100">
                               {qty}
                             </span>
                             <button
                               type="button"
                               aria-label={`Increase quantity of ${product.name}`}
                               onClick={() => setQty(product.id, size, qty + 1)}
-                              className="cursor-pointer p-2 text-zinc-600 transition-colors hover:text-zinc-900"
+                              className="cursor-pointer p-2 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                             >
                               <PlusIcon size={12} weight="light" />
                             </button>
                           </div>
-                          <p className="text-sm font-semibold text-zinc-900">
+                          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                             {formatPrice(lineTotal)}
                           </p>
                         </div>
@@ -175,17 +179,17 @@ export default function CartDrawer() {
                 </ul>
 
                 {/* Footer */}
-                <div className="border-t border-zinc-200 px-6 py-5">
+                <div className="border-t border-zinc-200 dark:border-zinc-800 px-6 py-5">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-sm text-zinc-600">Subtotal</span>
-                    <span className="text-base font-semibold text-zinc-900">
+                    <span className="text-sm text-zinc-600 dark:text-zinc-400">Subtotal</span>
+                    <span className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                       {formatPrice(subtotal)}
                     </span>
                   </div>
                   <Link
                     to="/cart"
                     onClick={closeDrawer}
-                    className="mt-4 flex w-full items-center justify-center bg-zinc-900 py-4 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
+                    className="mt-4 flex w-full items-center justify-center bg-zinc-900 dark:bg-white py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
                   >
                     View full cart
                   </Link>

@@ -60,12 +60,16 @@ export default function SearchOverlay({ open, onClose }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="mx-auto mt-20 w-[calc(100%-3rem)] max-w-2xl overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl md:mt-28"
+            className="mx-auto mt-20 w-[calc(100%-3rem)] max-w-2xl overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-2xl md:mt-28"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Input row */}
-            <div className="flex items-center gap-3 border-b border-zinc-200 px-5">
-              <MagnifyingGlassIcon size={20} weight="light" className="shrink-0 text-zinc-500" />
+            <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 px-5">
+              <MagnifyingGlassIcon
+                size={20}
+                weight="light"
+                className="shrink-0 text-zinc-500 dark:text-zinc-400"
+              />
               <input
                 ref={inputRef}
                 type="search"
@@ -73,13 +77,13 @@ export default function SearchOverlay({ open, onClose }) {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search shampoos, wheels, kits…"
                 aria-label="Search products"
-                className="w-full bg-transparent py-5 text-base text-zinc-900 placeholder:text-zinc-400 focus:outline-none"
+                className="w-full bg-transparent py-5 text-base text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none"
               />
               <button
                 type="button"
                 aria-label="Close search"
                 onClick={onClose}
-                className="cursor-pointer p-2 text-zinc-500 transition-colors hover:text-zinc-900"
+                className="cursor-pointer p-2 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 <XIcon size={18} weight="light" />
               </button>
@@ -87,20 +91,20 @@ export default function SearchOverlay({ open, onClose }) {
 
             {/* Results */}
             <div className="max-h-[55vh] overflow-y-auto p-2">
-              <p className="px-3 pt-2 pb-1 text-[11px] tracking-[0.2em] text-zinc-500 uppercase">
+              <p className="px-3 pt-2 pb-1 text-[11px] tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
                 {query.trim()
                   ? `${results.length} result${results.length === 1 ? '' : 's'}`
                   : 'Popular right now'}
               </p>
               {results.length === 0 ? (
                 <div className="px-3 py-8 text-center">
-                  <p className="text-sm text-zinc-600">
+                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
                     Nothing matches “{query.trim()}”. Try a category like “wheel” or “shampoo”.
                   </p>
                   <Link
                     to="/shop"
                     onClick={onClose}
-                    className="mt-4 inline-block text-xs font-semibold tracking-[0.2em] text-zinc-900 uppercase underline underline-offset-4"
+                    className="mt-4 inline-block text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase underline underline-offset-4"
                   >
                     Browse everything
                   </Link>
@@ -112,17 +116,17 @@ export default function SearchOverlay({ open, onClose }) {
                       <Link
                         to={`/product/${product.id}`}
                         onClick={onClose}
-                        className="flex items-center justify-between gap-4 rounded-lg px-3 py-3 transition-colors hover:bg-zinc-50"
+                        className="flex items-center justify-between gap-4 rounded-lg px-3 py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900"
                       >
                         <span>
-                          <span className="block text-sm font-medium text-zinc-900">
+                          <span className="block text-sm font-medium text-zinc-900 dark:text-zinc-100">
                             {product.name}
                           </span>
-                          <span className="mt-0.5 block text-xs text-zinc-500">
+                          <span className="mt-0.5 block text-xs text-zinc-500 dark:text-zinc-400">
                             {product.category}
                           </span>
                         </span>
-                        <span className="text-sm font-semibold text-zinc-900">
+                        <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                           {formatPrice(product.price)}
                         </span>
                       </Link>

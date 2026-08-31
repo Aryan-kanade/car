@@ -43,16 +43,16 @@ export default function NotePage() {
         {note.sections.map((section) => (
           <section
             key={section.heading}
-            className="border-t border-zinc-200 py-9 first:border-t-0 first:pt-0"
+            className="border-t border-zinc-200 dark:border-zinc-800 py-9 first:border-t-0 first:pt-0"
           >
-            <h2 className="font-display text-lg font-bold tracking-[0.06em] uppercase text-zinc-900 md:text-xl">
+            <h2 className="font-display text-lg font-bold tracking-[0.06em] uppercase text-zinc-900 dark:text-zinc-100 md:text-xl">
               {section.heading}
             </h2>
             <div className="mt-4 space-y-4">
               {section.body.map((paragraph, index) => (
                 <p
                   key={index}
-                  className="max-w-[70ch] text-sm leading-relaxed text-zinc-600 md:text-base"
+                  className="max-w-[70ch] text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base"
                 >
                   {paragraph}
                 </p>
@@ -61,17 +61,17 @@ export default function NotePage() {
           </section>
         ))}
 
-        <div className="mt-12 rounded-2xl border border-zinc-200 bg-zinc-50 p-8 text-center">
-          <h2 className="font-display text-lg font-bold tracking-[0.08em] uppercase text-zinc-900">
+        <div className="mt-12 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-8 text-center">
+          <h2 className="font-display text-lg font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
             Shop the formulas in this guide
           </h2>
-          <p className="mx-auto mt-2.5 max-w-md text-sm leading-relaxed text-zinc-600">
+          <p className="mx-auto mt-2.5 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
             Every routine in Lab Notes runs on KMKIRAMYKI chemistry — coating-safe and pH-balanced
             by default.
           </p>
           <Link
             to="/shop"
-            className="group mt-6 inline-flex items-center gap-3 bg-zinc-900 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
+            className="group mt-6 inline-flex items-center gap-3 bg-zinc-900 dark:bg-white px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
           >
             Browse products
             <ArrowRightIcon

@@ -37,8 +37,8 @@ export default function Hero() {
           iconSize={44}
           className="h-full w-full"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/75 to-white/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/75 to-white/30 dark:from-zinc-950 dark:via-zinc-950/75 dark:to-zinc-950/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/60 dark:from-zinc-950 dark:via-transparent dark:to-zinc-950/60" />
       </motion.div>
 
       {/* Copy */}
@@ -51,13 +51,13 @@ export default function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="font-display mt-6 max-w-4xl text-4xl leading-[1.08] font-bold tracking-tight text-zinc-900 uppercase sm:text-5xl md:text-6xl"
+          className="font-display mt-6 max-w-4xl text-4xl leading-[1.08] font-bold tracking-tight text-zinc-900 dark:text-zinc-100 uppercase sm:text-5xl md:text-6xl"
         >
           Premium Car Care.
           <br />
           Professional Detailing.
           <br />
-          <span className="text-zinc-500">Obsessive by Design.</span>
+          <span className="text-zinc-500 dark:text-zinc-400">Obsessive by Design.</span>
         </motion.h1>
 
         <motion.p
@@ -65,7 +65,7 @@ export default function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="mt-8 max-w-xl text-sm leading-relaxed text-zinc-600 md:text-base"
+          className="mt-8 max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base"
         >
           pH-balanced chemistry, ceramic-grade protection and studio-tested tools, built for the
           enthusiast who notices every detail.
@@ -80,7 +80,7 @@ export default function Hero() {
         >
           <Link
             to="/shop"
-            className="group inline-flex items-center justify-center gap-3 bg-zinc-900 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
+            className="group inline-flex items-center justify-center gap-3 bg-zinc-900 dark:bg-white px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
           >
             Shop Now
             <ArrowRightIcon
@@ -91,7 +91,7 @@ export default function Hero() {
           </Link>
           <Link
             to="/kits"
-            className="inline-flex items-center justify-center border border-zinc-300 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-900 uppercase transition-colors hover:border-zinc-900"
+            className="inline-flex items-center justify-center border border-zinc-300 dark:border-zinc-700 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
           >
             Explore Kits
           </Link>

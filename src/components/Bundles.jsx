@@ -26,24 +26,28 @@ export default function Bundles() {
           >
             <Link
               to="/kits"
-              className="group grid h-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 transition-colors duration-300 hover:bg-zinc-100/70"
+              className="group grid h-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 transition-colors duration-300 hover:bg-zinc-100/70"
             >
               {/* Copy */}
               <div className="order-2 flex flex-col justify-between gap-12 p-8 md:order-1 md:p-12">
                 <div>
-                  <h3 className="font-display text-6xl font-bold tracking-tight text-zinc-900 uppercase md:text-7xl">
+                  <h3 className="font-display text-6xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 uppercase md:text-7xl">
                     {bundle.title}
                   </h3>
-                  <p className="mt-7 text-sm text-zinc-600 md:text-base">{bundle.product}</p>
+                  <p className="mt-7 text-sm text-zinc-600 dark:text-zinc-400 md:text-base">
+                    {bundle.product}
+                  </p>
                   <p className="mt-3 flex items-baseline gap-3 text-sm md:text-base">
-                    <span className="text-zinc-500 line-through">
+                    <span className="text-zinc-500 dark:text-zinc-400 line-through">
                       {formatPrice(bundle.compareAt)}
                     </span>
-                    <span className="font-semibold text-zinc-900">{formatPrice(bundle.price)}</span>
+                    <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                      {formatPrice(bundle.price)}
+                    </span>
                   </p>
                 </div>
 
-                <span className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.25em] text-zinc-600 uppercase transition-colors group-hover:text-zinc-900">
+                <span className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.25em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white">
                   Shop Kit
                   <ArrowRightIcon
                     size={14}

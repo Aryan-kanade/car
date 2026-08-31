@@ -1,7 +1,21 @@
 <!doctype html>
-<html lang="en" class="bg-white">
+<html lang="en" class="bg-white dark:bg-zinc-950">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Apply stored/system theme before first paint to avoid a flash
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('kmkiramyki-theme')
+          var dark = stored
+            ? stored === 'dark'
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (dark) document.documentElement.classList.add('dark')
+        } catch (e) {
+          /* no-op */
+        }
+      })()
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"

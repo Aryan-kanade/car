@@ -4,15 +4,18 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
 import { ListIcon } from '@phosphor-icons/react/dist/csr/List'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
+import { MoonIcon } from '@phosphor-icons/react/dist/csr/Moon'
 import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
+import { SunIcon } from '@phosphor-icons/react/dist/csr/Sun'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import { categoryRoutes } from '../data/catalog'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
+import { useTheme } from '../hooks/useTheme'
 import MegaMenu from './MegaMenu'
 
 const linkClasses =
-  'relative text-[11px] font-medium tracking-[0.15em] text-zinc-500 uppercase transition-colors hover:text-zinc-900 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-zinc-900 after:transition-all after:duration-300 hover:after:w-full'
+  'relative text-[11px] font-medium tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-zinc-900 dark:after:bg-white after:transition-all after:duration-300 hover:after:w-full'
 
 const desktopLinks = [
   { label: 'Kits', to: '/kits' },
@@ -35,6 +38,7 @@ const mobileLinks = [
 export default function Navbar({ onOpenSearch }) {
   const { count, openDrawer } = useCart()
   const { count: wishlistCount } = useWishlist()
+  const { theme, toggle: toggleTheme } = useTheme()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -49,7 +53,7 @@ export default function Navbar({ onOpenSearch }) {
     <div
       className={`transition-[background-color,border-color,backdrop-filter] duration-300 ${
         scrolled || menuOpen
-          ? 'border-b border-zinc-200 bg-white/85 backdrop-blur-md'
+          ? 'border-b border-zinc-200 dark:border-zinc-800 bg-white/85 dark:bg-zinc-950/85 backdrop-blur-md'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
@@ -57,7 +61,7 @@ export default function Navbar({ onOpenSearch }) {
         {/* Logo */}
         <Link
           to="/"
-          className="font-display text-base font-bold tracking-[0.3em] text-zinc-900 select-none md:text-lg"
+          className="font-display text-base font-bold tracking-[0.3em] text-zinc-900 dark:text-zinc-100 select-none md:text-lg"
         >
           KMKIRAMYKI
         </Link>
@@ -83,16 +87,29 @@ export default function Navbar({ onOpenSearch }) {
         <div className="flex items-center gap-1 md:gap-2">
           <button
             type="button"
+            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            aria-pressed={theme === 'dark'}
+            onClick={toggleTheme}
+            className="cursor-pointer p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+          >
+            {theme === 'dark' ? (
+              <SunIcon size={20} weight="light" />
+            ) : (
+              <MoonIcon size={20} weight="light" />
+            )}
+          </button>
+          <button
+            type="button"
             aria-label="Search"
             onClick={onOpenSearch}
-            className="cursor-pointer p-3 text-zinc-600 transition-colors hover:text-zinc-900"
+            className="cursor-pointer p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
           >
             <MagnifyingGlassIcon size={20} weight="light" />
           </button>
           <Link
             to="/wishlist"
             aria-label={`Wishlist, ${wishlistCount} items`}
-            className="relative p-3 text-zinc-600 transition-colors hover:text-zinc-900"
+            className="relative p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
           >
             <HeartIcon size={20} weight="light" />
             {wishlistCount > 0 && (
@@ -101,7 +118,7 @@ export default function Navbar({ onOpenSearch }) {
                 initial={{ scale: 0.4 }}
                 animate={{ scale: 1 }}
                 transition={{ type: 'spring', damping: 15, stiffness: 400 }}
-                className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-zinc-900 px-1 text-[10px] font-semibold text-white"
+                className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-zinc-900 dark:bg-white px-1 text-[10px] font-semibold text-white dark:text-zinc-900"
               >
                 {wishlistCount}
               </motion.span>
@@ -111,7 +128,7 @@ export default function Navbar({ onOpenSearch }) {
             type="button"
             aria-label={`Cart, ${count} items`}
             onClick={openDrawer}
-            className="relative cursor-pointer p-3 text-zinc-600 transition-colors hover:text-zinc-900"
+            className="relative cursor-pointer p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
           >
             <ShoppingCartIcon size={20} weight="light" />
             <motion.span
@@ -119,7 +136,7 @@ export default function Navbar({ onOpenSearch }) {
               initial={{ scale: 0.4 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', damping: 15, stiffness: 400 }}
-              className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-zinc-900 px-1 text-[10px] font-semibold text-white"
+              className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-zinc-900 dark:bg-white px-1 text-[10px] font-semibold text-white dark:text-zinc-900"
             >
               {count}
             </motion.span>
@@ -129,7 +146,7 @@ export default function Navbar({ onOpenSearch }) {
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
-            className="cursor-pointer p-3 text-zinc-600 transition-colors hover:text-zinc-900 lg:hidden"
+            className="cursor-pointer p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white lg:hidden"
           >
             {menuOpen ? <XIcon size={22} weight="light" /> : <ListIcon size={22} weight="light" />}
           </button>
@@ -144,11 +161,11 @@ export default function Navbar({ onOpenSearch }) {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="overflow-hidden border-b border-zinc-200 bg-white lg:hidden"
+            className="overflow-hidden border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 lg:hidden"
           >
             <ul className="space-y-1 px-6 py-6">
               <li>
-                <p className="pt-2 pb-1 text-[11px] font-semibold tracking-[0.25em] text-zinc-400 uppercase">
+                <p className="pt-2 pb-1 text-[11px] font-semibold tracking-[0.25em] text-zinc-400 dark:text-zinc-500 uppercase">
                   Shop
                 </p>
                 <ul>
@@ -157,7 +174,7 @@ export default function Navbar({ onOpenSearch }) {
                       <Link
                         to={`/shop/${category.slug}`}
                         onClick={() => setMenuOpen(false)}
-                        className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-600 uppercase transition-colors hover:text-zinc-900"
+                        className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
                       >
                         {category.name}
                       </Link>
@@ -170,7 +187,7 @@ export default function Navbar({ onOpenSearch }) {
                   <Link
                     to={link.to}
                     onClick={() => setMenuOpen(false)}
-                    className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-600 uppercase transition-colors hover:text-zinc-900"
+                    className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
                   >
                     {link.label}
                   </Link>

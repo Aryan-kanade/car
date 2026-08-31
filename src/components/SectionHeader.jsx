@@ -13,15 +13,17 @@ export default function SectionHeader({ title, subtext, to = '/shop' }) {
       className="mb-14 flex items-end justify-between gap-6 md:mb-20"
     >
       <div>
-        <h2 className="font-display text-2xl font-bold tracking-[0.12em] uppercase text-zinc-900 md:text-4xl">
+        <h2 className="font-display text-2xl font-bold tracking-[0.12em] uppercase text-zinc-900 dark:text-zinc-100 md:text-4xl">
           {title}
         </h2>
-        {subtext && <p className="mt-3 text-sm text-zinc-500 md:text-base">{subtext}</p>}
+        {subtext && (
+          <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400 md:text-base">{subtext}</p>
+        )}
       </div>
       {to && (
         <Link
           to={to}
-          className="group flex shrink-0 items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-zinc-500 uppercase transition-colors hover:text-zinc-900"
+          className="group flex shrink-0 items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
         >
           View All
           <ArrowRightIcon

@@ -70,8 +70,8 @@ export default function ShopPage() {
             aria-current={!category ? 'page' : undefined}
             className={`cursor-pointer rounded-full border px-4 py-2 text-[11px] font-medium tracking-[0.15em] uppercase transition-colors ${
               !category
-                ? 'border-zinc-900 bg-zinc-900 text-white'
-                : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400 hover:text-zinc-900'
+                ? 'border-zinc-900 dark:border-white bg-zinc-900 dark:bg-white text-white dark:text-zinc-900'
+                : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-600 hover:text-zinc-900 dark:hover:text-white'
             }`}
           >
             All
@@ -83,8 +83,8 @@ export default function ShopPage() {
               aria-current={category?.slug === c.slug ? 'page' : undefined}
               className={`cursor-pointer rounded-full border px-4 py-2 text-[11px] font-medium tracking-[0.15em] uppercase transition-colors ${
                 category?.slug === c.slug
-                  ? 'border-zinc-900 bg-zinc-900 text-white'
-                  : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400 hover:text-zinc-900'
+                  ? 'border-zinc-900 dark:border-white bg-zinc-900 dark:bg-white text-white dark:text-zinc-900'
+                  : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-600 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
               {c.name}
@@ -93,18 +93,18 @@ export default function ShopPage() {
         </nav>
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
             {isEmpty
               ? 'No products yet'
               : `${visible.length} product${visible.length === 1 ? '' : 's'}`}
           </p>
           {!isEmpty && (
-            <label className="flex items-center gap-3 text-xs tracking-[0.15em] text-zinc-500 uppercase">
+            <label className="flex items-center gap-3 text-xs tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase">
               Sort
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="cursor-pointer rounded-md border border-zinc-200 bg-white px-3 py-2.5 text-sm tracking-normal text-zinc-900 normal-case transition-colors hover:border-zinc-400 focus:border-zinc-900 focus:outline-none"
+                className="cursor-pointer rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3 py-2.5 text-sm tracking-normal text-zinc-900 dark:text-zinc-100 normal-case transition-colors hover:border-zinc-400 dark:hover:border-zinc-600 focus:border-zinc-900 dark:focus:border-white focus:outline-none"
               >
                 {SORT_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -118,18 +118,23 @@ export default function ShopPage() {
 
         {isEmpty ? (
           /* Designed empty state (Accessories today) */
-          <div className="mt-14 flex flex-col items-center rounded-2xl border border-zinc-200 bg-zinc-50 px-6 py-20 text-center">
-            <PackageIcon size={44} weight="light" className="text-zinc-400" aria-hidden="true" />
-            <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900">
+          <div className="mt-14 flex flex-col items-center rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-6 py-20 text-center">
+            <PackageIcon
+              size={44}
+              weight="light"
+              className="text-zinc-400 dark:text-zinc-500"
+              aria-hidden="true"
+            />
+            <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
               Dropping soon
             </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600">
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
               Studio-tested microfibres, applicators and brushes are in final testing. Join the
               waitlist and we will tell you the moment they land.
             </p>
             <Link
               to="/contact"
-              className="mt-8 bg-zinc-900 px-7 py-3.5 text-xs font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
+              className="mt-8 bg-zinc-900 dark:bg-white px-7 py-3.5 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
             >
               Join the waitlist
             </Link>

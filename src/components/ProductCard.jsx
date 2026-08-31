@@ -26,7 +26,7 @@ export default function ProductCard({ product }) {
           />
         </Link>
 
-        <span className="absolute top-3 left-3 rounded-full bg-zinc-900 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-white uppercase">
+        <span className="absolute top-3 left-3 rounded-full bg-zinc-900 dark:bg-white px-2.5 py-1 text-[11px] font-semibold tracking-wider text-white dark:text-zinc-900 uppercase">
           {product.badge}
         </span>
 
@@ -37,8 +37,10 @@ export default function ProductCard({ product }) {
           }
           aria-pressed={wished}
           onClick={() => toggle(product.id)}
-          className={`absolute top-3 right-3 cursor-pointer rounded-full bg-white/90 p-2.5 backdrop-blur-sm transition-colors ${
-            wished ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'
+          className={`absolute top-3 right-3 cursor-pointer rounded-full bg-white/90 dark:bg-zinc-900/90 p-2.5 backdrop-blur-sm transition-colors ${
+            wished
+              ? 'text-zinc-900 dark:text-zinc-100'
+              : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
           }`}
         >
           <HeartIcon size={16} weight={wished ? 'fill' : 'light'} />
@@ -49,7 +51,7 @@ export default function ProductCard({ product }) {
           <button
             type="button"
             onClick={() => addItem(product.id)}
-            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-zinc-900 py-3 text-[11px] font-semibold tracking-[0.2em] text-white uppercase transition-colors hover:bg-zinc-800"
+            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-zinc-900 dark:bg-white py-3 text-[11px] font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
           >
             <ShoppingCartIcon size={14} weight="regular" />
             Add to cart
@@ -59,9 +61,14 @@ export default function ProductCard({ product }) {
 
       {/* Meta */}
       <div className="mt-5 flex flex-col gap-1.5">
-        <p className="text-[11px] tracking-[0.15em] text-zinc-500 uppercase">{product.category}</p>
-        <h3 className="text-sm font-medium text-zinc-900">
-          <Link to={`/product/${product.id}`} className="transition-colors hover:text-zinc-600">
+        <p className="text-[11px] tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase">
+          {product.category}
+        </p>
+        <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+          <Link
+            to={`/product/${product.id}`}
+            className="transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
+          >
             {product.name}
           </Link>
         </h3>
@@ -70,16 +77,25 @@ export default function ProductCard({ product }) {
           <div className="mt-0.5 flex items-center gap-1.5">
             <span className="flex gap-0.5" aria-label={`Rated ${rating.stars} out of 5 stars`}>
               {Array.from({ length: rating.stars }).map((_, i) => (
-                <StarIcon key={i} size={12} weight="fill" className="text-zinc-900" />
+                <StarIcon
+                  key={i}
+                  size={12}
+                  weight="fill"
+                  className="text-zinc-900 dark:text-zinc-100"
+                />
               ))}
             </span>
-            <span className="text-xs text-zinc-500">({rating.reviews})</span>
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">({rating.reviews})</span>
           </div>
         )}
 
         <p className="mt-1 flex items-baseline gap-2.5 text-sm">
-          <span className="text-zinc-500 line-through">{formatPrice(product.compareAt)}</span>
-          <span className="font-semibold text-zinc-900">{formatPrice(product.price)}</span>
+          <span className="text-zinc-500 dark:text-zinc-400 line-through">
+            {formatPrice(product.compareAt)}
+          </span>
+          <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+            {formatPrice(product.price)}
+          </span>
         </p>
       </div>
     </article>
