@@ -137,8 +137,23 @@ export default function ProductPage() {
     `${product.imageLabel} (in use)`,
   ]
 
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description.slice(0, 200),
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'INR',
+      price: variant.price,
+      availability: 'https://schema.org/InStock',
+    },
+  }
+
   return (
     <>
+      <script type="application/ld+json">{JSON.stringify(productJsonLd)}</script>
+
       <PageHeader
         breadcrumb={[
           { label: 'Shop', to: '/shop' },

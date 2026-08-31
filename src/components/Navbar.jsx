@@ -6,12 +6,27 @@ import { ListIcon } from '@phosphor-icons/react/dist/csr/List'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
-import { navLinks } from '../data/catalog'
+import { categoryRoutes } from '../data/catalog'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
+import MegaMenu from './MegaMenu'
 
 const linkClasses =
   'relative text-[11px] font-medium tracking-[0.15em] text-zinc-500 uppercase transition-colors hover:text-zinc-900 after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-zinc-900 after:transition-all after:duration-300 hover:after:w-full'
+
+const desktopLinks = [
+  { label: 'Kits', to: '/kits' },
+  { label: 'Lab Notes', to: '/notes' },
+  { label: 'About', to: '/about' },
+]
+
+const mobileLinks = [
+  { label: 'Shop All', to: '/shop' },
+  { label: 'Kits & Bundles', to: '/kits' },
+  { label: 'Lab Notes', to: '/notes' },
+  { label: 'About Us', to: '/about' },
+  { label: 'Wishlist', to: '/wishlist' },
+]
 
 /**
  * Sticky navigation — transparent over the hero, fades to solid white
@@ -53,9 +68,15 @@ export default function Navbar({ onOpenSearch }) {
           KMKIRAMYKI
         </Link>
 
-        {/* Desktop links */}
-        <ul className="hidden items-center gap-7 xl:gap-9 lg:flex">
-          {navLinks.map((link) => (
+        {/* Desktop links — Shop opens the mega menu */}
+        <ul className="hidden items-center gap-9 lg:flex">
+          <li className="group relative">
+            <Link to="/shop" className={linkClasses} aria-haspopup="true">
+              Shop
+            </Link>
+            <MegaMenu />
+          </li>
+          {desktopLinks.map((link) => (
             <li key={link.label}>
               <Link to={link.to} className={linkClasses}>
                 {link.label}
@@ -132,7 +153,24 @@ export default function Navbar({ onOpenSearch }) {
             className="overflow-hidden border-b border-zinc-200 bg-white lg:hidden"
           >
             <ul className="space-y-1 px-6 py-6">
-              {navLinks.map((link) => (
+              <li>
+                <p className="pt-2 pb-1 text-[11px] font-semibold tracking-[0.25em] text-zinc-400 uppercase">
+                  Shop
+                </p>
+                <ul>
+                  {categoryRoutes.map((category) => (
+                    <li key={category.slug}>
+                      <Link
+                        to={`/shop/${category.slug}`}
+                        className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-600 uppercase transition-colors hover:text-zinc-900"
+                      >
+                        {category.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+              {mobileLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     to={link.to}

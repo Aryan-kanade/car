@@ -400,6 +400,7 @@ export const footerColumns = [
     heading: 'Company',
     links: [
       { label: 'About Us', to: '/about' },
+      { label: 'Lab Notes', to: '/notes' },
       { label: 'Accessibility', to: '/accessibility' },
       { label: 'Terms & Conditions', to: '/terms' },
       { label: 'Privacy Policy', to: '/privacy' },

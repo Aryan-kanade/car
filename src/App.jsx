@@ -18,6 +18,8 @@ const ContactPage = lazy(() => import('./pages/ContactPage'))
 const AboutPage = lazy(() => import('./pages/AboutPage'))
 const ContentPage = lazy(() => import('./pages/ContentPage'))
 const SitemapPage = lazy(() => import('./pages/SitemapPage'))
+const NotesIndexPage = lazy(() => import('./pages/NotesIndexPage'))
+const NotePage = lazy(() => import('./pages/NotePage'))
 const WishlistPage = lazy(() => import('./pages/WishlistPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
@@ -41,6 +43,8 @@ export default function App() {
                 <Route path="order-lookup" element={<OrderLookupPage />} />
                 <Route path="contact" element={<ContactPage />} />
                 <Route path="about" element={<AboutPage />} />
+                <Route path="notes" element={<NotesIndexPage />} />
+                <Route path="notes/:slug" element={<NotePage />} />
                 <Route path="shipping" element={<ContentPage slug="shipping" />} />
                 <Route path="returns" element={<ContentPage slug="returns" />} />
                 <Route path="accessibility" element={<ContentPage slug="accessibility" />} />

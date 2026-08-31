@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import PageHeader from '../components/PageHeader'
 import { categoryRoutes, products } from '../data/catalog'
+import { notes } from '../data/notes'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 const groups = [
@@ -31,6 +32,8 @@ const groups = [
     heading: 'Company',
     links: [
       { label: 'About Us', to: '/about' },
+      { label: 'Lab Notes', to: '/notes' },
+      ...notes.map((note) => ({ label: `Guide: ${note.title}`, to: `/notes/${note.slug}` })),
       { label: 'Accessibility', to: '/accessibility' },
       { label: 'Terms & Conditions', to: '/terms' },
       { label: 'Privacy Policy', to: '/privacy' },

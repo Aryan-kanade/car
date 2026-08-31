@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Demo sitemap: swap the domain for the production host at deploy time. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://kmkiramyki.example/</loc><priority>1.0</priority></url>
+  <url><loc>https://kmkiramyki.example/shop</loc><priority>0.9</priority></url>
+  <url><loc>https://kmkiramyki.example/shop/clean-protect</loc><priority>0.8</priority></url>
+  <url><loc>https://kmkiramyki.example/shop/wheel-tire</loc><priority>0.8</priority></url>
+  <url><loc>https://kmkiramyki.example/shop/interior</loc><priority>0.8</priority></url>
+  <url><loc>https://kmkiramyki.example/shop/glass</loc><priority>0.8</priority></url>
+  <url><loc>https://kmkiramyki.example/shop/accessories</loc><priority>0.6</priority></url>
+  <url><loc>https://kmkiramyki.example/kits</loc><priority>0.8</priority></url>
+  <url><loc>https://kmkiramyki.example/product/complete-detail-kit</loc><priority>0.9</priority></url>
+  <url><loc>https://kmkiramyki.example/product/essentials-wash-kit</loc><priority>0.9</priority></url>
+  <url><loc>https://kmkiramyki.example/product/dashboard-polish</loc><priority>0.7</priority></url>
+  <url><loc>https://kmkiramyki.example/product/pre-wash-shampoo</loc><priority>0.7</priority></url>
+  <url><loc>https://kmkiramyki.example/product/degreaser</loc><priority>0.7</priority></url>
+  <url><loc>https://kmkiramyki.example/product/washberry-shampoo</loc><priority>0.7</priority></url>
+  <url><loc>https://kmkiramyki.example/product/wax-shampoo</loc><priority>0.7</priority></url>
+  <url><loc>https://kmkiramyki.example/product/tyre-polish</loc><priority>0.7</priority></url>
+  <url><loc>https://kmkiramyki.example/product/wheel-cleaner</loc><priority>0.7</priority></url>
+  <url><loc>https://kmkiramyki.example/product/glass-cleaner</loc><priority>0.7</priority></url>
+  <url><loc>https://kmkiramyki.example/notes</loc><priority>0.7</priority></url>
+  <url><loc>https://kmkiramyki.example/notes/two-bucket-wash-method</loc><priority>0.6</priority></url>
+  <url><loc>https://kmkiramyki.example/notes/wheel-decontamination-guide</loc><priority>0.6</priority></url>
+  <url><loc>https://kmkiramyki.example/notes/ceramic-coating-prep</loc><priority>0.6</priority></url>
+  <url><loc>https://kmkiramyki.example/about</loc><priority>0.5</priority></url>
+  <url><loc>https://kmkiramyki.example/help</loc><priority>0.5</priority></url>
+  <url><loc>https://kmkiramyki.example/shipping</loc><priority>0.4</priority></url>
+  <url><loc>https://kmkiramyki.example/returns</loc><priority>0.4</priority></url>
+  <url><loc>https://kmkiramyki.example/order-lookup</loc><priority>0.4</priority></url>
+  <url><loc>https://kmkiramyki.example/contact</loc><priority>0.4</priority></url>
+  <url><loc>https://kmkiramyki.example/wishlist</loc><priority>0.3</priority></url>
+  <url><loc>https://kmkiramyki.example/cart</loc><priority>0.3</priority></url>
+  <url><loc>https://kmkiramyki.example/accessibility</loc><priority>0.3</priority></url>
+  <url><loc>https://kmkiramyki.example/terms</loc><priority>0.2</priority></url>
+  <url><loc>https://kmkiramyki.example/privacy</loc><priority>0.2</priority></url>
+</urlset>

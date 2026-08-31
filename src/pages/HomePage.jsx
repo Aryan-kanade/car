@@ -1,5 +1,6 @@
 import Hero from '../components/Hero'
 import CategoryList from '../components/CategoryList'
+import RoutineStrip from '../components/RoutineStrip'
 import BestSellers from '../components/BestSellers'
 import Bundles from '../components/Bundles'
 import Testimonials from '../components/Testimonials'
@@ -17,6 +18,7 @@ export default function HomePage() {
     <>
       <Hero />
       <CategoryList />
+      <RoutineStrip />
       <BestSellers />
       <Bundles />
       <Testimonials />
