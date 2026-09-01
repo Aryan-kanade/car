@@ -13,7 +13,7 @@ export default function MegaMenu() {
   const featured = getProductById(FEATURED_ID)
 
   return (
-    <div className="invisible absolute top-full left-0 z-50 w-[46rem] translate-y-2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+    <div className="absolute top-full left-0 z-50 hidden w-[46rem] pt-3 group-hover:block group-focus-within:block">
       <div className="grid grid-cols-[1.25fr_1fr] overflow-hidden rounded-b-2xl bg-white dark:bg-zinc-950 shadow-2xl">
         {/* Categories */}
         <nav aria-label="Shop categories" className="p-6">
