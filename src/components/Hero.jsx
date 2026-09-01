@@ -3,7 +3,6 @@ import { Link } from 'react-router'
 import { m, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import Placeholder from './Placeholder'
-import FoamWipe from './FoamWipe'
 import Magnetic from './Magnetic'
 
 const fadeUp = {
@@ -33,16 +32,14 @@ export default function Hero() {
     >
       {/* Background image placeholder + soft white gradients (parallax drift) */}
       <m.div style={reduceMotion ? undefined : { y: bgY }} className="absolute inset-0">
-        <FoamWipe className="absolute inset-0">
-          <Placeholder
-            background
-            label="Dramatic, low-light wide shot of a freshly detailed luxury car"
-            iconSize={44}
-            className="h-full w-full"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/75 to-white/30 dark:from-zinc-950 dark:via-zinc-950/75 dark:to-zinc-950/30" />
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/60 dark:from-zinc-950 dark:via-transparent dark:to-zinc-950/60" />
-        </FoamWipe>
+        <Placeholder
+          background
+          label="Dramatic, low-light wide shot of a freshly detailed luxury car"
+          iconSize={44}
+          className="h-full w-full"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/75 to-white/30 dark:from-zinc-950 dark:via-zinc-950/75 dark:to-zinc-950/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/60 dark:from-zinc-950 dark:via-transparent dark:to-zinc-950/60" />
       </m.div>
 
       {/* Copy */}
