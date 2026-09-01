@@ -3,6 +3,7 @@ import ValueProps from '../components/ValueProps'
 import CategoryTiles from '../components/CategoryTiles'
 import FeaturedBanner from '../components/FeaturedBanner'
 import StoryStrip from '../components/StoryStrip'
+import DifferenceSection from '../components/DifferenceSection'
 import CategoryList from '../components/CategoryList'
 import RoutineStrip from '../components/RoutineStrip'
 import BestSellers from '../components/BestSellers'
@@ -24,6 +25,7 @@ export default function HomePage() {
       <CategoryTiles />
       <FeaturedBanner />
       <StoryStrip />
+      <DifferenceSection />
       <CategoryList />
       <RoutineStrip />
       <BestSellers />
