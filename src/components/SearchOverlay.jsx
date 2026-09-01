@@ -60,7 +60,7 @@ export default function SearchOverlay({ open, onClose }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="mx-auto mt-20 w-[calc(100%-3rem)] max-w-2xl overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-2xl md:mt-28"
+            className="mx-auto mt-20 w-[calc(100%-3rem)] max-w-2xl overflow-hidden rounded-2xl bg-white dark:bg-zinc-950 shadow-2xl md:mt-28"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Input row */}

@@ -7,7 +7,7 @@ import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 
 const linkClasses = ({ isActive }) =>
-  `flex flex-1 flex-col items-center gap-1 py-2.5 text-[10px] font-medium tracking-[0.1em] uppercase transition-colors ${
+  `flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] font-medium tracking-[0.1em] uppercase transition-colors ${
     isActive
       ? 'text-zinc-900 dark:text-white'
       : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
@@ -33,7 +33,7 @@ export default function BottomNav({ onOpenSearch }) {
       <button
         type="button"
         onClick={onOpenSearch}
-        className="flex flex-1 cursor-pointer flex-col items-center gap-1 py-2.5 text-[10px] font-medium tracking-[0.1em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+        className="flex flex-1 cursor-pointer flex-col items-center gap-1 py-2.5 text-[11px] font-medium tracking-[0.1em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
       >
         <MagnifyingGlassIcon size={22} weight="light" aria-hidden="true" />
         Search
@@ -52,7 +52,7 @@ export default function BottomNav({ onOpenSearch }) {
       <button
         type="button"
         onClick={openDrawer}
-        className="flex flex-1 cursor-pointer flex-col items-center gap-1 py-2.5 text-[10px] font-medium tracking-[0.1em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+        className="flex flex-1 cursor-pointer flex-col items-center gap-1 py-2.5 text-[11px] font-medium tracking-[0.1em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
       >
         <span className="relative">
           <ShoppingCartIcon size={22} weight="light" aria-hidden="true" />

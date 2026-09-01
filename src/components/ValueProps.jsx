@@ -32,9 +32,9 @@ export default function ValueProps() {
                 className="text-zinc-900 dark:text-zinc-100"
                 aria-hidden="true"
               />
-              <h3 className="mt-6 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase">
+              <h2 className="mt-6 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase">
                 {prop.title}
-              </h3>
+              </h2>
               <p className="mt-2.5 text-sm text-zinc-500 dark:text-zinc-400">{prop.subtext}</p>
             </m.div>
           )

@@ -14,7 +14,7 @@ export default function MegaMenu() {
 
   return (
     <div className="invisible absolute top-full left-0 z-50 w-[46rem] translate-y-2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-      <div className="grid grid-cols-[1.25fr_1fr] overflow-hidden rounded-b-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-2xl">
+      <div className="grid grid-cols-[1.25fr_1fr] overflow-hidden rounded-b-2xl bg-white dark:bg-zinc-950 shadow-2xl">
         {/* Categories */}
         <nav aria-label="Shop categories" className="p-6">
           <p className="px-3 text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
@@ -60,7 +60,7 @@ export default function MegaMenu() {
 
         {/* Featured kit */}
         {featured && (
-          <div className="border-l border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-6">
+          <div className="border-l border-zinc-200 dark:border-zinc-800 p-6">
             <p className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
               Featured kit
             </p>
