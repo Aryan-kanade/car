@@ -92,11 +92,8 @@ export default function BeforeAfterSlider({
         </span>
       </div>
 
-      {/* Accessible keyboard control (mirrors the drag value) */}
-      <label
-        className="absolute inset-x-0 bottom-0 z-10 flex cursor-default items-center gap-3 bg-gradient-to-t from-zinc-950/70 to-transparent px-5 pb-4 pt-10"
-        onPointerDown={(event) => event.stopPropagation()}
-      >
+      {/* Accessible keyboard control (invisible; drag is the primary interaction) */}
+      <label className="sr-only" onPointerDown={(event) => event.stopPropagation()}>
         <span className="sr-only">Reveal the after state</span>
         <input
           type="range"
