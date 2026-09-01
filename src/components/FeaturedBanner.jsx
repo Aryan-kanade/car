@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import { m } from 'motion/react'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import Placeholder from './Placeholder'
+import ScrubManifesto from './ScrubManifesto'
 import { formatPrice, getProductById } from '../data/catalog'
 
 const FEATURED_ID = 'complete-detail-kit'
@@ -29,10 +30,7 @@ export default function FeaturedBanner() {
             <br />
             One box.
           </h2>
-          <p className="max-w-md text-sm leading-relaxed text-zinc-400 dark:text-zinc-600 md:text-base">
-            Eight formulas, every applicator, one session — pre-wash to tyre dressing. The PRO kit
-            replaces an entire shelf.
-          </p>
+          <ScrubManifesto className="text-zinc-400 dark:text-zinc-600" />
           <div className="flex flex-wrap items-baseline gap-3">
             <span className="text-2xl font-bold">{formatPrice(kit.price)}</span>
             <span className="text-sm text-zinc-400 dark:text-zinc-500 line-through">

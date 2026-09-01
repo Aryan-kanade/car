@@ -13,6 +13,7 @@ import Bundles from '../components/Bundles'
 import Testimonials from '../components/Testimonials'
 import ProductCard from '../components/ProductCard'
 import { recommendedForYou } from '../utils/recommend'
+import VelocityMarquee from '../components/VelocityMarquee'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 /** The storefront landing page. */
@@ -33,6 +34,7 @@ export default function HomePage() {
       </section>
       <StoryStrip />
       <DifferenceSection />
+      <VelocityMarquee />
       <CategoryList />
       <RoutineStrip />
       <BestSellers />

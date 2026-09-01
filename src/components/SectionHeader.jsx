@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import { m } from 'motion/react'
+import SplitText from './SplitText'
 
 /** Shared section header: display-font title, muted subtext and a "View All →" link. */
 export default function SectionHeader({ title, subtext, to = '/shop' }) {
@@ -14,7 +15,7 @@ export default function SectionHeader({ title, subtext, to = '/shop' }) {
     >
       <div>
         <h2 className="font-display text-2xl font-bold tracking-[0.12em] uppercase text-zinc-900 dark:text-zinc-100 md:text-4xl">
-          {title}
+          <SplitText text={title} />
         </h2>
         {subtext && (
           <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400 md:text-base">{subtext}</p>

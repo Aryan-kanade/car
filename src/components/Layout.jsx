@@ -12,6 +12,7 @@ import StudioAssistant from './StudioAssistant'
 import ErrorBoundary from './ErrorBoundary'
 import { useCart } from '../context/CartContext'
 import { prefetchRoutes } from '../utils/prefetch'
+import { useSmoothScroll } from '../hooks/useSmoothScroll'
 
 /** Resets scroll on every route change so new pages open at the top. */
 function ScrollToTop() {
@@ -27,6 +28,7 @@ function ScrollToTop() {
 /** Shared chrome: fixed navbar, routed page content, footer, overlays. */
 export default function Layout() {
   const [searchOpen, setSearchOpen] = useState(false)
+  useSmoothScroll()
   const [paletteOpen, setPaletteOpen] = useState(false)
   const { announcement } = useCart()
 

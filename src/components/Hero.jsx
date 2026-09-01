@@ -4,6 +4,7 @@ import { m, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import Placeholder from './Placeholder'
 import FoamWipe from './FoamWipe'
+import Magnetic from './Magnetic'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -81,17 +82,19 @@ export default function Hero() {
           animate="visible"
           className="mt-10 flex flex-col gap-4 sm:flex-row"
         >
-          <Link
-            to="/shop"
-            className="group inline-flex items-center justify-center gap-3 bg-zinc-900 dark:bg-white px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
-          >
-            Shop Now
-            <ArrowRightIcon
-              size={14}
-              weight="light"
-              className="transition-transform duration-300 group-hover:translate-x-1"
-            />
-          </Link>
+          <Magnetic>
+            <Link
+              to="/shop"
+              className="group inline-flex items-center justify-center gap-3 bg-zinc-900 dark:bg-white px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
+            >
+              Shop Now
+              <ArrowRightIcon
+                size={14}
+                weight="light"
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+          </Magnetic>
           <Link
             to="/kits"
             className="inline-flex items-center justify-center border border-zinc-300 dark:border-zinc-700 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
