@@ -1,48 +1,38 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
-import { AnimatePresence, m } from 'motion/react'
 import { MinusIcon } from '@phosphor-icons/react/dist/csr/Minus'
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus'
 import PageHeader from '../components/PageHeader'
 import { faqs } from '../data/content'
 import { usePageMeta } from '../hooks/usePageMeta'
 
+/**
+ * Native <details> accordion — zero JS per item, height-animated with
+ * ::details-content (Baseline Sept 2025) where supported.
+ */
 function AccordionItem({ q, a, index }) {
-  const [open, setOpen] = useState(index === 0)
-
   return (
-    <div className="border-t border-zinc-200 dark:border-zinc-800 last:border-b">
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-        aria-controls={`faq-answer-${index}`}
-        className="flex w-full cursor-pointer items-center justify-between gap-6 py-6 text-left"
-      >
+    <details
+      open={index === 0}
+      className="faq-item group border-t border-zinc-200 dark:border-zinc-800 last:border-b"
+    >
+      <summary className="flex w-full cursor-pointer list-none items-center justify-between gap-6 py-6 text-left [&::-webkit-details-marker]:hidden">
         <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100 md:text-base">
           {q}
         </span>
         <span className="shrink-0 rounded-full border border-zinc-200 dark:border-zinc-800 p-2 text-zinc-600 dark:text-zinc-400">
-          {open ? <MinusIcon size={14} weight="light" /> : <PlusIcon size={14} weight="light" />}
+          <span className="block group-open:hidden">
+            <PlusIcon size={14} weight="light" />
+          </span>
+          <span className="hidden group-open:block">
+            <MinusIcon size={14} weight="light" />
+          </span>
         </span>
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <m.div
-            id={`faq-answer-${index}`}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="overflow-hidden"
-          >
-            <p className="max-w-[70ch] pb-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              {a}
-            </p>
-          </m.div>
-        )}
-      </AnimatePresence>
-    </div>
+      </summary>
+      <p className="max-w-[70ch] pb-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+        {a}
+      </p>
+    </details>
   )
 }
 

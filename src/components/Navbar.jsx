@@ -103,6 +103,7 @@ export default function Navbar({ onOpenSearch }) {
             <MagnifyingGlassIcon size={20} weight="light" />
           </button>
           <Link
+            viewTransition
             to="/wishlist"
             aria-label={`Wishlist, ${wishlistCount} items`}
             className="relative p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"

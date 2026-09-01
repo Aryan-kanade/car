@@ -257,6 +257,12 @@ export default function CheckoutPage() {
                   className="transition-transform duration-300 group-hover:translate-x-1"
                 />
               </Link>
+              <a
+                href={`upi://pay?pa=kmkiramyki@upi&pn=KMKIRAMYKI&am=${(placedOrder.total / 100).toFixed(2)}&cu=INR&tn=${encodeURIComponent(placedOrder.number)}`}
+                className="inline-flex items-center justify-center border border-zinc-300 dark:border-zinc-700 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
+              >
+                Pay via UPI (demo)
+              </a>
               <Link
                 to="/shop"
                 className="inline-flex items-center justify-center border border-zinc-300 dark:border-zinc-700 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { m } from 'motion/react'
 import { SealCheckIcon } from '@phosphor-icons/react/dist/csr/SealCheck'
 import { StarIcon } from '@phosphor-icons/react/dist/csr/Star'
+import Placeholder from './Placeholder'
 import { useProductReviews } from '../hooks/useProductReviews'
 
 function Stars({ value = 5, size = 12 }) {
@@ -227,6 +228,30 @@ export default function ReviewSection({ productId }) {
               </div>
               <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                 {review.text}
+
+                {review.photos?.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    {review.photos.map((label) => (
+                      <Placeholder
+                        key={label}
+                        label={label}
+                        iconSize={16}
+                        className="h-20 w-28 rounded-md"
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {review.response && (
+                  <div className="mt-4 max-w-[70ch] rounded-lg border-l-2 border-zinc-900 dark:border-white bg-zinc-50 dark:bg-zinc-900 px-5 py-4">
+                    <p className="text-[11px] font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase">
+                      {review.response.author}
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                      {review.response.text}
+                    </p>
+                  </div>
+                )}
               </p>
             </m.li>
           ))}

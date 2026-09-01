@@ -9,6 +9,11 @@ const SEEDS = {
       verified: true,
       stars: 5,
       text: 'Bought the PRO kit two months ago and it replaced my entire shelf. The dilution cards alone are worth it — every product tells you exactly how to use it.',
+      photos: ['Customer photo: kit laid out on a garage workbench'],
+      response: {
+        author: 'KMKIRAMYKI Studio',
+        text: 'Thank you, Rahul! The dilution cards were designed exactly for this — no guessing at the bucket. Happy detailing.',
+      },
       at: Date.parse('2026-07-14'),
     },
   ],

@@ -39,6 +39,7 @@ export default function MegaMenu() {
           </ul>
           <div className="mt-3 flex items-center justify-between px-3">
             <Link
+              viewTransition
               to="/shop"
               className="group/all flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
             >
@@ -51,18 +52,21 @@ export default function MegaMenu() {
             </Link>
             <span className="flex items-center gap-4">
               <Link
+                viewTransition
                 to="/quiz"
                 className="text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 Find your routine
               </Link>
               <Link
+                viewTransition
                 to="/builder"
                 className="text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 Build your kit
               </Link>
               <Link
+                viewTransition
                 to="/calculator"
                 className="text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
               >

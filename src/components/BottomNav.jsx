@@ -26,7 +26,7 @@ export default function BottomNav({ onOpenSearch }) {
       aria-label="Primary"
       className="fixed inset-x-0 bottom-0 z-40 flex border-t border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md lg:hidden"
     >
-      <NavLink to="/" end className={linkClasses}>
+      <NavLink viewTransition to="/" end className={linkClasses}>
         <HouseIcon size={22} weight="light" aria-hidden="true" />
         Home
       </NavLink>
@@ -38,7 +38,7 @@ export default function BottomNav({ onOpenSearch }) {
         <MagnifyingGlassIcon size={22} weight="light" aria-hidden="true" />
         Search
       </button>
-      <NavLink to="/wishlist" className={linkClasses}>
+      <NavLink viewTransition to="/wishlist" className={linkClasses}>
         <span className="relative">
           <HeartIcon size={22} weight="light" aria-hidden="true" />
           {wishlistCount > 0 && (

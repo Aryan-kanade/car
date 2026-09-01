@@ -1,6 +1,5 @@
 import { Suspense, useEffect, useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router'
-import { m } from 'motion/react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import SearchOverlay from './SearchOverlay'
@@ -39,7 +38,6 @@ function RouteFallback() {
 
 /** Shared chrome: fixed navbar, routed page content, footer, overlays. */
 export default function Layout() {
-  const { pathname } = useLocation()
   const [searchOpen, setSearchOpen] = useState(false)
   const { announcement } = useCart()
 
@@ -69,18 +67,12 @@ export default function Layout() {
       </header>
 
       <main id="main-content" className="flex-1 pt-16 md:pt-20">
-        <m.div
-          key={pathname}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-        >
-          <ErrorBoundary>
-            <Suspense fallback={<RouteFallback />}>
-              <Outlet />
-            </Suspense>
-          </ErrorBoundary>
-        </m.div>
+        {/* Native View Transitions drive route fades (viewTransition on Links) */}
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </main>
 
       <Footer />
