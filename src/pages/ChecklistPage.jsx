@@ -1,4 +1,4 @@
-import { PrintTheme } from '../components/PrintTheme'
+import PrintTheme from '../components/PrintTheme'
 
 const ROUTINES = {
   maintenance: {
