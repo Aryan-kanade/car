@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { AnimatePresence, m } from 'motion/react'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
+import { MicrophoneIcon } from '@phosphor-icons/react/dist/csr/Microphone'
 import { formatPrice } from '../data/catalog'
 import { searchProducts } from '../utils/search'
 import { useFocusTrap } from '../hooks/useFocusTrap'
@@ -13,6 +14,7 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
  */
 export default function SearchOverlay({ open, onClose }) {
   const [query, setQuery] = useState('')
+  const [listening, setListening] = useState(false)
   const [recent, setRecent] = useState(() => {
     try {
       const raw = window.localStorage.getItem('kmkiramyki-recent-searches')
@@ -43,6 +45,21 @@ export default function SearchOverlay({ open, onClose }) {
   }, [open, onClose])
 
   const results = useMemo(() => searchProducts(query, 8), [query])
+
+  const startVoice = () => {
+    const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition
+    if (!SpeechRecognition) return
+    const recognition = new SpeechRecognition()
+    recognition.lang = 'en-IN'
+    recognition.interimResults = false
+    recognition.onstart = () => setListening(true)
+    recognition.onend = () => setListening(false)
+    recognition.onresult = (event) => {
+      const transcript = event.results?.[0]?.[0]?.transcript ?? ''
+      if (transcript) setQuery(transcript)
+    }
+    recognition.start()
+  }
 
   const rememberSearch = (term) => {
     const q = term.trim().toLowerCase()
@@ -97,6 +114,22 @@ export default function SearchOverlay({ open, onClose }) {
                 aria-label="Search products"
                 className="w-full bg-transparent py-5 text-base text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none"
               />
+              {typeof window !== 'undefined' &&
+                (window.SpeechRecognition ?? window.webkitSpeechRecognition) && (
+                  <button
+                    type="button"
+                    aria-label={listening ? 'Listening — speak now' : 'Search by voice'}
+                    aria-pressed={listening}
+                    onClick={startVoice}
+                    className={`cursor-pointer p-2 transition-colors ${
+                      listening
+                        ? 'text-zinc-900 dark:text-white animate-pulse'
+                        : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+                    }`}
+                  >
+                    <MicrophoneIcon size={18} weight={listening ? 'fill' : 'light'} />
+                  </button>
+                )}
               <button
                 type="button"
                 aria-label="Close search"
