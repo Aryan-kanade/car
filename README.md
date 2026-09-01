@@ -52,6 +52,21 @@ src/
 - **A11y**: focus traps, skip link, aria-live cart announcements, 44px targets
 - **SEO**: per-page titles/meta, JSON-LD (`Product`, `Article`), `sitemap.xml`, `robots.txt`
 
+## Research tooling (vendored skills)
+
+Two research skills live in `.skills/` for on-demand intelligence:
+
+```bash
+# Fresh last-30-days community research (Reddit, X, HN, GitHub — cited briefs)
+python .skills/last30days/scripts/last30days.py "car detailing ecommerce trends"
+
+# ui-ux-pro-max: searchable UX/style guideline corpus + design system generation
+python .skills/ui-ux-pro-max/scripts/search.py "premium ecommerce" --design-system
+```
+
+The generated design system lives in `design-system/`. `impeccable` audits run via
+`npx impeccable detect http://localhost:5173/<route>`.
+
 ## Design governance
 
 The project keeps an **impeccable-clean** audit (`npx impeccable detect <url>`) and vendors
