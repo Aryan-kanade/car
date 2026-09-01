@@ -12,6 +12,15 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
  */
 export default function SearchOverlay({ open, onClose }) {
   const [query, setQuery] = useState('')
+  const [recent, setRecent] = useState(() => {
+    try {
+      const raw = window.localStorage.getItem('kmkiramyki-recent-searches')
+      const parsed = raw ? JSON.parse(raw) : []
+      return Array.isArray(parsed) ? parsed.slice(0, 5) : []
+    } catch {
+      return []
+    }
+  })
   const inputRef = useRef(null)
   const panelRef = useRef(null)
 
@@ -39,6 +48,20 @@ export default function SearchOverlay({ open, onClose }) {
       .filter((p) => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q))
       .slice(0, 8)
   }, [query])
+
+  const rememberSearch = (term) => {
+    const q = term.trim().toLowerCase()
+    if (!q) return
+    setRecent((current) => {
+      const next = [q, ...current.filter((item) => item !== q)].slice(0, 5)
+      try {
+        window.localStorage.setItem('kmkiramyki-recent-searches', JSON.stringify(next))
+      } catch {
+        /* storage unavailable */
+      }
+      return next
+    })
+  }
 
   return (
     <AnimatePresence>
@@ -90,6 +113,23 @@ export default function SearchOverlay({ open, onClose }) {
             </div>
 
             {/* Results */}
+            {!query.trim() && recent.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 px-5 py-3">
+                <span className="text-[11px] font-medium tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
+                  Recent
+                </span>
+                {recent.map((term) => (
+                  <button
+                    key={term}
+                    type="button"
+                    onClick={() => setQuery(term)}
+                    className="cursor-pointer rounded-full border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-xs text-zinc-600 dark:text-zinc-300 capitalize transition-colors hover:border-zinc-900 dark:hover:border-white"
+                  >
+                    {term}
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="max-h-[55vh] overflow-y-auto p-2">
               <p
                 aria-live="polite"
@@ -118,7 +158,10 @@ export default function SearchOverlay({ open, onClose }) {
                     <li key={product.id}>
                       <Link
                         to={`/product/${product.id}`}
-                        onClick={onClose}
+                        onClick={() => {
+                          rememberSearch(query)
+                          onClose()
+                        }}
                         className="flex items-center justify-between gap-4 rounded-lg px-3 py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900"
                       >
                         <span>

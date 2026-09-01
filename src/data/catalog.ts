@@ -649,6 +649,7 @@ export const footerColumns = [
       { label: 'Shipping & Delivery', to: '/shipping' },
       { label: 'Returns & Exchanges', to: '/returns' },
       { label: 'Order Lookup', to: '/order-lookup' },
+      { label: 'Order History', to: '/orders' },
       { label: 'Contact Us', to: '/contact' },
     ],
   },

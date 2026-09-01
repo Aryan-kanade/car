@@ -21,6 +21,14 @@ function setMeta(attribute, key, content) {
  */
 export function usePageMeta(title, description = DEFAULT_DESCRIPTION) {
   useEffect(() => {
+    // Canonical URL for the current route (strip hash/query)
+    let canonical = document.querySelector('link[rel="canonical"]')
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.setAttribute('rel', 'canonical')
+      document.head.appendChild(canonical)
+    }
+    canonical.setAttribute('href', window.location.origin + window.location.pathname)
     document.title = title ? `${title} — ${SITE_NAME}` : DEFAULT_TITLE
     setMeta('name', 'description', description)
     setMeta('property', 'og:title', document.title)

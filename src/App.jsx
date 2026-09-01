@@ -25,6 +25,7 @@ const CalculatorPage = lazy(() => import('./pages/CalculatorPage'))
 const BuilderPage = lazy(() => import('./pages/BuilderPage'))
 const QuizPage = lazy(() => import('./pages/QuizPage'))
 const DesignSystemPage = lazy(() => import('./pages/DesignSystemPage'))
+const OrdersPage = lazy(() => import('./pages/OrdersPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 export default function App() {
@@ -49,6 +50,7 @@ export default function App() {
                   <Route path="calculator" element={<CalculatorPage />} />
                   <Route path="help" element={<FaqPage />} />
                   <Route path="order-lookup" element={<OrderLookupPage />} />
+                  <Route path="orders" element={<OrdersPage />} />
                   <Route path="contact" element={<ContactPage />} />
                   <Route path="about" element={<AboutPage />} />
                   <Route path="notes" element={<NotesIndexPage />} />

@@ -8,12 +8,13 @@ checkout and order lookup — plus a light/dark theme system and an on-brand con
 ## Stack
 
 - **React 19 + Vite 8** — SPA with route-level code splitting (`React.lazy`)
-- **React Router 7** — 23 routes (shop, product pages, kits, cart, checkout, blog, legal…)
+- **React Router 7** — 26 routes (shop, PDPs, kits, builder, quiz, calculator, design system, orders, blog, legal, …) (shop, product pages, kits, cart, checkout, blog, legal…)
 - **Tailwind CSS 4** — light/dark theming via a `dark` custom variant + `.dark` class
 - **Phosphor Icons** (`@phosphor-icons/react`, light weight, deep CSR imports)
 - **Framer Motion** — reveals, hero parallax, route transitions, drawer/toast motion
 - **Vitest** — unit tests for pricing, orders and promo logic
-- **Playwright** — E2E smoke of the full purchase loop (search → checkout → lookup)
+- **Playwright** — E2E smoke of the purchase loop **+ axe-core a11y gate (0 violations across 18 routes)**
+- **Lighthouse budgets** — perf ≥ 90, a11y ≥ 95, best-practices ≥ 95, SEO ≥ 95 against the production preview
 
 ## Scripts
 
