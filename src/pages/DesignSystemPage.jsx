@@ -81,7 +81,9 @@ export default function DesignSystemPage() {
                     </span>
                   )}
                 </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">{swatch.hex}</p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 tabular-nums">
+                  {swatch.hex}
+                </p>
               </li>
             ))}
           </ul>
@@ -94,8 +96,8 @@ export default function DesignSystemPage() {
                 key={row.label}
                 className="flex items-baseline justify-between gap-6 border-b border-zinc-200 dark:border-zinc-800 pb-4 last:border-b-0"
               >
-                <span className={`${row.className} max-w-[60ch] text-zinc-900 dark:text-zinc-100`}>
-                  {row.sample} Obsessive by design
+                <span className={`${row.className} max-w-[46ch] text-zinc-900 dark:text-zinc-100`}>
+                  {row.sample} Obsessive
                 </span>
                 <span className="shrink-0 text-xs text-zinc-500 dark:text-zinc-400">
                   {row.label}
@@ -103,7 +105,7 @@ export default function DesignSystemPage() {
               </li>
             ))}
           </ul>
-          <p className="mt-5 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+          <p className="mt-5 max-w-[62ch] text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
             Space Grotesk Variable carries display and headings; Inter Variable carries body, labels
             and UI. Both are self-hosted variable fonts.
           </p>
@@ -214,9 +216,8 @@ export default function DesignSystemPage() {
           </ul>
         </Section>
 
-        <p className="mt-12 text-sm text-zinc-500 dark:text-zinc-400">
-          Quality gates: impeccable 0 findings · axe-core 0 violations in E2E · ESLint + TypeScript
-          strict + 18 unit/component tests + Playwright smoke.{' '}
+        <p className="mt-12 max-w-[58ch] text-sm text-zinc-500 dark:text-zinc-400">
+          Quality gates: impeccable 0 findings, axe 0 violations, tsc strict, 18 tests, E2E.{' '}
           <Link
             to="/sitemap"
             className="underline underline-offset-4 transition-colors hover:text-zinc-900 dark:hover:text-white"
