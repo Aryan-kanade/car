@@ -42,6 +42,18 @@ src/
                           # Calculator, OrderLookup, Contact, About, legal, 404
 ```
 
+## Signature experiences
+
+- **360° bottle viewer** — canvas-drawn, drag-to-rotate product view on every PDP
+- **Guided detailing session** (`/session`) — workout-app style timed stages with technique cues and wash streaks
+- **Shine Score** (`/shine-score`) — 6-question paint assessment, animated gauge, product prescription
+- **Virtual shelf** (`/shelf`) — mark what you own, get routine-gap analysis with one-tap fill
+- **My Garage** (`/garage`) — vehicle profiles with matched routines (a first among detailing brands)
+- **Weather coach** — geolocation + Open-Meteo wash-day forecast
+- **Beading simulator** — untreated vs ceramic-coated rain physics
+- **Foam-wipe hero** — wipe the suds off the hero with pointer
+- **Wash-day checklists** (`/checklist`) — printable per routine
+
 ## Demo features
 
 - **Commerce loop**: cart (localStorage) → checkout → `KMK-XXXXXX` order → lookup by
