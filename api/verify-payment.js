@@ -61,8 +61,9 @@ export default async function handler(req, res) {
   record.razorpayPaymentId = razorpay_payment_id
   record.paidAt = Date.now()
 
-  // Paid → create the shipment. Failures are recorded, not fatal.
-  if (shiprocketConfigured()) {
+  // Paid → create the shipment (studio-pickup orders have no courier).
+  // Failures are recorded, not fatal.
+  if (record.shippingMethod !== 'pickup' && shiprocketConfigured()) {
     record.shiprocket = await createShiprocketOrder(record)
   }
 

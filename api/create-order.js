@@ -3,7 +3,8 @@
 // Validates the cart + customer, recomputes totals from the
 // catalog (client prices are never trusted), persists the order,
 // then either creates a Razorpay order (online) or pushes the
-// shipment straight to Shiprocket (COD).
+// shipment straight to Shiprocket (COD) — studio-pickup orders
+// skip the courier entirely.
 // ─────────────────────────────────────────────────────────────
 
 import { fail, json, readJson } from './_lib/http.js'
@@ -26,7 +27,7 @@ import {
 } from './_lib/orders.js'
 import { LIMITS, rateLimited, tooMany } from './_lib/ratelimit.js'
 import { signLink } from './_lib/links.js'
-import { computeTotals } from '../src/utils/pricing.js'
+import { computeTotals, normalizeShippingMethod } from '../src/utils/pricing.js'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return fail(res, 405, 'Use POST.')
@@ -53,7 +54,11 @@ export default async function handler(req, res) {
     if (cached) return json(res, 200, cached)
   }
 
-  const { ok, errors, customer } = validateCustomer(body.customer)
+  // Delivery: pickup (studio collection) skips the courier entirely
+  const shippingMethod = normalizeShippingMethod(body.shippingMethod)
+  const pickup = shippingMethod === 'pickup'
+
+  const { ok, errors, customer } = validateCustomer(body.customer, { pickup })
   if (!ok)
     return json(res, 422, { error: 'Please fix the highlighted fields.', fieldErrors: errors })
 
@@ -70,7 +75,13 @@ export default async function handler(req, res) {
   }))
   const claimedPoints = Number.isFinite(body.pointsDiscount) ? Math.max(0, body.pointsDiscount) : 0
   const claimedGift = Number.isFinite(body.giftDiscount) ? Math.max(0, body.giftDiscount) : 0
-  const totals = computeTotals(pricingItems, body.promoCode ?? null, claimedPoints, claimedGift)
+  const totals = computeTotals(
+    pricingItems,
+    body.promoCode ?? null,
+    claimedPoints,
+    claimedGift,
+    shippingMethod
+  )
   if (!totals)
     return fail(res, 422, 'Your cart contains items we cannot price. Refresh and try again.')
   totals.promoCode = body.promoCode ?? null
@@ -122,6 +133,7 @@ export default async function handler(req, res) {
     placedAt: Date.now(),
     status: paymentMethod === 'cod' ? 'cod_placed' : 'payment_pending',
     paymentMethod,
+    shippingMethod,
     customer: {
       ...customer,
       gstin:
@@ -160,8 +172,9 @@ export default async function handler(req, res) {
     } catch (err) {
       return fail(res, 502, err.message || 'Razorpay order creation failed. Try again.')
     }
-  } else if (shiprocketConfigured()) {
-    // COD has no payment step — create the shipment right away.
+  } else if (!pickup && shiprocketConfigured()) {
+    // COD has no payment step — create the shipment right away (pickup
+    // orders are collected at the studio, so there is no courier shipment).
     // Failures are recorded, not fatal (merchant can retry from the panel).
     record.shiprocket = await createShiprocketOrder(record)
   }

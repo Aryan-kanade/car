@@ -47,10 +47,17 @@ describe('buildProfileFromForm', () => {
     const profile = buildProfileFromForm(form)
     expect(addressToForm(defaultAddress(profile))).toEqual({
       address: '1 Test Lane',
+      address2: '',
       city: 'Mumbai',
       state: 'Maharashtra',
       pincode: '400001',
     })
+  })
+
+  it('round-trips an apartment/suite line through the address book', () => {
+    const profile = buildProfileFromForm({ ...form, address2: 'Flat 4B, near the park' })
+    expect(defaultAddress(profile).address2).toBe('Flat 4B, near the park')
+    expect(addressToForm(defaultAddress(profile)).address2).toBe('Flat 4B, near the park')
   })
 })
 

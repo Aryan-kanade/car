@@ -108,7 +108,7 @@ export function buildAdhocPayload(record) {
     billing_customer_name: first,
     billing_last_name: last,
     billing_address: record.customer.address,
-    billing_address_2: '',
+    billing_address_2: record.customer.address2 ?? '',
     billing_city: record.customer.city,
     billing_pincode: record.customer.pincode,
     billing_state: record.customer.state,

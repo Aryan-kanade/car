@@ -24,6 +24,9 @@ export default async function handler(req, res) {
   if (record.status !== 'paid' && record.status !== 'cod_placed') {
     return fail(res, 422, 'Only paid or COD orders can be shipped.')
   }
+  if (record.shippingMethod === 'pickup') {
+    return fail(res, 422, 'Pickup order — collected at the studio, nothing to dispatch.')
+  }
 
   record.shiprocket = await createShiprocketOrder(record)
   await saveOrderRecord(record)

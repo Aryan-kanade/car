@@ -44,6 +44,7 @@ export function buildProfileFromForm(form, { label = 'Home' } = {}) {
       {
         label,
         address: form.address,
+        address2: form.address2 ?? '',
         city: form.city,
         state: form.state,
         pincode: form.pincode,
@@ -84,6 +85,7 @@ export function defaultAddress(profile) {
 export function addressToForm(address) {
   return {
     address: address.address,
+    address2: address.address2 ?? '',
     city: address.city,
     state: address.state,
     pincode: address.pincode,

@@ -15,6 +15,18 @@ export const subscribePrice = (price: number): number =>
 
 export const SHIPPING_FEE = 199
 
+/** Priority dispatch: jumps the packing queue (added on top of Standard rules). */
+export const PRIORITY_DISPATCH_FEE = 99
+
+export type ShippingMethod = 'standard' | 'priority' | 'pickup'
+
+/** Whitelist shared by checkout UI and /api — anything else falls back to standard. */
+export const SHIPPING_METHODS: ShippingMethod[] = ['standard', 'priority', 'pickup']
+
+export function normalizeShippingMethod(value: unknown): ShippingMethod {
+  return SHIPPING_METHODS.includes(value as ShippingMethod) ? (value as ShippingMethod) : 'standard'
+}
+
 export type Plan = 'once' | 'sub'
 
 /** Cart line as sent to /api — ids only, no client price is trusted. */
@@ -55,13 +67,16 @@ function clampQty(qty: number): number {
  * Compute order totals from catalog prices. `claimedPointsDiscount` and
  * `claimedGiftDiscount` are client-claimed (Studio Points and gift cards are
  * device-local demo features) and are clamped against the remaining payable.
+ * `shippingMethod`: pickup skips shipping entirely; priority adds the dispatch
+ * fee on top of the standard rules (even when free shipping is unlocked).
  * Returns null when any product is unknown — callers must reject the order.
  */
 export function computeTotals(
   items: PricingItem[],
   promoCode: string | null = null,
   claimedPointsDiscount = 0,
-  claimedGiftDiscount = 0
+  claimedGiftDiscount = 0,
+  shippingMethod: ShippingMethod = 'standard'
 ): OrderTotals | null {
   let subtotal = 0
   for (const item of items) {
@@ -72,10 +87,16 @@ export function computeTotals(
 
   const promo: Promo | null = lookupPromo(promoCode)
   const discount = promoDiscount(promo, subtotal)
-  const shipping =
+  const freeShipping =
     subtotal - discount >= FREE_SHIPPING_THRESHOLD || promoGivesFreeShipping(promo)
-      ? 0
-      : SHIPPING_FEE
+  let shipping: number
+  if (shippingMethod === 'pickup') {
+    shipping = 0
+  } else if (shippingMethod === 'priority') {
+    shipping = (freeShipping ? 0 : SHIPPING_FEE) + PRIORITY_DISPATCH_FEE
+  } else {
+    shipping = freeShipping ? 0 : SHIPPING_FEE
+  }
 
   const pointsDiscount = Math.max(0, Math.min(claimedPointsDiscount, subtotal - discount))
   const giftDiscount = Math.max(

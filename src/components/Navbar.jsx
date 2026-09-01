@@ -5,13 +5,13 @@ import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
 import { ListIcon } from '@phosphor-icons/react/dist/csr/List'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { MoonIcon } from '@phosphor-icons/react/dist/csr/Moon'
-import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
 import { SunIcon } from '@phosphor-icons/react/dist/csr/Sun'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import { categoryRoutes } from '../data/catalog'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { useTheme } from '../hooks/useTheme'
+import CartLogo from './CartLogo'
 import MegaMenu from './MegaMenu'
 import Logo from './Logo'
 
@@ -127,16 +127,7 @@ export default function Navbar({ onOpenSearch }) {
             onClick={openDrawer}
             className="relative cursor-pointer p-3 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
           >
-            <ShoppingCartIcon size={20} weight="light" />
-            <m.span
-              key={count}
-              initial={{ scale: 0.4 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', damping: 15, stiffness: 400 }}
-              className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-zinc-900 dark:bg-white px-1 text-[10px] font-semibold text-white dark:text-zinc-900"
-            >
-              {count}
-            </m.span>
+            <CartLogo count={count} size={28} />
           </button>
           <button
             type="button"
