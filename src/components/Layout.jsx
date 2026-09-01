@@ -9,6 +9,9 @@ import BottomNav from './BottomNav'
 import RouteFallback from './RouteFallback'
 import CommandPalette from './CommandPalette'
 import StudioAssistant from './StudioAssistant'
+import ToastStack from './ToastStack'
+import OfflineIndicator from './OfflineIndicator'
+import InstallPrompt from './InstallPrompt'
 import ErrorBoundary from './ErrorBoundary'
 import { useCart } from '../context/CartContext'
 import { prefetchRoutes } from '../utils/prefetch'
@@ -83,6 +86,9 @@ export default function Layout() {
       <CartDrawer />
       <BottomNav onOpenSearch={() => setSearchOpen(true)} />
       <StudioAssistant />
+      <ToastStack />
+      <OfflineIndicator />
+      <InstallPrompt />
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
       <BackToTop />
     </div>

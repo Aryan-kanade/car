@@ -2,6 +2,7 @@ import { Link } from 'react-router'
 import PageHeader from '../components/PageHeader'
 import { formatPrice } from '../data/catalog'
 import { getOrderStatus, readOrders } from '../utils/orders'
+import OrderTimeline from '../components/OrderTimeline'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { EmptyBucket } from '../components/illustrations'
 
@@ -68,6 +69,8 @@ export default function OrdersPage() {
                   <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                     {status.detail}
                   </p>
+
+                  <OrderTimeline placedAt={order.placedAt} />
 
                   <ul className="mt-4 divide-y divide-zinc-200 dark:divide-zinc-800 border-t border-zinc-200 dark:border-zinc-800">
                     {order.items.map((item) => (

@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { defaultSizeLabel, getProductById, getVariant } from '../data/catalog'
 import { lookupPromo, promoDiscount } from '../utils/promos'
+import { toast } from '../components/ToastStack'
 
 const STORAGE_KEY = 'kmkiramyki-cart'
 
@@ -75,6 +76,7 @@ export function CartProvider({ children }) {
         message: `${product.name}${suffix}${planText} added to cart`,
       })
       if (openDrawer) setDrawerOpen(true)
+      toast(`${product.name} added to cart`)
     },
     []
   )
