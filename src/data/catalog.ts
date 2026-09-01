@@ -638,6 +638,7 @@ export const footerColumns = [
       { label: 'Glass Care', to: '/shop/glass' },
       { label: 'Accessories', to: '/shop/accessories' },
       { label: 'Build Your Kit', to: '/builder' },
+      { label: 'Find Your Routine', to: '/quiz' },
     ],
   },
   {
