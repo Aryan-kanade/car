@@ -11,6 +11,8 @@ import RoutineStrip from '../components/RoutineStrip'
 import BestSellers from '../components/BestSellers'
 import Bundles from '../components/Bundles'
 import Testimonials from '../components/Testimonials'
+import ProductCard from '../components/ProductCard'
+import { recommendedForYou } from '../utils/recommend'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 /** The storefront landing page. */
@@ -35,6 +37,21 @@ export default function HomePage() {
       <RoutineStrip />
       <BestSellers />
       <Bundles />
+      {recommendedForYou().length > 0 && (
+        <section className="mx-auto max-w-7xl px-6 pt-16 md:pt-24" aria-label="Recommended for you">
+          <h2 className="font-display text-2xl font-bold tracking-[0.12em] uppercase text-zinc-900 dark:text-zinc-100 md:text-4xl">
+            Recommended for you
+          </h2>
+          <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400 md:text-base">
+            Based on the categories you have been browsing on this device.
+          </p>
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+            {recommendedForYou().map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+      )}
       <Testimonials />
       <BeadingSection />
     </>

@@ -31,6 +31,7 @@ import { subscribePrice, useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { readReviews } from '../hooks/useProductReviews'
+import { coViewRecommendations, recordAffinity } from '../utils/recommend'
 
 const RECENT_KEY = 'kmkiramyki-recently-viewed'
 
@@ -76,6 +77,7 @@ function ProductView({ product }) {
 
   // Track in "recently viewed" (sync with localStorage — external system)
   useEffect(() => {
+    recordAffinity(product.category)
     try {
       const next = [product.id, ...readRecentlyViewed().filter((r) => r !== product.id)].slice(0, 5)
       window.localStorage.setItem(RECENT_KEY, JSON.stringify(next))
@@ -107,10 +109,11 @@ function ProductView({ product }) {
   const reviewCount = readReviews(product.id).length
   const rating = product.rating
 
-  const related = products
+  const related = coViewRecommendations(product.id, [product.id], 3)
+  const fallback = products
     .filter((p) => p.category === product.category && p.id !== product.id)
-    .concat(products.filter((p) => p.category !== product.category && p.id !== product.id))
-    .slice(0, 3)
+    .slice(0, 3 - related.length)
+  const relatedProducts = [...related, ...fallback]
 
   const recentProducts = recent.map(getProductById).filter(Boolean)
   const views = [
@@ -491,7 +494,7 @@ function ProductView({ product }) {
             Complete the routine
           </h2>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-            {related.map((p, index) => (
+            {relatedProducts.map((p, index) => (
               <m.div
                 key={p.id}
                 initial={{ opacity: 0, y: 28 }}

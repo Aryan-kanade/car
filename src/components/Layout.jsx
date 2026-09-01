@@ -8,6 +8,7 @@ import BackToTop from './BackToTop'
 import BottomNav from './BottomNav'
 import RouteFallback from './RouteFallback'
 import CommandPalette from './CommandPalette'
+import StudioAssistant from './StudioAssistant'
 import ErrorBoundary from './ErrorBoundary'
 import { useCart } from '../context/CartContext'
 import { prefetchRoutes } from '../utils/prefetch'
@@ -79,6 +80,7 @@ export default function Layout() {
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       <CartDrawer />
       <BottomNav onOpenSearch={() => setSearchOpen(true)} />
+      <StudioAssistant />
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
       <BackToTop />
     </div>
