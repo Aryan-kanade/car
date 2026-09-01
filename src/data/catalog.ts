@@ -672,4 +672,5 @@ export const legalLinks = [
   { label: 'Privacy', to: '/privacy' },
   { label: 'Accessibility', to: '/accessibility' },
   { label: 'Sitemap', to: '/sitemap' },
+  { label: 'Design System', to: '/design' },
 ]

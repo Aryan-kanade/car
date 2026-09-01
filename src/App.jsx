@@ -24,6 +24,7 @@ const WishlistPage = lazy(() => import('./pages/WishlistPage'))
 const CalculatorPage = lazy(() => import('./pages/CalculatorPage'))
 const BuilderPage = lazy(() => import('./pages/BuilderPage'))
 const QuizPage = lazy(() => import('./pages/QuizPage'))
+const DesignSystemPage = lazy(() => import('./pages/DesignSystemPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 export default function App() {
@@ -58,6 +59,7 @@ export default function App() {
                   <Route path="terms" element={<ContentPage slug="terms" />} />
                   <Route path="privacy" element={<ContentPage slug="privacy" />} />
                   <Route path="sitemap" element={<SitemapPage />} />
+                  <Route path="design" element={<DesignSystemPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Route>
               </Routes>
