@@ -117,7 +117,7 @@ function ProductView({ product }) {
 
   const recentProducts = recent.map(getProductById).filter(Boolean)
   const views = [
-    `${product.imageLabel} (front)`,
+    `3D view — ${product.name}`,
     `${product.imageLabel} (angle)`,
     `${product.imageLabel} (in use)`,
     `Product demo video for ${product.name}`,

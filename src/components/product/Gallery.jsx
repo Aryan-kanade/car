@@ -1,6 +1,7 @@
 import { AnimatePresence, m } from 'motion/react'
 import { PlayCircleIcon } from '@phosphor-icons/react/dist/csr/PlayCircle'
 import Placeholder from '../Placeholder'
+import BottleViewer from '../BottleViewer'
 
 /** Product gallery — switchable views with zoom and a demo-video slot. */
 export default function Gallery({ views, view, onViewChange }) {
@@ -19,30 +20,34 @@ export default function Gallery({ views, view, onViewChange }) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
         >
-          <div
-            className={`group relative overflow-hidden rounded-xl ${isVideo ? 'cursor-pointer' : 'cursor-zoom-in'}`}
-            onMouseMove={(event) => {
-              const rect = event.currentTarget.getBoundingClientRect()
-              const x = ((event.clientX - rect.left) / rect.width) * 100
-              const y = ((event.clientY - rect.top) / rect.height) * 100
-              event.currentTarget.style.setProperty('--zoom-origin', `${x}% ${y}%`)
-            }}
-          >
+          {view === 0 ? (
+            <BottleViewer label={views[0]} className="aspect-square" />
+          ) : (
             <div
-              className="transition-transform duration-300 group-hover:scale-[1.6]"
-              style={{ transformOrigin: 'var(--zoom-origin, 50% 50%)' }}
+              className={`group relative overflow-hidden rounded-xl ${isVideo ? 'cursor-pointer' : 'cursor-zoom-in'}`}
+              onMouseMove={(event) => {
+                const rect = event.currentTarget.getBoundingClientRect()
+                const x = ((event.clientX - rect.left) / rect.width) * 100
+                const y = ((event.clientY - rect.top) / rect.height) * 100
+                event.currentTarget.style.setProperty('--zoom-origin', `${x}% ${y}%`)
+              }}
             >
-              <Placeholder label={views[view]} iconSize={48} className="aspect-square" />
-            </div>
-            {isVideo && (
-              <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-zinc-950/30 text-white">
-                <PlayCircleIcon size={56} weight="fill" aria-hidden="true" />
-                <span className="text-xs font-semibold tracking-[0.25em] uppercase">
-                  Watch the demo
+              <div
+                className="transition-transform duration-300 group-hover:scale-[1.6]"
+                style={{ transformOrigin: 'var(--zoom-origin, 50% 50%)' }}
+              >
+                <Placeholder label={views[view]} iconSize={48} className="aspect-square" />
+              </div>
+              {isVideo && (
+                <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-zinc-950/30 text-white">
+                  <PlayCircleIcon size={56} weight="fill" aria-hidden="true" />
+                  <span className="text-xs font-semibold tracking-[0.25em] uppercase">
+                    Watch the demo
+                  </span>
                 </span>
-              </span>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </m.div>
       </AnimatePresence>
       <div className={`mt-4 grid gap-4 ${views.length > 3 ? 'grid-cols-4' : 'grid-cols-3'}`}>
@@ -53,7 +58,9 @@ export default function Gallery({ views, view, onViewChange }) {
             aria-label={
               index === views.length - 1 && views.length > 3
                 ? 'Show product demo video'
-                : `Show image ${index + 1} of ${views.length - (views.length > 3 ? 1 : 0)}`
+                : index === 0
+                  ? 'Show interactive 3D view'
+                  : `Show image ${index} of ${views.length - (views.length > 3 ? 1 : 0)}`
             }
             aria-pressed={view === index}
             onClick={() => onViewChange(index)}
