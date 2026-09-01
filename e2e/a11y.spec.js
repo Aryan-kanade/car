@@ -29,7 +29,15 @@ const routes = [
 for (const route of routes) {
   test(`${route} has no axe violations`, async ({ page }) => {
     await page.goto(route, { waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(600)
+    // Scroll through the page so every whileInView reveal animation fires,
+    // then wait for them to finish — scanning mid-fade reports phantom
+    // contrast failures on semi-transparent layers.
+    await page.evaluate(async () => {
+      window.scrollTo({ top: document.body.scrollHeight })
+      await new Promise((resolve) => setTimeout(resolve, 350))
+      window.scrollTo({ top: 0 })
+      await new Promise((resolve) => setTimeout(resolve, 800))
+    })
 
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])

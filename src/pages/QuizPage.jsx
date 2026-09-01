@@ -64,7 +64,7 @@ export default function QuizPage() {
             {/* Progress */}
             <p
               aria-live="polite"
-              className="text-xs tracking-[0.25em] text-zinc-500 dark:text-zinc-400 uppercase"
+              className="text-xs tracking-[0.25em] text-zinc-800 dark:text-zinc-400 uppercase"
             >
               Question {step + 1} of {quizQuestions.length}
             </p>
@@ -99,14 +99,14 @@ export default function QuizPage() {
                     <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                       {choice.label}
                     </span>
-                    <span className="mt-1 block text-sm text-zinc-500 dark:text-zinc-400">
+                    <span className="mt-1 block text-sm text-zinc-800 dark:text-zinc-400">
                       {choice.hint}
                     </span>
                   </span>
                   <ArrowRightIcon
                     size={18}
                     weight="light"
-                    className="shrink-0 text-zinc-400"
+                    className="shrink-0 text-zinc-800"
                     aria-hidden="true"
                   />
                 </button>
@@ -117,7 +117,7 @@ export default function QuizPage() {
               <button
                 type="button"
                 onClick={() => setStep((current) => current - 1)}
-                className="mt-8 flex cursor-pointer items-center gap-2 text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                className="mt-8 flex cursor-pointer items-center gap-2 text-xs font-semibold tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 <ArrowLeftIcon size={14} weight="light" aria-hidden="true" />
                 Back
@@ -132,7 +132,7 @@ export default function QuizPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
           >
-            <p className="flex items-center gap-2 text-xs font-medium tracking-[0.25em] text-zinc-500 dark:text-zinc-400 uppercase">
+            <p className="flex items-center gap-2 text-xs font-medium tracking-[0.25em] text-zinc-800 dark:text-zinc-400 uppercase">
               <CheckCircleIcon
                 size={16}
                 weight="fill"
@@ -144,7 +144,7 @@ export default function QuizPage() {
             <h2 className="font-display mt-3 text-2xl font-bold tracking-[0.04em] uppercase text-zinc-900 dark:text-zinc-100">
               {routine.title}
             </h2>
-            <p className="mt-3 max-w-lg text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-3 max-w-lg text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               {routine.summary}
             </p>
 
@@ -152,7 +152,7 @@ export default function QuizPage() {
               {routineProducts.map(({ product, reason }, index) =>
                 product ? (
                   <li key={product.id} className="flex gap-5">
-                    <span className="font-display w-7 shrink-0 pt-1 text-sm font-bold text-zinc-400">
+                    <span className="font-display w-7 shrink-0 pt-1 text-sm font-bold text-zinc-800">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <Link
@@ -170,12 +170,12 @@ export default function QuizPage() {
                       <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                         <Link
                           to={`/product/${product.id}`}
-                          className="transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
+                          className="transition-colors hover:text-zinc-800 dark:hover:text-zinc-300"
                         >
                           {product.name}
                         </Link>
                       </p>
-                      <p className="mt-1 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+                      <p className="mt-1 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
                         {reason}
                       </p>
                       <p className="mt-auto pt-2 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
@@ -189,7 +189,7 @@ export default function QuizPage() {
 
             <div className="mt-10 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-7">
               <div className="flex items-baseline justify-between">
-                <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                <span className="text-sm text-zinc-800 dark:text-zinc-400">
                   Routine total ({routineProducts.length} items)
                 </span>
                 <span className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
@@ -211,13 +211,13 @@ export default function QuizPage() {
                     setAnswers({})
                     setStep(0)
                   }}
-                  className="cursor-pointer text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                  className="cursor-pointer text-xs font-semibold tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
                 >
                   Start over
                 </button>
                 <Link
                   to="/builder"
-                  className="text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                  className="text-xs font-semibold tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
                 >
                   Customise in the builder →
                 </Link>

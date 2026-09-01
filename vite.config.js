@@ -56,4 +56,23 @@ export default defineConfig({
       usePolling: true,
     },
   },
+  // Mount the /api serverless functions locally in dev — no Vercel CLI needed.
+  // Handlers are (req, res), loaded through Vite so their src/ TS imports work.
+  configureServer(server) {
+    server.middlewares.use(async (req, res, next) => {
+      if (!req.url?.startsWith('/api/')) return next()
+      const route = req.url.slice(4).split('?')[0].replace(/\/+$/, '')
+      if (route.includes('/_lib') || route.includes('..')) return next()
+      try {
+        const loaded = await server.ssrLoadModule(`/api/${route.replace(/^\//, '')}.js`)
+        const handler = loaded.default
+        if (typeof handler !== 'function') throw new Error('No handler exported.')
+        handler(req, res)
+      } catch (err) {
+        res.statusCode = err?.message === 'No handler exported.' ? 404 : 500
+        res.setHeader('Content-Type', 'application/json; charset=utf-8')
+        res.end(JSON.stringify({ error: `Dev API error: ${err?.message ?? 'unknown'}` }))
+      }
+    })
+  },
 })

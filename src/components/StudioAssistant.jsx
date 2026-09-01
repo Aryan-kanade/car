@@ -102,7 +102,7 @@ function ProductRow({ product }) {
         <span className="block truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
           {product.name}
         </span>
-        <span className="text-xs text-zinc-500 dark:text-zinc-400">{product.category}</span>
+        <span className="text-xs text-zinc-800 dark:text-zinc-400">{product.category}</span>
       </span>
       <span className="shrink-0 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
         {product.price === 0 ? 'Free' : formatPrice(product.price)}
@@ -193,7 +193,7 @@ export default function StudioAssistant() {
                   className={`max-w-[90%] rounded-xl px-3.5 py-2.5 text-sm leading-relaxed ${
                     message.role === 'you'
                       ? 'ml-auto bg-zinc-900 dark:bg-white text-white dark:text-zinc-900'
-                      : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300'
+                      : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-300'
                   }`}
                 >
                   {message.text}
@@ -226,7 +226,7 @@ export default function StudioAssistant() {
               key={reply}
               type="button"
               onClick={() => send(reply)}
-              className="shrink-0 cursor-pointer rounded-full border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-xs text-zinc-600 dark:text-zinc-300 transition-colors hover:border-zinc-900 dark:hover:border-white"
+              className="shrink-0 cursor-pointer rounded-full border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-xs text-zinc-800 dark:text-zinc-300 transition-colors hover:border-zinc-900 dark:hover:border-white"
             >
               {reply}
             </button>

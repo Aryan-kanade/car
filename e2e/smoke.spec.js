@@ -1,11 +1,91 @@
 import { expect, test } from '@playwright/test'
 
 /**
- * E2E smoke: the complete demo commerce loop.
- * search -> PDP -> size variant -> add to cart -> drawer -> cart ->
- * promo code -> checkout -> confirmation -> order lookup.
+ * E2E smoke: the complete commerce loop with the /api backend mocked
+ * via Playwright route interception (no Razorpay/Shiprocket accounts
+ * needed). Exercises the COD path end-to-end:
+ * search -> PDP -> size variant -> cart -> promo -> checkout (with phone)
+ * -> place order -> confirmation -> order lookup (local fallback).
  */
 test('complete purchase loop', async ({ page }) => {
+  // Wheel Cleaner 1 L @ ₹1,220 with WELCOME10 → ₹1,098 + ₹199 shipping = ₹1,297
+  const mockedOrder = {
+    number: 'KMK-424242',
+    email: 'e2e@example.com',
+    name: 'E2E Runner',
+    phone: '9876543210',
+    items: [
+      {
+        id: 'wheel-cleaner',
+        name: 'Wheel Cleaner',
+        size: '1 L',
+        subscription: false,
+        qty: 1,
+        unitPrice: 1220,
+      },
+    ],
+    subtotal: 1220,
+    discount: 122,
+    promoCode: 'WELCOME10',
+    shipping: 199,
+    pointsDiscount: 0,
+    giftDiscount: 0,
+    total: 1297,
+    placedAt: Date.now(),
+    paymentMethod: 'cod',
+    razorpayPaymentId: null,
+    shiprocketOrderId: null,
+    awb: null,
+  }
+
+  await page.route('**/api/create-order', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        orderNumber: mockedOrder.number,
+        totals: {
+          subtotal: mockedOrder.subtotal,
+          discount: mockedOrder.discount,
+          shipping: mockedOrder.shipping,
+          pointsDiscount: 0,
+          giftDiscount: 0,
+          total: mockedOrder.total,
+        },
+        amount: mockedOrder.total * 100,
+        keyId: 'rzp_test_mock',
+        razorpayOrderId: null,
+        cod: true,
+        order: mockedOrder,
+      }),
+    })
+  )
+
+  // Live tracking is unavailable in tests — lookup falls back to localStorage
+  await page.route('**/api/track**', (route) =>
+    route.fulfill({
+      status: 404,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'not-found' }),
+    })
+  )
+
+  // Serviceability check passes with COD available (PIN 560001)
+  await page.route('**/api/serviceability**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        available: true,
+        serviceable: true,
+        codAvailable: true,
+        edd: '2026-09-05',
+        courier: 'Delhivery',
+        rate: 80,
+      }),
+    })
+  )
+
   // Home renders
   await page.goto('/')
   await expect(page.getByRole('heading', { name: /Premium Car Care/i })).toBeVisible()
@@ -41,6 +121,7 @@ test('complete purchase loop', async ({ page }) => {
   await page.getByRole('link', { name: 'Proceed to checkout' }).click()
   await page.getByLabel('Full name').fill('E2E Runner')
   await page.getByLabel('Email').fill('e2e@example.com')
+  await page.getByLabel('Phone').fill('9876543210')
   await page.getByLabel('Street address').fill('1 Test Lane')
   await page.getByLabel('City').fill('Bengaluru')
   await page.getByLabel('State').fill('Karnataka')
@@ -48,17 +129,16 @@ test('complete purchase loop', async ({ page }) => {
   await page.getByRole('button', { name: 'Continue to payment' }).click()
   await expect(page.getByRole('heading', { name: 'Payment' })).toBeVisible()
 
-  // Payment step
-  await page.getByLabel('Card number').fill('4242424242424242')
-  await page.getByLabel('Expiry (MM/YY)').fill('08/27')
-  await page.getByLabel('CVV').fill('123')
+  // Payment step — choose Cash on Delivery (online would open Razorpay)
+  await page.getByRole('radio', { name: /Cash on Delivery/i }).check()
   await page.getByRole('button', { name: /^Place order/ }).click()
 
   // Confirmation with order number
   await expect(page.getByRole('heading', { name: /Thank you, E2E/ })).toBeVisible()
   const orderNumber = await page.locator('p.font-display.text-3xl').first().textContent()
+  expect(orderNumber).toBe('KMK-424242')
 
-  // Look the order up
+  // Look the order up (falls back to the device copy when /api/track misses)
   await page.getByRole('link', { name: 'Track this order' }).click()
   await page.getByLabel('Order number').fill(orderNumber ?? '')
   await page.getByLabel('Email address').fill('e2e@example.com')

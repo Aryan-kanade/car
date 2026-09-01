@@ -51,7 +51,7 @@ export default function KitsPage() {
                 <h2 className="font-display mt-4 text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 uppercase md:text-6xl">
                   {bundle.title}
                 </h2>
-                <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400 md:text-base">
+                <p className="mt-4 text-sm text-zinc-800 dark:text-zinc-400 md:text-base">
                   {bundle.product}
                 </p>
 
@@ -59,7 +59,7 @@ export default function KitsPage() {
                   <span className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
                     {formatPrice(bundle.price)}
                   </span>
-                  <span className="text-sm text-zinc-500 dark:text-zinc-400 line-through">
+                  <span className="text-sm text-zinc-800 dark:text-zinc-400 line-through">
                     {formatPrice(bundle.compareAt)}
                   </span>
                   <span className="rounded-full bg-zinc-900 dark:bg-white px-2.5 py-1 text-[11px] font-semibold tracking-wider text-white dark:text-zinc-900 uppercase">
@@ -74,7 +74,7 @@ export default function KitsPage() {
                   {bundle.includes.map((item) => (
                     <li
                       key={item}
-                      className="flex items-start gap-2.5 text-sm text-zinc-700 dark:text-zinc-300"
+                      className="flex items-start gap-2.5 text-sm text-zinc-800 dark:text-zinc-300"
                     >
                       <CheckCircleIcon
                         size={18}

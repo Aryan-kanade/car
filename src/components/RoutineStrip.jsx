@@ -46,19 +46,19 @@ export default function RoutineStrip() {
               to={step.to}
               className="group flex h-full flex-col rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-7 transition-colors hover:bg-white hover:border-zinc-400 dark:hover:border-zinc-600"
             >
-              <span className="text-xs font-medium tracking-[0.2em] text-zinc-400 dark:text-zinc-500">
+              <span className="text-xs font-medium tracking-[0.2em] text-zinc-800 dark:text-zinc-500">
                 {step.number}
               </span>
               <span className="font-display mt-4 text-lg font-bold tracking-[0.04em] uppercase text-zinc-900 dark:text-zinc-100">
                 {step.title}
               </span>
-              <span className="mt-2 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              <span className="mt-2 flex-1 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
                 {step.body}
               </span>
               <ArrowRightIcon
                 size={16}
                 weight="light"
-                className="mt-5 text-zinc-400 dark:text-zinc-500 transition-all duration-300 group-hover:translate-x-1 group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white"
+                className="mt-5 text-zinc-800 dark:text-zinc-500 transition-all duration-300 group-hover:translate-x-1 group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white"
               />
             </Link>
           </m.div>

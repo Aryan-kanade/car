@@ -84,29 +84,29 @@ export default function WeatherCoach() {
           <button
             type="button"
             onClick={locate}
-            className="flex cursor-pointer items-center gap-2 text-xs font-semibold tracking-[0.15em] text-zinc-600 dark:text-zinc-300 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+            className="flex cursor-pointer items-center gap-2 text-xs font-semibold tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
           >
             <CrosshairIcon size={14} weight="light" aria-hidden="true" />
             Use my location
           </button>
         ) : (
-          <span className="text-xs text-zinc-600 dark:text-zinc-300">{state.label ?? '—'}</span>
+          <span className="text-xs text-zinc-800 dark:text-zinc-300">{state.label ?? '—'}</span>
         )}
       </div>
 
       {state.status === 'idle' && (
-        <p className="mt-4 max-w-[62ch] text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+        <p className="mt-4 max-w-[62ch] text-sm leading-relaxed text-zinc-800 dark:text-zinc-300">
           Check the next 48 hours before you start — rain, dust and humidity change what the studio
           would do today. Location stays on your device.
         </p>
       )}
 
       {state.status === 'loading' && (
-        <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">Checking the sky…</p>
+        <p className="mt-4 text-sm text-zinc-800 dark:text-zinc-300">Checking the sky…</p>
       )}
 
       {state.status === 'error' && (
-        <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mt-4 text-sm text-zinc-800 dark:text-zinc-400">
           Could not reach the forecast service — trust the window instead.
         </p>
       )}
@@ -126,19 +126,19 @@ export default function WeatherCoach() {
                   key={offset}
                   className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3.5"
                 >
-                  <p className="text-xs font-medium tracking-[0.15em] text-zinc-600 dark:text-zinc-300 uppercase">
+                  <p className="text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase">
                     {dayName(offset)}
                   </p>
                   <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                     <Icon size={16} weight="light" aria-hidden="true" />
                     {quality.label} wash window
                   </p>
-                  <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-300">{quality.note}</p>
+                  <p className="mt-1 text-xs text-zinc-800 dark:text-zinc-300">{quality.note}</p>
                 </div>
               )
             })}
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+          <p className="mt-4 text-sm leading-relaxed text-zinc-800 dark:text-zinc-300">
             {advice(state)}
           </p>
         </>

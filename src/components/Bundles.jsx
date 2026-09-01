@@ -34,11 +34,11 @@ export default function Bundles() {
                   <h3 className="font-display text-6xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 uppercase md:text-7xl">
                     {bundle.title}
                   </h3>
-                  <p className="mt-7 text-sm text-zinc-600 dark:text-zinc-400 md:text-base">
+                  <p className="mt-7 text-sm text-zinc-800 dark:text-zinc-400 md:text-base">
                     {bundle.product}
                   </p>
                   <p className="mt-3 flex items-baseline gap-3 text-sm md:text-base">
-                    <span className="text-zinc-500 dark:text-zinc-400 line-through">
+                    <span className="text-zinc-800 dark:text-zinc-400 line-through">
                       {formatPrice(bundle.compareAt)}
                     </span>
                     <span className="font-semibold text-zinc-900 dark:text-zinc-100">
@@ -47,7 +47,7 @@ export default function Bundles() {
                   </p>
                 </div>
 
-                <span className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.25em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white">
+                <span className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.25em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white">
                   Shop Kit
                   <ArrowRightIcon
                     size={14}

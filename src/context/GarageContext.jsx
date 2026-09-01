@@ -1,4 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { waxStatus } from '../utils/wax'
+
+export { waxStatus }
 
 const STORAGE_KEY = 'kmkiramyki-garage'
 const GarageContext = createContext(null)
@@ -35,11 +38,20 @@ export function GarageProvider({ children }) {
     setCars((current) => current.filter((car) => car.id !== id))
   }, [])
 
+  /** Record that a wax/sealant was applied to a car today. */
+  const logWax = useCallback((id) => {
+    setCars((current) =>
+      current.map((car) => (car.id === id ? { ...car, waxedAt: Date.now() } : car))
+    )
+  }, [])
+
   const value = useMemo(
     () => ({
       cars,
       addCar,
       removeCar,
+      logWax,
+      waxStatus,
       /** Map a car to its quiz-routine answer key. */
       routineKeyFor: (car) => {
         const goal =
@@ -50,7 +62,7 @@ export function GarageProvider({ children }) {
       /** Product ids recommended across all garage cars. */
       recommendedProductIds: [],
     }),
-    [cars, addCar, removeCar]
+    [cars, addCar, removeCar, logWax]
   )
 
   return <GarageContext.Provider value={value}>{children}</GarageContext.Provider>

@@ -6,8 +6,14 @@
 import { FREE_SHIPPING_THRESHOLD } from '../data/catalog'
 import { promoDiscount, promoGivesFreeShipping, type Promo } from './promos'
 import { REDEEM_VALUE } from '../context/LoyaltyContext'
+import { SHIPPING_FEE } from './pricing'
+
+// Re-exported for existing importers (CartPage) — the fee lives in utils/pricing
+export { SHIPPING_FEE } from './pricing'
 
 const KEY = 'kmkiramyki-orders'
+
+export type PaymentMethod = 'online' | 'cod'
 
 export interface OrderItem {
   id: string
@@ -33,6 +39,12 @@ export interface Order {
   giftCode: string | null
   giftDiscount: number
   placedAt: number
+  /** Set for server-confirmed orders (Razorpay/Shiprocket checkout). */
+  phone?: string
+  paymentMethod?: PaymentMethod
+  razorpayPaymentId?: string | null
+  shiprocketOrderId?: string | null
+  awb?: string | null
 }
 
 interface CartLine {
@@ -55,7 +67,7 @@ interface SaveOrderInput {
   giftDiscount?: number
 }
 
-export const SHIPPING_FEE = 199
+/** Shipping fee lives in utils/pricing (shared with the /api functions). */
 
 export function readOrders(): Order[] {
   try {
@@ -125,6 +137,22 @@ export function findOrder(number: string, email: string): Order | undefined {
   return readOrders().find(
     (order) => norm(order.number) === norm(number) && norm(order.email) === norm(email)
   )
+}
+
+/**
+ * Persist a server-confirmed order (from /api/create-order or /api/verify-payment).
+ * The server already computed totals and generated the number — nothing is
+ * recomputed client-side. Display-only extras (pointsEarned, giftCode) are
+ * attached by the caller before saving.
+ */
+export function saveServerOrder(order: Order): Order {
+  try {
+    const orders = [order, ...readOrders()].slice(0, 20)
+    window.localStorage.setItem(KEY, JSON.stringify(orders))
+  } catch {
+    /* storage unavailable — confirmation still renders in-session */
+  }
+  return order
 }
 
 /** Demo status derived from order age: Placed → Shipped → Out for delivery. */

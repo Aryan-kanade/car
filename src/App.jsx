@@ -28,6 +28,8 @@ const BuilderPage = lazy(() => import('./pages/BuilderPage'))
 const QuizPage = lazy(() => import('./pages/QuizPage'))
 const DesignSystemPage = lazy(() => import('./pages/DesignSystemPage'))
 const OrdersPage = lazy(() => import('./pages/OrdersPage'))
+const AdminOrdersPage = lazy(() => import('./pages/AdminOrdersPage'))
+const InvoicePage = lazy(() => import('./pages/InvoicePage'))
 const GaragePage = lazy(() => import('./pages/GaragePage'))
 const AccountPage = lazy(() => import('./pages/AccountPage'))
 const ReferralPage = lazy(() => import('./pages/ReferralPage'))
@@ -62,6 +64,8 @@ export default function App() {
                       <Route path="help" element={<FaqPage />} />
                       <Route path="order-lookup" element={<OrderLookupPage />} />
                       <Route path="orders" element={<OrdersPage />} />
+                      <Route path="admin/orders" element={<AdminOrdersPage />} />
+                      <Route path="invoice/:number" element={<InvoicePage />} />
                       <Route path="garage" element={<GaragePage />} />
                       <Route path="account" element={<AccountPage />} />
                       <Route path="referral" element={<ReferralPage />} />

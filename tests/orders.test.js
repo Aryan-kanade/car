@@ -1,5 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { findOrder, getOrderStatus, readOrders, saveOrder } from '../src/utils/orders'
+import {
+  findOrder,
+  getOrderStatus,
+  readOrders,
+  saveOrder,
+  saveServerOrder,
+} from '../src/utils/orders'
 
 const storage = new Map()
 const localStorageMock = {
@@ -93,6 +99,57 @@ describe('findOrder', () => {
     expect(findOrder(order.number.toLowerCase(), 'mixed@example.com')).toEqual(order)
     expect(findOrder(order.number, 'wrong@example.com')).toBeUndefined()
     expect(findOrder('KMK-000000', 'mixed@example.com')).toBeUndefined()
+  })
+})
+
+describe('saveServerOrder', () => {
+  it('persists a server-confirmed order as-is (no client recompute)', () => {
+    const serverOrder = {
+      number: 'KMK-654321',
+      email: 'paid@example.com',
+      name: 'Paid Customer',
+      phone: '9876543210',
+      items: [
+        {
+          id: 'wheel-cleaner',
+          name: 'Wheel Cleaner',
+          size: '500 ml',
+          subscription: false,
+          qty: 1,
+          unitPrice: 679,
+        },
+      ],
+      subtotal: 679,
+      discount: 0,
+      promoCode: null,
+      shipping: 199,
+      total: 878,
+      pointsSpent: 0,
+      pointsEarned: 8,
+      giftCode: null,
+      giftDiscount: 0,
+      placedAt: 1750000000000,
+      paymentMethod: 'online',
+      razorpayPaymentId: 'pay_test_123',
+      shiprocketOrderId: 52791876,
+      awb: 'SR123456',
+    }
+    const order = saveServerOrder(serverOrder)
+    expect(order).toEqual(serverOrder)
+    expect(readOrders()[0].number).toBe('KMK-654321')
+    expect(readOrders()[0].razorpayPaymentId).toBe('pay_test_123')
+    expect(findOrder('KMK-654321', 'paid@example.com')).toEqual(serverOrder)
+  })
+
+  it('caps stored orders at 20 like saveOrder', () => {
+    for (let i = 0; i < 25; i += 1) {
+      saveServerOrder({
+        ...readOrders()[0],
+        number: `KMK-${100000 + i}`,
+      })
+    }
+    expect(readOrders()).toHaveLength(20)
+    expect(readOrders()[0].number).toBe('KMK-100024')
   })
 })
 

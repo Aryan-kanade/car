@@ -14,7 +14,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <Logo />
-            <p className="mt-6 max-w-xs text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+            <p className="mt-6 max-w-xs text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               Professional-grade detailing chemistry for enthusiasts who obsess over the details.
             </p>
 
@@ -27,7 +27,7 @@ export default function Footer() {
               <p className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
                 Studio Points
               </p>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+              <p className="mt-2 text-sm text-zinc-800 dark:text-zinc-400">
                 <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                   {balance} pts
                 </span>{' '}
@@ -56,7 +56,7 @@ export default function Footer() {
               {paymentMethods.map((method) => (
                 <span
                   key={method}
-                  className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-2.5 py-1.5 text-[11px] font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 uppercase"
+                  className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-2.5 py-1.5 text-[11px] font-semibold tracking-wider text-zinc-800 dark:text-zinc-400 uppercase"
                 >
                   {method}
                 </span>
@@ -75,7 +75,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       to={link.to}
-                      className="text-sm text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                      className="text-sm text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                     >
                       {link.label}
                     </Link>
@@ -88,7 +88,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-16 flex flex-col items-center justify-between gap-5 border-t border-zinc-200 dark:border-zinc-800 pt-7 md:mt-20 md:flex-row">
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-zinc-800 dark:text-zinc-400">
             © 2026 KIRAMYKI. All rights reserved.
           </p>
           <ul className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
@@ -96,7 +96,7 @@ export default function Footer() {
               <li key={link.label}>
                 <Link
                   to={link.to}
-                  className="text-xs text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                  className="text-xs text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                 >
                   {link.label}
                 </Link>

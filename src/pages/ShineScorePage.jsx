@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
 import { m } from 'motion/react'
+import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
 import PageHeader from '../components/PageHeader'
-import { purchasableProducts } from '../data/catalog'
+import { formatPrice, purchasableProducts } from '../data/catalog'
 import { getRoutine } from '../data/quiz'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { useCart } from '../context/CartContext'
 
 const QUESTIONS = [
   {
@@ -108,6 +110,19 @@ export default function ShineScorePage() {
     method: 'any',
   })
 
+  const { addItem } = useCart()
+  const prescriptionProducts = routine.items
+    .map((item) => purchasableProducts.find((p) => p.id === item.productId))
+    .filter(Boolean)
+  const prescriptionTotal = prescriptionProducts.reduce((sum, product) => sum + product.price, 0)
+
+  /** One-tap buy: the full prescribed routine straight into the cart. */
+  const addPrescriptionToCart = () => {
+    prescriptionProducts.forEach((product, index) =>
+      addItem(product.id, 1, null, { openDrawer: index === prescriptionProducts.length - 1 })
+    )
+  }
+
   return (
     <>
       <PageHeader
@@ -126,7 +141,7 @@ export default function ShineScorePage() {
           >
             <p
               aria-live="polite"
-              className="text-xs font-medium tracking-[0.25em] text-zinc-500 dark:text-zinc-300 uppercase"
+              className="text-xs font-medium tracking-[0.25em] text-zinc-800 dark:text-zinc-300 uppercase"
             >
               Question {answered + 1} of {QUESTIONS.length}
             </p>
@@ -166,7 +181,7 @@ export default function ShineScorePage() {
               <button
                 type="button"
                 onClick={() => setStep((current) => Math.max(0, current - 1))}
-                className="mt-8 cursor-pointer text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-300 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                className="mt-8 cursor-pointer text-xs font-semibold tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 ← Back
               </button>
@@ -212,7 +227,7 @@ export default function ShineScorePage() {
               <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.06em] uppercase text-zinc-900 dark:text-zinc-100">
                 {band.label}
               </h2>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-300">
                 {band.note}
               </p>
             </div>
@@ -229,8 +244,8 @@ export default function ShineScorePage() {
                       to={`/product/${product.id}`}
                       className="flex items-center justify-between gap-4 rounded-lg border border-zinc-200 dark:border-zinc-800 px-4 py-3 text-sm transition-colors hover:border-zinc-900 dark:hover:border-white"
                     >
-                      <span className="text-zinc-700 dark:text-zinc-300">{product.name}</span>
-                      <span className="text-zinc-500 dark:text-zinc-400">
+                      <span className="text-zinc-800 dark:text-zinc-300">{product.name}</span>
+                      <span className="text-zinc-800 dark:text-zinc-400">
                         {item.reason.split(' — ')[0]}
                       </span>
                     </Link>
@@ -241,11 +256,20 @@ export default function ShineScorePage() {
 
             <button
               type="button"
+              onClick={addPrescriptionToCart}
+              className="mt-5 flex w-full cursor-pointer items-center justify-center gap-3 bg-zinc-900 dark:bg-white py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
+            >
+              <ShoppingCartIcon size={16} weight="light" aria-hidden="true" />
+              Add my routine to cart · {formatPrice(prescriptionTotal)}
+            </button>
+
+            <button
+              type="button"
               onClick={() => {
                 setAnswers({})
                 setStep(0)
               }}
-              className="mt-8 cursor-pointer text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-300 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+              className="mt-8 cursor-pointer text-xs font-semibold tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
             >
               Retake assessment
             </button>

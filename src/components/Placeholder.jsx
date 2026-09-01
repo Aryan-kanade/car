@@ -15,7 +15,7 @@ export default function Placeholder({ label, className = '', iconSize = 28, back
       <div
         role="img"
         aria-label={`[Placeholder: ${label}]`}
-        className={`flex items-center justify-center overflow-hidden bg-zinc-200 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 ${className}`}
+        className={`flex items-center justify-center overflow-hidden bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-500 ${className}`}
       >
         <ImageIcon size={iconSize} weight="light" aria-hidden="true" />
       </div>
@@ -24,7 +24,7 @@ export default function Placeholder({ label, className = '', iconSize = 28, back
 
   return (
     <div
-      className={`flex flex-col items-center justify-center gap-3 overflow-hidden bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ${className}`}
+      className={`flex flex-col items-center justify-center gap-3 overflow-hidden bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-400 ${className}`}
     >
       <ImageIcon size={iconSize} weight="light" aria-hidden="true" />
       {label && (

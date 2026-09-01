@@ -9,7 +9,7 @@ export default [
   },
   js.configs.recommended,
   {
-    files: ['scripts/**', 'playwright.config.js', 'e2e/**'],
+    files: ['scripts/**', 'playwright.config.js', 'e2e/**', 'api/**', 'vite.config.js'],
     languageOptions: {
       globals: { ...globals.node, ...globals.browser },
     },

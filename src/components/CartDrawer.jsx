@@ -65,13 +65,13 @@ export default function CartDrawer() {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 px-6 py-5">
               <h2 className="font-display text-lg font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
-                Cart <span className="text-zinc-400 dark:text-zinc-500">({count})</span>
+                Cart <span className="text-zinc-800 dark:text-zinc-500">({count})</span>
               </h2>
               <button
                 type="button"
                 aria-label="Close cart"
                 onClick={closeDrawer}
-                className="cursor-pointer p-2.5 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                className="cursor-pointer p-2.5 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 <XIcon size={20} weight="light" />
               </button>
@@ -79,7 +79,7 @@ export default function CartDrawer() {
 
             {items.length === 0 ? (
               <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">Your cart is empty.</p>
+                <p className="text-sm text-zinc-800 dark:text-zinc-400">Your cart is empty.</p>
                 <Link
                   to="/shop"
                   onClick={closeDrawer}
@@ -92,7 +92,7 @@ export default function CartDrawer() {
               <>
                 {/* Free shipping progress */}
                 <div className="border-b border-zinc-200 dark:border-zinc-800 px-6 py-4">
-                  <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+                  <div className="flex items-center gap-2 text-xs text-zinc-800 dark:text-zinc-400">
                     <TruckIcon size={16} weight="light" aria-hidden="true" />
                     {freeShipping ? (
                       <span>Free shipping unlocked</span>
@@ -136,12 +136,12 @@ export default function CartDrawer() {
                           <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                             {product.name}
                             {size && (
-                              <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                              <span className="block text-xs text-zinc-800 dark:text-zinc-400">
                                 {size}
                               </span>
                             )}
                             {recurring && (
-                              <span className="mt-0.5 block text-[10px] font-semibold tracking-wide text-zinc-500 dark:text-zinc-400 uppercase">
+                              <span className="mt-0.5 block text-[10px] font-semibold tracking-wide text-zinc-800 dark:text-zinc-400 uppercase">
                                 Subscription · 15% off
                               </span>
                             )}
@@ -150,7 +150,7 @@ export default function CartDrawer() {
                             type="button"
                             aria-label={`Remove ${product.name}${size ? ` ${size}` : ''}`}
                             onClick={() => removeItem(product.id, size, plan)}
-                            className="cursor-pointer p-1 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                            className="cursor-pointer p-1 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                           >
                             <XIcon size={14} weight="light" />
                           </button>
@@ -161,7 +161,7 @@ export default function CartDrawer() {
                               type="button"
                               aria-label={`Decrease quantity of ${product.name}`}
                               onClick={() => setQty(product.id, size, plan, qty - 1)}
-                              className="cursor-pointer p-2 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                              className="cursor-pointer p-2 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                             >
                               <MinusIcon size={12} weight="light" />
                             </button>
@@ -172,7 +172,7 @@ export default function CartDrawer() {
                               type="button"
                               aria-label={`Increase quantity of ${product.name}`}
                               onClick={() => setQty(product.id, size, plan, qty + 1)}
-                              className="cursor-pointer p-2 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                              className="cursor-pointer p-2 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                             >
                               <PlusIcon size={12} weight="light" />
                             </button>
@@ -189,7 +189,7 @@ export default function CartDrawer() {
                 {/* Footer */}
                 <div className="border-t border-zinc-200 dark:border-zinc-800 px-6 py-5">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-sm text-zinc-600 dark:text-zinc-400">Subtotal</span>
+                    <span className="text-sm text-zinc-800 dark:text-zinc-400">Subtotal</span>
                     <span className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                       {formatPrice(subtotal)}
                     </span>

@@ -33,10 +33,12 @@ export default function ScrubManifesto({ className = '' }) {
 }
 
 function Word({ children, progress, range }) {
-  const opacity = useTransform(progress, range, [0.15, 1])
+  // Floor at 0.75 so scrubbed words stay WCAG-readable even before they
+  // illuminate (0.15 was unreadable for low-vision users).
+  const opacity = useTransform(progress, range, [0.75, 1])
   return (
     <m.span style={{ opacity }} className="inline-block">
-      {children}
+      {children}{' '}
     </m.span>
   )
 }

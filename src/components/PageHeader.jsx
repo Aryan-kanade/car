@@ -23,7 +23,7 @@ export default function PageHeader({ breadcrumb = [], title, subtext, children }
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
-            className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base"
+            className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-800 dark:text-zinc-400 md:text-base"
           >
             {subtext}
           </m.p>

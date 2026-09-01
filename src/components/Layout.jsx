@@ -12,6 +12,7 @@ import StudioAssistant from './StudioAssistant'
 import ToastStack from './ToastStack'
 import OfflineIndicator from './OfflineIndicator'
 import InstallPrompt from './InstallPrompt'
+import CartNudge from './CartNudge'
 import ErrorBoundary from './ErrorBoundary'
 import { useCart } from '../context/CartContext'
 import { prefetchRoutes } from '../utils/prefetch'
@@ -89,6 +90,7 @@ export default function Layout() {
       <ToastStack />
       <OfflineIndicator />
       <InstallPrompt />
+      <CartNudge />
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
       <BackToTop />
     </div>
@@ -112,7 +114,7 @@ export function Breadcrumb({ items }) {
   }
 
   return (
-    <nav aria-label="Breadcrumb" className="text-sm text-zinc-500 dark:text-zinc-400">
+    <nav aria-label="Breadcrumb" className="text-sm text-zinc-800 dark:text-zinc-400">
       <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       <ol className="flex flex-wrap items-center gap-2">
         <li>

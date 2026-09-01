@@ -27,14 +27,15 @@ export default function Testimonials() {
             <QuotesIcon
               size={28}
               weight="light"
-              className="text-zinc-400 dark:text-zinc-500"
+              className="text-zinc-800 dark:text-zinc-500"
               aria-hidden="true"
             />
-            <blockquote className="mt-5 flex-1 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+            <blockquote className="mt-5 flex-1 text-sm leading-relaxed text-zinc-800 dark:text-zinc-300">
               {testimonial.quote}
             </blockquote>
             <figcaption className="mt-6 border-t border-zinc-200 dark:border-zinc-800 pt-5">
               <span
+                role="img"
                 className="flex gap-0.5"
                 aria-label={`Rated ${testimonial.stars} out of 5 stars`}
               >
@@ -50,7 +51,7 @@ export default function Testimonials() {
               <p className="mt-2.5 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                 {testimonial.name}
               </p>
-              <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">{testimonial.car}</p>
+              <p className="mt-0.5 text-xs text-zinc-800 dark:text-zinc-400">{testimonial.car}</p>
             </figcaption>
           </m.figure>
         ))}

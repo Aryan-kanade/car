@@ -25,13 +25,13 @@ export default class ErrorBoundary extends Component {
 
     return (
       <div className="flex min-h-[70vh] flex-col items-center justify-center bg-zinc-50 dark:bg-zinc-900 px-6 py-24 text-center">
-        <p className="text-xs font-medium tracking-[0.35em] text-zinc-500 dark:text-zinc-400 uppercase">
+        <p className="text-xs font-medium tracking-[0.35em] text-zinc-800 dark:text-zinc-400 uppercase">
           Something smeared
         </p>
         <h1 className="font-display mt-4 text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 uppercase md:text-5xl">
           This page needs a polish
         </h1>
-        <p className="mt-5 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+        <p className="mt-5 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
           An unexpected error interrupted this page. The rest of the studio is unaffected — head
           back and try again.
         </p>

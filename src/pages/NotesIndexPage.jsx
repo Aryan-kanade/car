@@ -40,23 +40,23 @@ export default function NotesIndexPage() {
                 />
               </Link>
               <div className="mt-5 flex flex-1 flex-col">
-                <p className="text-[11px] tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase">
+                <p className="text-[11px] tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase">
                   {note.category} · {note.readingTime}
                 </p>
                 <h2 className="font-display mt-2.5 text-lg font-bold tracking-[0.04em] uppercase text-zinc-900 dark:text-zinc-100">
                   <Link
                     to={`/notes/${note.slug}`}
-                    className="transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
+                    className="transition-colors hover:text-zinc-800 dark:hover:text-zinc-300"
                   >
                     {note.title}
                   </Link>
                 </h2>
-                <p className="mt-2.5 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                <p className="mt-2.5 flex-1 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
                   {note.dek}
                 </p>
                 <Link
                   to={`/notes/${note.slug}`}
-                  className="group/link mt-5 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                  className="group/link mt-5 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
                 >
                   Read the guide
                   <ArrowRightIcon

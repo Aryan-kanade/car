@@ -58,7 +58,7 @@ export default function Hero() {
           <br />
           Professional Detailing.
           <br />
-          <span className="text-zinc-500 dark:text-zinc-400">Obsessive by Design.</span>
+          <span className="text-zinc-800 dark:text-zinc-400">Obsessive by Design.</span>
         </m.h1>
 
         <m.p
@@ -66,7 +66,7 @@ export default function Hero() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="mt-8 max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base"
+          className="mt-8 max-w-xl text-sm leading-relaxed text-zinc-800 dark:text-zinc-400 md:text-base"
         >
           pH-balanced chemistry, ceramic-grade protection and studio-tested tools, built for the
           enthusiast who notices every detail.

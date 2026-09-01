@@ -78,12 +78,12 @@ export default function DesignSystemPage() {
                 <p className="mt-2 text-xs font-medium text-zinc-900 dark:text-zinc-100">
                   {swatch.name}
                   {swatch.note && (
-                    <span className="ml-1.5 font-normal text-zinc-500 dark:text-zinc-400">
+                    <span className="ml-1.5 font-normal text-zinc-800 dark:text-zinc-400">
                       · {swatch.note}
                     </span>
                   )}
                 </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 tabular-nums">
+                <p className="text-xs text-zinc-800 dark:text-zinc-400 tabular-nums">
                   {swatch.hex}
                 </p>
               </li>
@@ -101,13 +101,13 @@ export default function DesignSystemPage() {
                 <span className={`${row.className} max-w-[46ch] text-zinc-900 dark:text-zinc-100`}>
                   {row.sample} Obsessive
                 </span>
-                <span className="shrink-0 text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="shrink-0 text-xs text-zinc-800 dark:text-zinc-400">
                   {row.label}
                 </span>
               </li>
             ))}
           </ul>
-          <p className="mt-5 max-w-[62ch] text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+          <p className="mt-5 max-w-[62ch] text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
             Space Grotesk Variable carries display and headings; Inter Variable carries body, labels
             and UI. Both are self-hosted variable fonts.
           </p>
@@ -130,7 +130,7 @@ export default function DesignSystemPage() {
             <button
               type="button"
               disabled
-              className="cursor-not-allowed bg-zinc-200 dark:bg-zinc-800 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase"
+              className="cursor-not-allowed bg-zinc-200 dark:bg-zinc-800 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase"
             >
               Disabled
             </button>
@@ -142,13 +142,13 @@ export default function DesignSystemPage() {
             <span className="rounded-full bg-zinc-900 dark:bg-white px-2.5 py-1 text-[11px] font-semibold tracking-wider text-white dark:text-zinc-900 uppercase">
               Save 45%
             </span>
-            <span className="rounded-full border border-zinc-300 dark:border-zinc-700 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-zinc-600 dark:text-zinc-300 uppercase">
+            <span className="rounded-full border border-zinc-300 dark:border-zinc-700 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-zinc-800 dark:text-zinc-300 uppercase">
               Subscription · 15% off
             </span>
-            <span className="flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400">
+            <span className="flex items-center gap-1.5 text-xs text-amber-800 dark:text-amber-400">
               Only 4 left
             </span>
-            <span className="flex items-center gap-1 rounded-full border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 text-[11px] font-semibold tracking-wide text-zinc-600 dark:text-zinc-300 uppercase">
+            <span className="flex items-center gap-1 rounded-full border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 text-[11px] font-semibold tracking-wide text-zinc-800 dark:text-zinc-300 uppercase">
               Verified
             </span>
           </div>
@@ -159,7 +159,7 @@ export default function DesignSystemPage() {
             <div>
               <label
                 htmlFor="ds-input"
-                className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+                className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
               >
                 Text input
               </label>
@@ -181,12 +181,12 @@ export default function DesignSystemPage() {
           >
             <summary className="flex w-full cursor-pointer list-none items-center justify-between gap-6 py-5 text-left text-sm font-medium text-zinc-900 dark:text-zinc-100 [&::-webkit-details-marker]:hidden">
               Native details accordion
-              <span className="text-xs text-zinc-500 dark:text-zinc-400 group-open:hidden">＋</span>
-              <span className="hidden text-xs text-zinc-500 dark:text-zinc-400 group-open:block">
+              <span className="text-xs text-zinc-800 dark:text-zinc-400 group-open:hidden">＋</span>
+              <span className="hidden text-xs text-zinc-800 dark:text-zinc-400 group-open:block">
                 －
               </span>
             </summary>
-            <p className="pb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="pb-5 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               Zero JavaScript — animated with ::details-content where supported.
             </p>
           </details>
@@ -197,7 +197,7 @@ export default function DesignSystemPage() {
         </Section>
 
         <Section title="Comparison slider">
-          <p className="mb-5 max-w-[62ch] text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+          <p className="mb-5 max-w-[62ch] text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
             Range-input driven — keyboard operable, drag optional.
           </p>
           <BeforeAfterSlider
@@ -211,7 +211,7 @@ export default function DesignSystemPage() {
           <ul className="space-y-3">
             {spacing.map((step) => (
               <li key={step} className="flex items-center gap-4">
-                <span className="w-12 shrink-0 text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="w-12 shrink-0 text-xs text-zinc-800 dark:text-zinc-400">
                   {step * 4}px
                 </span>
                 <span
@@ -225,7 +225,7 @@ export default function DesignSystemPage() {
         </Section>
 
         <Section title="Motion">
-          <ul className="max-w-[70ch] space-y-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <ul className="max-w-[70ch] space-y-2 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
             <li>· Route changes: native View Transitions, 120/180 ms fades</li>
             <li>· Reveals: motion/react whileInView, 400–600 ms, once per view</li>
             <li>· Drawers: spring (damping 30, stiffness 300)</li>
@@ -233,7 +233,7 @@ export default function DesignSystemPage() {
           </ul>
         </Section>
 
-        <p className="mt-12 max-w-[58ch] text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-12 max-w-[58ch] text-sm text-zinc-800 dark:text-zinc-400">
           Quality gates: impeccable 0 findings, axe 0 violations, tsc strict, 18 tests, E2E.{' '}
           <Link
             to="/sitemap"

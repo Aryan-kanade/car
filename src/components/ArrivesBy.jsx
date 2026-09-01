@@ -16,7 +16,7 @@ export default function ArrivesBy({ compact = false }) {
 
   return (
     <p
-      className={`flex items-center gap-2 text-zinc-600 dark:text-zinc-400 ${compact ? 'text-xs' : 'text-sm'}`}
+      className={`flex items-center gap-2 text-zinc-800 dark:text-zinc-400 ${compact ? 'text-xs' : 'text-sm'}`}
     >
       <TruckIcon size={compact ? 15 : 17} weight="light" className="shrink-0" aria-hidden="true" />
       Order today, arrives by <span className="font-semibold">{label}</span>

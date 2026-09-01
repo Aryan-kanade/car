@@ -154,7 +154,7 @@ export default function CommandPalette({ open, onClose }) {
           >
             {/* Input */}
             <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 px-5">
-              <MagnifyingGlassIcon size={18} weight="light" className="shrink-0 text-zinc-500" />
+              <MagnifyingGlassIcon size={18} weight="light" className="shrink-0 text-zinc-800" />
               <input
                 ref={inputRef}
                 type="text"
@@ -168,7 +168,7 @@ export default function CommandPalette({ open, onClose }) {
                 aria-label="Search commands"
                 className="w-full bg-transparent py-4.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-500 dark:placeholder:text-zinc-400 focus:outline-none"
               />
-              <kbd className="shrink-0 rounded border border-zinc-200 dark:border-zinc-800 px-1.5 py-0.5 text-[10px] font-medium text-zinc-500 dark:text-zinc-400">
+              <kbd className="shrink-0 rounded border border-zinc-200 dark:border-zinc-800 px-1.5 py-0.5 text-[10px] font-medium text-zinc-800 dark:text-zinc-400">
                 ESC
               </kbd>
             </div>
@@ -176,7 +176,7 @@ export default function CommandPalette({ open, onClose }) {
             {/* Results */}
             <ul ref={listRef} className="max-h-[50vh] overflow-y-auto p-2" role="listbox">
               {filtered.length === 0 ? (
-                <li className="px-4 py-8 text-center text-sm text-zinc-600 dark:text-zinc-400">
+                <li className="px-4 py-8 text-center text-sm text-zinc-800 dark:text-zinc-400">
                   Nothing matches “{query.trim()}”.
                 </li>
               ) : (
@@ -199,20 +199,20 @@ export default function CommandPalette({ open, onClose }) {
                         <Icon
                           size={17}
                           weight="light"
-                          className="shrink-0 text-zinc-500"
+                          className="shrink-0 text-zinc-800"
                           aria-hidden="true"
                         />
                         <span className="min-w-0 flex-1 truncate text-sm text-zinc-900 dark:text-zinc-100">
                           {command.label}
                         </span>
-                        <span className="shrink-0 text-xs text-zinc-500 dark:text-zinc-400">
+                        <span className="shrink-0 text-xs text-zinc-800 dark:text-zinc-400">
                           {command.hint}
                         </span>
                         {isActive && (
                           <ArrowRightIcon
                             size={13}
                             weight="light"
-                            className="shrink-0 text-zinc-400"
+                            className="shrink-0 text-zinc-800"
                             aria-hidden="true"
                           />
                         )}
@@ -224,7 +224,7 @@ export default function CommandPalette({ open, onClose }) {
             </ul>
 
             {/* Footer hint */}
-            <div className="flex items-center justify-between border-t border-zinc-200 dark:border-zinc-800 px-5 py-2.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+            <div className="flex items-center justify-between border-t border-zinc-200 dark:border-zinc-800 px-5 py-2.5 text-[11px] text-zinc-800 dark:text-zinc-400">
               <span className="flex items-center gap-1.5">
                 <CommandIcon size={12} weight="light" aria-hidden="true" />K to open · ↑↓ navigate ·
                 ↵ select

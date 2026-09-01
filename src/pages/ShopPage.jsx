@@ -73,7 +73,7 @@ export default function ShopPage() {
             className={`cursor-pointer rounded-full border px-4 py-2 text-[11px] font-medium tracking-[0.15em] uppercase transition-colors ${
               !category
                 ? 'border-zinc-900 dark:border-white bg-zinc-900 dark:bg-white text-white dark:text-zinc-900'
-                : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-600 hover:text-zinc-900 dark:hover:text-white'
+                : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-600 hover:text-zinc-900 dark:hover:text-white'
             }`}
           >
             All
@@ -86,7 +86,7 @@ export default function ShopPage() {
               className={`cursor-pointer rounded-full border px-4 py-2 text-[11px] font-medium tracking-[0.15em] uppercase transition-colors ${
                 category?.slug === c.slug
                   ? 'border-zinc-900 dark:border-white bg-zinc-900 dark:bg-white text-white dark:text-zinc-900'
-                  : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-600 hover:text-zinc-900 dark:hover:text-white'
+                  : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-400 hover:border-zinc-400 dark:hover:border-zinc-600 hover:text-zinc-900 dark:hover:text-white'
               }`}
             >
               {c.name}
@@ -95,13 +95,13 @@ export default function ShopPage() {
         </nav>
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="text-sm text-zinc-800 dark:text-zinc-400">
             {isEmpty
               ? 'No products yet'
               : `${visible.length} product${visible.length === 1 ? '' : 's'}`}
           </p>
           {!isEmpty && (
-            <label className="flex items-center gap-3 text-xs tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase">
+            <label className="flex items-center gap-3 text-xs tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase">
               Sort
               <select
                 value={sort}
@@ -124,13 +124,13 @@ export default function ShopPage() {
             <PackageIcon
               size={44}
               weight="light"
-              className="text-zinc-400 dark:text-zinc-500"
+              className="text-zinc-800 dark:text-zinc-500"
               aria-hidden="true"
             />
             <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
               Dropping soon
             </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               Studio-tested microfibres, applicators and brushes are in final testing. Join the
               waitlist and we will tell you the moment they land.
             </p>

@@ -64,7 +64,7 @@ export default function CategoryList() {
                     className={`text-xs font-medium tracking-[0.2em] transition-colors duration-300 md:text-sm ${
                       isActive
                         ? 'text-zinc-900 dark:text-zinc-100'
-                        : 'text-zinc-500 dark:text-zinc-400'
+                        : 'text-zinc-800 dark:text-zinc-400'
                     }`}
                   >
                     {category.number}
@@ -73,7 +73,7 @@ export default function CategoryList() {
                     className={`font-display text-xl font-semibold tracking-[0.05em] uppercase transition-all duration-300 md:text-3xl lg:text-4xl ${
                       isActive
                         ? 'translate-x-2 text-zinc-900 dark:text-zinc-100 md:translate-x-3'
-                        : 'text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white'
+                        : 'text-zinc-800 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white'
                     }`}
                   >
                     {category.name}
@@ -84,7 +84,7 @@ export default function CategoryList() {
                     className={`ml-auto shrink-0 transition-all duration-300 ${
                       isActive
                         ? 'translate-x-0 text-zinc-900 dark:text-zinc-100 opacity-100'
-                        : '-translate-x-2 text-zinc-500 dark:text-zinc-400 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'
+                        : '-translate-x-2 text-zinc-800 dark:text-zinc-400 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'
                     }`}
                   />
                 </Link>

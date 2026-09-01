@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { CarIcon } from '@phosphor-icons/react/dist/csr/Car'
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus'
 import { TrashIcon } from '@phosphor-icons/react/dist/csr/Trash'
+import { DropIcon } from '@phosphor-icons/react/dist/csr/Drop'
 import PageHeader from '../components/PageHeader'
 import { formatPrice, getProductById } from '../data/catalog'
 import { getRoutine } from '../data/quiz'
@@ -29,7 +30,7 @@ const inputClasses =
 /** My Garage — add your cars, get matched routines. A first among detailing brands. */
 export default function GaragePage() {
   usePageMeta('My Garage', 'Add your cars and get detailing routines matched to each one.')
-  const { cars, addCar, removeCar, routineKeyFor } = useGarage()
+  const { cars, addCar, removeCar, logWax, waxStatus, routineKeyFor } = useGarage()
   const { addItem } = useCart()
 
   const [form, setForm] = useState({
@@ -70,7 +71,7 @@ export default function GaragePage() {
           <div>
             <label
               htmlFor="g-name"
-              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
             >
               Nickname
             </label>
@@ -88,7 +89,7 @@ export default function GaragePage() {
             <div>
               <label
                 htmlFor="g-make"
-                className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+                className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
               >
                 Make
               </label>
@@ -105,7 +106,7 @@ export default function GaragePage() {
             <div>
               <label
                 htmlFor="g-model"
-                className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+                className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
               >
                 Model
               </label>
@@ -120,7 +121,7 @@ export default function GaragePage() {
             </div>
           </div>
           <fieldset>
-            <legend className="mb-2 text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase">
+            <legend className="mb-2 text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase">
               What needs attention?
             </legend>
             <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Focus">
@@ -134,7 +135,7 @@ export default function GaragePage() {
                   className={`cursor-pointer rounded-md border px-4 py-2.5 text-sm transition-colors ${
                     form.focus === option.value
                       ? 'border-zinc-900 dark:border-white bg-zinc-900 dark:bg-white text-white dark:text-zinc-900'
-                      : 'border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-400'
+                      : 'border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 hover:border-zinc-400'
                   }`}
                 >
                   {option.label}
@@ -145,7 +146,7 @@ export default function GaragePage() {
           <div>
             <label
               htmlFor="g-condition"
-              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
             >
               Paint condition
             </label>
@@ -178,13 +179,13 @@ export default function GaragePage() {
               <CarIcon
                 size={48}
                 weight="light"
-                className="text-zinc-400 dark:text-zinc-600"
+                className="text-zinc-800 dark:text-zinc-600"
                 aria-hidden="true"
               />
               <h2 className="font-display mt-6 text-xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
                 Your garage is empty
               </h2>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
                 Add your first car and the studio will match a detailing routine to its paint and
                 condition — then badge matching products across the shop.
               </p>
@@ -200,6 +201,7 @@ export default function GaragePage() {
                 const routineProducts = routine.items
                   .map((item) => ({ ...item, product: getProductById(item.productId) }))
                   .filter((item) => item.product)
+                const wax = waxStatus(car)
                 return (
                   <li
                     key={car.id}
@@ -210,7 +212,7 @@ export default function GaragePage() {
                         <h3 className="font-display text-xl font-bold tracking-[0.06em] uppercase text-zinc-900 dark:text-zinc-100">
                           {car.name}
                         </h3>
-                        <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                        <p className="mt-1 text-sm text-zinc-800 dark:text-zinc-400">
                           {car.make} {car.model} ·{' '}
                           {CONDITION_OPTIONS.find((c) => c.value === car.condition)?.label}
                         </p>
@@ -219,16 +221,71 @@ export default function GaragePage() {
                         type="button"
                         aria-label={`Remove ${car.name}`}
                         onClick={() => removeCar(car.id)}
-                        className="cursor-pointer p-2 text-zinc-500 transition-colors hover:text-red-600"
+                        className="cursor-pointer p-2 text-zinc-800 transition-colors hover:text-red-600"
                       >
                         <TrashIcon size={18} weight="light" />
                       </button>
                     </div>
 
+                    {/* Recoat tracker */}
+                    <div
+                      className={`mt-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border px-4 py-3 ${
+                        wax.due
+                          ? 'border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950'
+                          : 'border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900'
+                      }`}
+                    >
+                      <p className="flex items-center gap-2 text-sm text-zinc-800 dark:text-zinc-300">
+                        <DropIcon size={15} weight="light" aria-hidden="true" />
+                        {wax.known ? (
+                          <>
+                            <span
+                              className={
+                                wax.due ? 'font-semibold text-amber-800 dark:text-amber-200' : ''
+                              }
+                            >
+                              {wax.label}
+                            </span>{' '}
+                            <span className="text-xs text-zinc-800 dark:text-zinc-400">
+                              (waxed{' '}
+                              {new Date(car.waxedAt).toLocaleDateString('en-IN', {
+                                day: 'numeric',
+                                month: 'short',
+                              })}
+                              )
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-xs text-zinc-800 dark:text-zinc-400">
+                            Log a wax or sealant application and we&apos;ll remind you when the
+                            protection is spent (~8 weeks).
+                          </span>
+                        )}
+                      </p>
+                      <div className="flex gap-2">
+                        {wax.due && (
+                          <button
+                            type="button"
+                            onClick={() => addItem('wax-shampoo')}
+                            className="cursor-pointer bg-zinc-900 dark:bg-white px-4 py-2 text-[11px] font-semibold tracking-[0.15em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
+                          >
+                            Add Wax Shampoo
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => logWax(car.id)}
+                          className="cursor-pointer border border-zinc-300 dark:border-zinc-700 px-4 py-2 text-[11px] font-semibold tracking-[0.15em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
+                        >
+                          {wax.known ? 'Waxed today' : 'Log wax'}
+                        </button>
+                      </div>
+                    </div>
+
                     <p className="mt-4 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                       {routine.title}
                     </p>
-                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                    <p className="mt-1 text-sm text-zinc-800 dark:text-zinc-400">
                       {routine.summary}
                     </p>
 
@@ -240,7 +297,7 @@ export default function GaragePage() {
                         >
                           <Link
                             to={`/product/${product.id}`}
-                            className="text-zinc-700 dark:text-zinc-300 underline-offset-4 hover:underline"
+                            className="text-zinc-800 dark:text-zinc-300 underline-offset-4 hover:underline"
                           >
                             {product.name}
                           </Link>

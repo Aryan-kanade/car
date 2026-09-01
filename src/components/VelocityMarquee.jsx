@@ -60,7 +60,7 @@ export default function VelocityMarquee({ className = '' }) {
                 key={item}
                 className="flex items-center font-display text-lg font-bold tracking-[0.15em] whitespace-nowrap uppercase text-zinc-900 dark:text-zinc-100 md:text-2xl"
               >
-                <span className="px-5 text-zinc-400 dark:text-zinc-600" aria-hidden="true">
+                <span className="px-5 text-zinc-800 dark:text-zinc-600" aria-hidden="true">
                   ✦
                 </span>
                 {item}

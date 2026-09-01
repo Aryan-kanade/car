@@ -17,7 +17,7 @@ export default function TrustRow() {
       {items.map(({ icon: Icon, label }) => (
         <li
           key={label}
-          className="flex items-center gap-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-3.5 py-3 text-xs text-zinc-600 dark:text-zinc-400"
+          className="flex items-center gap-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-3.5 py-3 text-xs text-zinc-800 dark:text-zinc-400"
         >
           <Icon
             size={18}

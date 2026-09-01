@@ -28,6 +28,8 @@ import {
   valueProps,
 } from '../data/catalog'
 import { subscribePrice, useCart } from '../context/CartContext'
+import { washEconomics } from '../utils/washEconomics'
+import { isLowestInWindow, trackPrice } from '../utils/priceTracker'
 import { useWishlist } from '../context/WishlistContext'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { readReviews } from '../hooks/useProductReviews'
@@ -105,6 +107,12 @@ function ProductView({ product }) {
   const effectivePrice = plan === 'sub' ? subscribePrice(variant.price) : variant.price
   const litres = sizeLitres(variant.label)
   const unitPrice = litres ? effectivePrice / litres : null
+  const econ = washEconomics(product.id, sizeLabel, plan)
+  // Price history (30-day "lowest" badge) — snapshot on every view
+  useEffect(() => {
+    trackPrice(product.id, variant.label, variant.price)
+  }, [product.id, variant.label, variant.price])
+  const isLowest = isLowestInWindow(product.id, variant.label, variant.price)
   const wished = has(product.id)
   const reviewCount = readReviews(product.id).length
   const rating = product.rating
@@ -161,7 +169,7 @@ function ProductView({ product }) {
             transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
             className="flex flex-col"
           >
-            <p className="text-[11px] tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase">
+            <p className="text-[11px] tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase">
               {category ? (
                 <Link
                   to={`/shop/${category.slug}`}
@@ -186,7 +194,7 @@ function ProductView({ product }) {
                     />
                   ))}
                 </span>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="text-xs text-zinc-800 dark:text-zinc-400">
                   ({reviewCount} review{reviewCount === 1 ? '' : 's'})
                 </span>
               </div>
@@ -196,15 +204,20 @@ function ProductView({ product }) {
               <span className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
                 {formatPrice(effectivePrice)}
               </span>
-              <span className="text-base text-zinc-500 dark:text-zinc-400 line-through">
+              <span className="text-base text-zinc-800 dark:text-zinc-400 line-through">
                 {formatPrice(variant.compareAt)}
               </span>
               <span className="rounded-full bg-zinc-900 dark:bg-white px-2.5 py-1 text-[11px] font-semibold tracking-wider text-white dark:text-zinc-900 uppercase">
                 {product.badge}
               </span>
+              {isLowest && (
+                <span className="rounded-full bg-emerald-100 dark:bg-emerald-900 px-2.5 py-1 text-[11px] font-semibold tracking-wider text-emerald-800 dark:text-emerald-200 uppercase">
+                  Lowest in 30 days
+                </span>
+              )}
             </div>
 
-            <p className="mt-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-6 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               {product.description}
             </p>
 
@@ -213,7 +226,7 @@ function ProductView({ product }) {
                 {product.highlights.map((line) => (
                   <li
                     key={line}
-                    className="flex items-start gap-2.5 text-sm text-zinc-700 dark:text-zinc-300"
+                    className="flex items-start gap-2.5 text-sm text-zinc-800 dark:text-zinc-300"
                   >
                     <CheckCircleIcon
                       size={18}
@@ -229,7 +242,7 @@ function ProductView({ product }) {
             {/* Size selector */}
             {sizes && (
               <fieldset className="mt-7">
-                <legend className="text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase">
+                <legend className="text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase">
                   Size
                 </legend>
                 <div className="mt-3 flex flex-wrap gap-2.5" role="radiogroup" aria-label="Size">
@@ -243,7 +256,7 @@ function ProductView({ product }) {
                       className={`cursor-pointer rounded-md border px-5 py-2.5 text-sm transition-colors ${
                         sizeLabel === size.label
                           ? 'border-zinc-900 dark:border-white bg-zinc-900 dark:bg-white text-white dark:text-zinc-900'
-                          : 'border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600'
+                          : 'border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600'
                       }`}
                     >
                       {size.label}
@@ -255,7 +268,7 @@ function ProductView({ product }) {
 
             {subscribeEligible && (
               <fieldset className="mt-7">
-                <legend className="text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase">
+                <legend className="text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase">
                   Purchase plan
                 </legend>
                 <div
@@ -286,7 +299,7 @@ function ProductView({ product }) {
                       <span className="block text-sm font-medium text-zinc-900 dark:text-zinc-100">
                         {option.title}
                       </span>
-                      <span className="mt-0.5 block text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="mt-0.5 block text-xs text-zinc-800 dark:text-zinc-400">
                         {option.note}
                       </span>
                     </button>
@@ -296,8 +309,18 @@ function ProductView({ product }) {
             )}
 
             {litres && (
-              <p className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="mt-4 text-xs text-zinc-800 dark:text-zinc-400">
                 {formatPrice(Math.round(unitPrice))} per litre · {variant.label}
+              </p>
+            )}
+
+            {econ && (
+              <p className="mt-2 text-xs font-medium text-zinc-800 dark:text-zinc-300">
+                ≈ {econ.washes} washes from this bottle ·{' '}
+                <span className="text-emerald-800 dark:text-emerald-400">
+                  ₹{econ.perWash} per wash
+                </span>{' '}
+                at 1:{product.dilutionMlPerLitre} dilution
               </p>
             )}
 
@@ -306,14 +329,14 @@ function ProductView({ product }) {
                 <h2 className="text-[11px] font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase">
                   How to use
                 </h2>
-                <p className="mt-2.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                <p className="mt-2.5 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
                   {product.usage}
                 </p>
               </div>
             )}
 
             <div className="mt-7">
-              <p className="text-[11px] font-medium tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
+              <p className="text-[11px] font-medium tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase">
                 Express checkout
               </p>
               <div className="mt-3 grid grid-cols-2 gap-3">
@@ -338,7 +361,7 @@ function ProductView({ product }) {
                   Card · Pay now
                 </button>
               </div>
-              <p className="mt-4 flex items-center justify-center gap-3 text-[11px] tracking-[0.25em] text-zinc-400 dark:text-zinc-500 uppercase">
+              <p className="mt-4 flex items-center justify-center gap-3 text-[11px] tracking-[0.25em] text-zinc-800 dark:text-zinc-500 uppercase">
                 <span aria-hidden="true">—</span> or add to cart <span aria-hidden="true">—</span>
               </p>
             </div>
@@ -365,7 +388,7 @@ function ProductView({ product }) {
                 className={`cursor-pointer border p-4 transition-colors ${
                   wished
                     ? 'border-zinc-900 dark:border-white text-zinc-900 dark:text-zinc-100'
-                    : 'border-zinc-300 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 hover:border-zinc-900 dark:hover:border-white hover:text-zinc-900 dark:hover:text-white'
+                    : 'border-zinc-300 dark:border-zinc-700 text-zinc-800 dark:text-zinc-400 hover:border-zinc-900 dark:hover:border-white hover:text-zinc-900 dark:hover:text-white'
                 }`}
               >
                 <HeartIcon size={18} weight={wished ? 'fill' : 'light'} />
@@ -374,14 +397,14 @@ function ProductView({ product }) {
 
             {/* Stock urgency */}
             {product.stock <= 5 && (
-              <p className="mt-4 flex items-center gap-2 text-xs font-medium text-amber-700 dark:text-amber-400">
+              <p className="mt-4 flex items-center gap-2 text-xs font-medium text-amber-800 dark:text-amber-400">
                 <FireIcon size={16} weight="fill" aria-hidden="true" />
                 Only {product.stock} left in stock — ships while it lasts
               </p>
             )}
 
             {/* Delivery strip */}
-            <p className="mt-5 flex items-center gap-2.5 text-xs text-zinc-600 dark:text-zinc-400">
+            <p className="mt-5 flex items-center gap-2.5 text-xs text-zinc-800 dark:text-zinc-400">
               <TruckIcon
                 size={18}
                 weight="light"
@@ -402,7 +425,7 @@ function ProductView({ product }) {
               {valueProps.map((prop) => (
                 <li
                   key={prop.title}
-                  className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400"
+                  className="text-xs leading-relaxed text-zinc-800 dark:text-zinc-400"
                 >
                   {prop.subtext}
                 </li>
@@ -419,7 +442,7 @@ function ProductView({ product }) {
             <h2 className="font-display text-xl font-bold tracking-[0.12em] uppercase text-zinc-900 dark:text-zinc-100 md:text-2xl">
               Compare the wash stage
             </h2>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               Three wash-stage formulas, three jobs. Pick the one that matches your paint and
               routine.
             </p>
@@ -429,7 +452,7 @@ function ProductView({ product }) {
                   <tr className="border-b border-zinc-200 dark:border-zinc-800">
                     <th
                       scope="col"
-                      className="py-3 pr-4 text-left text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase"
+                      className="py-3 pr-4 text-left text-xs font-semibold tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase"
                     >
                       Formula
                     </th>
@@ -440,7 +463,7 @@ function ProductView({ product }) {
                         className={`py-3 px-4 text-left font-medium ${
                           column === product.name
                             ? 'text-zinc-900 dark:text-zinc-100'
-                            : 'text-zinc-600 dark:text-zinc-400'
+                            : 'text-zinc-800 dark:text-zinc-400'
                         }`}
                       >
                         {column}
@@ -461,7 +484,7 @@ function ProductView({ product }) {
                     >
                       <th
                         scope="row"
-                        className="py-3.5 pr-4 text-left text-xs font-semibold tracking-wide text-zinc-500 dark:text-zinc-400 uppercase"
+                        className="py-3.5 pr-4 text-left text-xs font-semibold tracking-wide text-zinc-800 dark:text-zinc-400 uppercase"
                       >
                         {row.label}
                       </th>
@@ -471,7 +494,7 @@ function ProductView({ product }) {
                           className={`py-3.5 px-4 ${
                             washStageComparison.columns[index] === product.name
                               ? 'bg-zinc-50 dark:bg-zinc-900 font-medium text-zinc-900 dark:text-zinc-100'
-                              : 'text-zinc-600 dark:text-zinc-400'
+                              : 'text-zinc-800 dark:text-zinc-400'
                           }`}
                         >
                           {value}
@@ -538,13 +561,13 @@ function ProductView({ product }) {
                 <p className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
                   {product.name}
                   {variant.label && (
-                    <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
+                    <span className="ml-2 text-xs text-zinc-800 dark:text-zinc-400">
                       {variant.label}
                     </span>
                   )}
                 </p>
                 <p className="mt-0.5 flex items-baseline gap-2 text-sm">
-                  <span className="text-zinc-500 dark:text-zinc-400 line-through">
+                  <span className="text-zinc-800 dark:text-zinc-400 line-through">
                     {formatPrice(variant.compareAt)}
                   </span>
                   <span className="font-semibold text-zinc-900 dark:text-zinc-100">

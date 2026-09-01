@@ -102,7 +102,7 @@ export default function SessionPage() {
                     <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                       {entry.title}
                     </span>
-                    <span className="mt-1 block text-sm text-zinc-500 dark:text-zinc-300">
+                    <span className="mt-1 block text-sm text-zinc-800 dark:text-zinc-300">
                       {entry.steps.length} stages ·{' '}
                       {formatClock(entry.steps.reduce((total, s) => total + s.seconds, 0))}
                     </span>
@@ -130,7 +130,7 @@ export default function SessionPage() {
           >
             <p
               aria-live="polite"
-              className="text-xs font-medium tracking-[0.25em] text-zinc-500 dark:text-zinc-300 uppercase"
+              className="text-xs font-medium tracking-[0.25em] text-zinc-800 dark:text-zinc-300 uppercase"
             >
               {routine.title} · Stage {stepIndex + 1} of {routine.steps.length}
             </p>
@@ -172,7 +172,7 @@ export default function SessionPage() {
             <h2 className="font-display mt-8 text-2xl font-bold tracking-[0.04em] uppercase text-zinc-900 dark:text-zinc-100">
               {step.name}
             </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-300">
               {step.cue}
             </p>
 
@@ -229,7 +229,7 @@ export default function SessionPage() {
             <p className="font-display text-4xl font-bold text-zinc-900 dark:text-zinc-100">
               {Math.max(1, streak)}-day streak
             </p>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-300">
               {routine?.title} complete. The paint thanks you — come back tomorrow to keep the
               streak alive.
             </p>

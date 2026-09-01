@@ -8,7 +8,9 @@ export default function SplitText({ text, className = '', as: Tag = 'span', dela
   const words = text.split(' ')
 
   return (
-    <Tag className={className} aria-label={text}>
+    <Tag className={className}>
+      {/* Real text for assistive tech — the animated word spans below are decorative */}
+      <span className="sr-only">{text}</span>
       {words.map((word, index) => (
         <span
           key={`${word}-${index}`}

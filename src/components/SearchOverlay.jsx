@@ -4,9 +4,11 @@ import { AnimatePresence, m } from 'motion/react'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import { MicrophoneIcon } from '@phosphor-icons/react/dist/csr/Microphone'
+import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
 import { formatPrice } from '../data/catalog'
 import { searchProducts } from '../utils/search'
 import { useFocusTrap } from '../hooks/useFocusTrap'
+import { useCart } from '../context/CartContext'
 
 /**
  * Full-screen search overlay — live type-ahead across product names
@@ -15,6 +17,7 @@ import { useFocusTrap } from '../hooks/useFocusTrap'
 export default function SearchOverlay({ open, onClose }) {
   const [query, setQuery] = useState('')
   const [listening, setListening] = useState(false)
+  const { addItem } = useCart()
   const [recent, setRecent] = useState(() => {
     try {
       const raw = window.localStorage.getItem('kmkiramyki-recent-searches')
@@ -103,7 +106,7 @@ export default function SearchOverlay({ open, onClose }) {
               <MagnifyingGlassIcon
                 size={20}
                 weight="light"
-                className="shrink-0 text-zinc-500 dark:text-zinc-400"
+                className="shrink-0 text-zinc-800 dark:text-zinc-400"
               />
               <input
                 ref={inputRef}
@@ -124,7 +127,7 @@ export default function SearchOverlay({ open, onClose }) {
                     className={`cursor-pointer p-2 transition-colors ${
                       listening
                         ? 'text-zinc-900 dark:text-white animate-pulse'
-                        : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+                        : 'text-zinc-800 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
                     }`}
                   >
                     <MicrophoneIcon size={18} weight={listening ? 'fill' : 'light'} />
@@ -134,7 +137,7 @@ export default function SearchOverlay({ open, onClose }) {
                 type="button"
                 aria-label="Close search"
                 onClick={onClose}
-                className="cursor-pointer p-2 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                className="cursor-pointer p-2 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 <XIcon size={18} weight="light" />
               </button>
@@ -143,7 +146,7 @@ export default function SearchOverlay({ open, onClose }) {
             {/* Results */}
             {!query.trim() && recent.length > 0 && (
               <div className="flex flex-wrap items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 px-5 py-3">
-                <span className="text-[11px] font-medium tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
+                <span className="text-[11px] font-medium tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase">
                   Recent
                 </span>
                 {recent.map((term) => (
@@ -151,7 +154,7 @@ export default function SearchOverlay({ open, onClose }) {
                     key={term}
                     type="button"
                     onClick={() => setQuery(term)}
-                    className="cursor-pointer rounded-full border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-xs text-zinc-600 dark:text-zinc-300 capitalize transition-colors hover:border-zinc-900 dark:hover:border-white"
+                    className="cursor-pointer rounded-full border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-xs text-zinc-800 dark:text-zinc-300 capitalize transition-colors hover:border-zinc-900 dark:hover:border-white"
                   >
                     {term}
                   </button>
@@ -161,7 +164,7 @@ export default function SearchOverlay({ open, onClose }) {
             <div className="max-h-[55vh] overflow-y-auto p-2">
               <p
                 aria-live="polite"
-                className="px-3 pt-2 pb-1 text-[11px] tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase"
+                className="px-3 pt-2 pb-1 text-[11px] tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase"
               >
                 {query.trim()
                   ? `${results.length} result${results.length === 1 ? '' : 's'}`
@@ -169,7 +172,7 @@ export default function SearchOverlay({ open, onClose }) {
               </p>
               {results.length === 0 ? (
                 <div className="px-3 py-8 text-center">
-                  <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  <p className="text-sm text-zinc-800 dark:text-zinc-400">
                     Nothing matches “{query.trim()}”. Try a category like “wheel” or “shampoo”.
                   </p>
                   <Link
@@ -184,26 +187,37 @@ export default function SearchOverlay({ open, onClose }) {
                 <ul>
                   {results.map((product) => (
                     <li key={product.id}>
-                      <Link
-                        to={`/product/${product.id}`}
-                        onClick={() => {
-                          rememberSearch(query)
-                          onClose()
-                        }}
-                        className="flex items-center justify-between gap-4 rounded-lg px-3 py-3 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900"
-                      >
-                        <span>
-                          <span className="block text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                            {product.name}
+                      <div className="flex items-center gap-2 rounded-lg transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900">
+                        <Link
+                          to={`/product/${product.id}`}
+                          onClick={() => {
+                            rememberSearch(query)
+                            onClose()
+                          }}
+                          className="flex flex-1 items-center justify-between gap-4 px-3 py-3"
+                        >
+                          <span>
+                            <span className="block text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                              {product.name}
+                            </span>
+                            <span className="mt-0.5 block text-xs text-zinc-800 dark:text-zinc-400">
+                              {product.category}
+                            </span>
                           </span>
-                          <span className="mt-0.5 block text-xs text-zinc-500 dark:text-zinc-400">
-                            {product.category}
+                          <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                            {formatPrice(product.price)}
                           </span>
-                        </span>
-                        <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                          {formatPrice(product.price)}
-                        </span>
-                      </Link>
+                        </Link>
+                        <button
+                          type="button"
+                          aria-label={`Add ${product.name} to cart`}
+                          onClick={() => addItem(product.id, 1, null, { openDrawer: false })}
+                          className="mr-2 flex shrink-0 cursor-pointer items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 px-3 py-2 text-[11px] font-semibold tracking-[0.15em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
+                        >
+                          <ShoppingCartIcon size={13} weight="light" aria-hidden="true" />
+                          Add
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>

@@ -54,7 +54,7 @@ export default function BuilderPage() {
       {/* Live summary bar — sticks under the navbar while you pick */}
       <div className="sticky top-16 z-30 border-y border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 md:top-20">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
-          <p aria-live="polite" className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p aria-live="polite" className="text-sm text-zinc-800 dark:text-zinc-400">
             {chosen.length === 0 ? (
               <>Your kit is empty — tap products to start building.</>
             ) : qualifies ? (
@@ -62,7 +62,7 @@ export default function BuilderPage() {
                 <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                   {chosen.length} items · {formatPrice(total)}
                 </span>{' '}
-                <span className="text-zinc-500 dark:text-zinc-400">
+                <span className="text-zinc-800 dark:text-zinc-400">
                   ({formatPrice(subtotal)} − {formatPrice(discount)} kit discount)
                 </span>
               </>
@@ -118,7 +118,7 @@ export default function BuilderPage() {
                     className={`absolute top-3 right-3 rounded-full p-2 ${
                       isSelected
                         ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900'
-                        : 'bg-white/90 dark:bg-zinc-950/90 text-zinc-400 dark:text-zinc-500'
+                        : 'bg-white/90 dark:bg-zinc-950/90 text-zinc-800 dark:text-zinc-500'
                     }`}
                     aria-hidden="true"
                   >
@@ -130,7 +130,7 @@ export default function BuilderPage() {
                   </span>
                 </span>
                 <span className="flex flex-1 flex-col p-5">
-                  <span className="text-[11px] tracking-[0.15em] text-zinc-600 dark:text-zinc-400 uppercase">
+                  <span className="text-[11px] tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase">
                     {product.category}
                   </span>
                   <span className="mt-1 text-sm font-medium text-zinc-900 dark:text-zinc-100">

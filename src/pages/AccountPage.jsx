@@ -59,11 +59,11 @@ export default function AccountPage() {
             </h2>
             <p className="font-display mt-4 text-4xl font-bold text-zinc-900 dark:text-zinc-100">
               {balance}
-              <span className="ml-2 text-base font-semibold text-zinc-500 dark:text-zinc-400">
+              <span className="ml-2 text-base font-semibold text-zinc-800 dark:text-zinc-400">
                 pts
               </span>
             </p>
-            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+            <p className="mt-2 text-sm text-zinc-800 dark:text-zinc-400">
               {canRedeem
                 ? `A ${formatPrice(250)} reward is ready to redeem at checkout.`
                 : `${REDEEM_THRESHOLD - balance} more points unlocks a ${formatPrice(250)} reward.`}
@@ -74,7 +74,7 @@ export default function AccountPage() {
             <h2 className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
               Tier · {tier.name}
             </h2>
-            <p className="mt-4 flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+            <p className="mt-4 flex items-center gap-2 text-sm text-zinc-800 dark:text-zinc-400">
               <SealCheckIcon
                 size={16}
                 weight="fill"
@@ -98,7 +98,7 @@ export default function AccountPage() {
                     style={{ width: `${progress}%` }}
                   />
                 </div>
-                <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="mt-2 text-xs text-zinc-800 dark:text-zinc-400">
                   {nextTier.min - balance} pts to {nextTier.name} — {nextTier.perk.toLowerCase()}
                 </p>
               </>
@@ -131,7 +131,7 @@ export default function AccountPage() {
                   {label}
                 </span>
               </span>
-              <span className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+              <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-400">
                 {count}
               </span>
             </Link>
@@ -153,12 +153,12 @@ export default function AccountPage() {
                   {getOrderStatus(orders[0].placedAt).label}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+              <p className="mt-2 text-sm text-zinc-800 dark:text-zinc-400">
                 {orders[0].items.length} items · {formatPrice(orders[0].total)}
               </p>
               <Link
                 to="/orders"
-                className="mt-4 inline-block text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                className="mt-4 inline-block text-xs font-semibold tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 View all orders →
               </Link>

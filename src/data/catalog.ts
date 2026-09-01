@@ -701,7 +701,7 @@ export const footerColumns = [
   },
 ]
 
-export const paymentMethods = ['Visa', 'Mastercard', 'Amex', 'Apple Pay', 'PayPal']
+export const paymentMethods = ['UPI', 'Visa', 'Mastercard', 'RuPay', 'Netbanking', 'Wallets', 'COD']
 
 export const legalLinks = [
   { label: 'Terms', to: '/terms' },

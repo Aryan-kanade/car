@@ -31,7 +31,7 @@ export default function ContentPage({ slug }) {
               {section.body.map((paragraph, index) => (
                 <p
                   key={index}
-                  className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base"
+                  className="text-sm leading-relaxed text-zinc-800 dark:text-zinc-400 md:text-base"
                 >
                   {paragraph}
                 </p>
@@ -39,7 +39,7 @@ export default function ContentPage({ slug }) {
             </div>
           </section>
         ))}
-        <p className="mt-10 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-10 text-xs text-zinc-800 dark:text-zinc-400">
           Last updated: {page.updated}
         </p>
       </div>

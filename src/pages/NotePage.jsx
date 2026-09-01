@@ -52,7 +52,7 @@ export default function NotePage() {
               {section.body.map((paragraph, index) => (
                 <p
                   key={index}
-                  className="max-w-[70ch] text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base"
+                  className="max-w-[70ch] text-sm leading-relaxed text-zinc-800 dark:text-zinc-400 md:text-base"
                 >
                   {paragraph}
                 </p>
@@ -65,7 +65,7 @@ export default function NotePage() {
           <h2 className="font-display text-lg font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
             Shop the formulas in this guide
           </h2>
-          <p className="mx-auto mt-2.5 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="mx-auto mt-2.5 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
             Every routine in Lab Notes runs on KMKIRAMYKI chemistry — coating-safe and pH-balanced
             by default.
           </p>

@@ -35,7 +35,7 @@ export default function ValueProps() {
               <h2 className="mt-6 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase">
                 {prop.title}
               </h2>
-              <p className="mt-2.5 text-sm text-zinc-500 dark:text-zinc-400">{prop.subtext}</p>
+              <p className="mt-2.5 text-sm text-zinc-800 dark:text-zinc-400">{prop.subtext}</p>
             </m.div>
           )
         })}

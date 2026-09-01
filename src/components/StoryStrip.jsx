@@ -30,7 +30,7 @@ export default function StoryStrip() {
           <h2 className="font-display text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100 md:text-4xl">
             {about.headline}
           </h2>
-          <p className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base">
+          <p className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-800 dark:text-zinc-400 md:text-base">
             {about.intro}
           </p>
 
@@ -40,7 +40,7 @@ export default function StoryStrip() {
                 <dd className="font-display text-3xl font-bold text-zinc-900 dark:text-zinc-100 md:text-4xl">
                   {stat.value}
                 </dd>
-                <dt className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">{stat.label}</dt>
+                <dt className="mt-1.5 text-xs text-zinc-800 dark:text-zinc-400">{stat.label}</dt>
               </div>
             ))}
           </dl>

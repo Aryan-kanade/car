@@ -30,7 +30,7 @@ export default function MegaMenu() {
                   <span className="block text-sm font-medium text-zinc-900 dark:text-zinc-100">
                     {category.name}
                   </span>
-                  <span className="mt-0.5 block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="mt-0.5 block text-xs text-zinc-800 dark:text-zinc-400">
                     {category.tagline}
                   </span>
                 </Link>
@@ -41,7 +41,7 @@ export default function MegaMenu() {
             <Link
               viewTransition
               to="/shop"
-              className="group/all flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+              className="group/all flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
             >
               View all products
               <ArrowRightIcon
@@ -54,21 +54,21 @@ export default function MegaMenu() {
               <Link
                 viewTransition
                 to="/quiz"
-                className="text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                className="text-[11px] font-semibold tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 Find your routine
               </Link>
               <Link
                 viewTransition
                 to="/builder"
-                className="text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                className="text-[11px] font-semibold tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 Build your kit
               </Link>
               <Link
                 viewTransition
                 to="/calculator"
-                className="text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                className="text-[11px] font-semibold tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
               >
                 Dilution calculator
               </Link>
@@ -92,14 +92,14 @@ export default function MegaMenu() {
                 {featured.name}
               </p>
               <p className="mt-1.5 flex items-baseline gap-2 text-sm">
-                <span className="text-zinc-500 dark:text-zinc-400 line-through">
+                <span className="text-zinc-800 dark:text-zinc-400 line-through">
                   {formatPrice(featured.compareAt)}
                 </span>
                 <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                   {formatPrice(featured.price)}
                 </span>
               </p>
-              <span className="mt-3 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white">
+              <span className="mt-3 inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white">
                 View the kit
                 <ArrowRightIcon size={13} weight="light" />
               </span>

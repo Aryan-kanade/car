@@ -65,7 +65,7 @@ export default function SitemapPage() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-sm text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                    className="text-sm text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                   >
                     {link.label}
                   </Link>

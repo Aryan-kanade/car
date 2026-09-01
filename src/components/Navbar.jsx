@@ -16,7 +16,7 @@ import MegaMenu from './MegaMenu'
 import Logo from './Logo'
 
 const linkClasses =
-  'relative text-[11px] font-medium tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-zinc-900 dark:after:bg-white after:transition-all after:duration-300 hover:after:w-full'
+  'relative text-[11px] font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-zinc-900 dark:after:bg-white after:transition-all after:duration-300 hover:after:w-full'
 
 const desktopLinks = [
   { label: 'Kits', to: '/kits' },
@@ -86,7 +86,7 @@ export default function Navbar({ onOpenSearch }) {
             aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
             aria-pressed={theme === 'dark'}
             onClick={toggleTheme}
-            className="cursor-pointer p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+            className="cursor-pointer p-3 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
           >
             {theme === 'dark' ? (
               <SunIcon size={20} weight="light" />
@@ -98,7 +98,7 @@ export default function Navbar({ onOpenSearch }) {
             type="button"
             aria-label="Search"
             onClick={onOpenSearch}
-            className="cursor-pointer p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+            className="cursor-pointer p-3 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
           >
             <MagnifyingGlassIcon size={20} weight="light" />
           </button>
@@ -106,7 +106,7 @@ export default function Navbar({ onOpenSearch }) {
             viewTransition
             to="/wishlist"
             aria-label={`Wishlist, ${wishlistCount} items`}
-            className="relative p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+            className="relative p-3 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
           >
             <HeartIcon size={20} weight="light" />
             {wishlistCount > 0 && (
@@ -125,7 +125,7 @@ export default function Navbar({ onOpenSearch }) {
             type="button"
             aria-label={`Cart, ${count} items`}
             onClick={openDrawer}
-            className="relative cursor-pointer p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+            className="relative cursor-pointer p-3 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
           >
             <ShoppingCartIcon size={20} weight="light" />
             <m.span
@@ -143,7 +143,7 @@ export default function Navbar({ onOpenSearch }) {
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((open) => !open)}
-            className="cursor-pointer p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white lg:hidden"
+            className="cursor-pointer p-3 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white lg:hidden"
           >
             {menuOpen ? <XIcon size={22} weight="light" /> : <ListIcon size={22} weight="light" />}
           </button>
@@ -162,7 +162,7 @@ export default function Navbar({ onOpenSearch }) {
           >
             <ul className="space-y-1 px-6 py-6">
               <li>
-                <p className="pt-2 pb-1 text-[11px] font-semibold tracking-[0.25em] text-zinc-400 dark:text-zinc-500 uppercase">
+                <p className="pt-2 pb-1 text-[11px] font-semibold tracking-[0.25em] text-zinc-800 dark:text-zinc-500 uppercase">
                   Shop
                 </p>
                 <ul>
@@ -171,7 +171,7 @@ export default function Navbar({ onOpenSearch }) {
                       <Link
                         to={`/shop/${category.slug}`}
                         onClick={() => setMenuOpen(false)}
-                        className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                        className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
                       >
                         {category.name}
                       </Link>
@@ -184,7 +184,7 @@ export default function Navbar({ onOpenSearch }) {
                   <Link
                     to={link.to}
                     onClick={() => setMenuOpen(false)}
-                    className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                    className="block py-3 text-xs font-medium tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
                   >
                     {link.label}
                   </Link>

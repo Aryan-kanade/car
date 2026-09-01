@@ -54,7 +54,7 @@ export default function ChecklistPage() {
       <div className="no-print mb-8">
         <a
           href={`?routine=${kind === 'deep' ? 'maintenance' : 'deep'}`}
-          className="text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-300 uppercase underline underline-offset-4"
+          className="text-xs font-semibold tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase underline underline-offset-4"
         >
           Switch to {kind === 'deep' ? 'maintenance' : 'deep'} checklist
         </a>
@@ -63,7 +63,7 @@ export default function ChecklistPage() {
       <h1 className="font-display text-2xl font-bold tracking-[0.06em] uppercase text-zinc-900 dark:text-zinc-100">
         {routine.title}
       </h1>
-      <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-300">
+      <p className="mt-2 text-sm text-zinc-800 dark:text-zinc-300">
         KMKIRAMYKI Advanced Chemistry · Wash-day checklist
       </p>
 
@@ -78,7 +78,7 @@ export default function ChecklistPage() {
               <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                 {index + 1}. {name}
               </span>
-              <span className="mt-0.5 block text-sm text-zinc-600 dark:text-zinc-300">{note}</span>
+              <span className="mt-0.5 block text-sm text-zinc-800 dark:text-zinc-300">{note}</span>
             </span>
           </li>
         ))}
@@ -97,7 +97,7 @@ export default function ChecklistPage() {
         </ul>
       </div>
 
-      <p className="no-print mt-10 text-sm text-zinc-500 dark:text-zinc-300">
+      <p className="no-print mt-10 text-sm text-zinc-800 dark:text-zinc-300">
         Tip: press Ctrl+P for a print-ready copy.
       </p>
     </div>

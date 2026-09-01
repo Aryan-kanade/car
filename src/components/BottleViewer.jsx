@@ -160,7 +160,7 @@ export default function BottleViewer({ label, className = '' }) {
         aria-label={`Interactive 360 degree view: ${label}`}
         role="img"
       />
-      <p className="pointer-events-none absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[11px] font-medium tracking-[0.25em] text-zinc-500 dark:text-zinc-400 uppercase">
+      <p className="pointer-events-none absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 text-[11px] font-medium tracking-[0.25em] text-zinc-800 dark:text-zinc-400 uppercase">
         <ArrowsClockwiseIcon size={13} weight="light" aria-hidden="true" />
         Drag to rotate
       </p>

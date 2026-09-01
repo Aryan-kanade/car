@@ -16,7 +16,7 @@ function LitresInput({ litres, onChange }) {
     <div>
       <label
         htmlFor="water-volume"
-        className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+        className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
       >
         Water volume
       </label>
@@ -75,7 +75,7 @@ export default function CalculatorPage() {
             className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-7 md:p-9"
           >
             <fieldset>
-              <legend className="text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase">
+              <legend className="text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase">
                 Concentrate
               </legend>
               <div
@@ -93,7 +93,7 @@ export default function CalculatorPage() {
                     className={`cursor-pointer rounded-md border px-4 py-2.5 text-sm transition-colors ${
                       productId === option.id
                         ? 'border-zinc-900 dark:border-white bg-zinc-900 dark:bg-white text-white dark:text-zinc-900'
-                        : 'border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600'
+                        : 'border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600'
                     }`}
                   >
                     {option.name}
@@ -111,22 +111,22 @@ export default function CalculatorPage() {
               className="mt-8 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 text-center"
               aria-live="polite"
             >
-              <p className="flex items-center justify-center gap-2 text-xs tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
+              <p className="flex items-center justify-center gap-2 text-xs tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase">
                 <FlaskIcon size={16} weight="light" aria-hidden="true" />
                 Add to {litres.toFixed(1)} L of water
               </p>
               <p className="font-display mt-3 text-5xl font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
                 {ml}
-                <span className="ml-2 text-xl font-semibold text-zinc-500 dark:text-zinc-400">
+                <span className="ml-2 text-xl font-semibold text-zinc-800 dark:text-zinc-400">
                   ml
                 </span>
               </p>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+              <p className="mt-2 text-sm text-zinc-800 dark:text-zinc-400">
                 ≈ {caps} bottle cap{caps === '1.0' ? '' : 's'} (25 ml cap)
               </p>
             </div>
 
-            <p className="mt-6 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+            <p className="mt-6 text-xs leading-relaxed text-zinc-800 dark:text-zinc-400">
               {product.usage}
             </p>
           </m.div>
@@ -147,15 +147,15 @@ export default function CalculatorPage() {
             <p className="mt-5 text-sm font-medium text-zinc-900 dark:text-zinc-100">
               <Link
                 to={`/product/${product.id}`}
-                className="transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
+                className="transition-colors hover:text-zinc-800 dark:hover:text-zinc-300"
               >
                 {product.name}
               </Link>
             </p>
-            <p className="mt-1.5 text-sm text-zinc-600 dark:text-zinc-400">
+            <p className="mt-1.5 text-sm text-zinc-800 dark:text-zinc-400">
               {formatPrice(product.price)} · {product.dilutionMlPerLitre} ml per litre
             </p>
-            <p className="mt-4 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+            <p className="mt-4 text-xs leading-relaxed text-zinc-800 dark:text-zinc-400">
               A 500 ml bottle yields {Math.floor(500 / product.dilutionMlPerLitre)} litres of ready
               mix — roughly {Math.floor(500 / product.dilutionMlPerLitre / 10)} full bucket washes.
             </p>

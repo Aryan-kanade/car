@@ -25,7 +25,7 @@ export default function AboutPage() {
         <dl className="mx-auto grid max-w-7xl grid-cols-1 divide-y divide-zinc-200 dark:divide-zinc-800 px-6 py-10 sm:grid-cols-3 sm:divide-x sm:divide-y-0 md:py-12">
           {about.stats.map((stat) => (
             <div key={stat.label} className="px-6 py-6 text-center sm:py-0">
-              <dt className="order-2 mt-2 text-xs tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase sm:mt-3">
+              <dt className="order-2 mt-2 text-xs tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase sm:mt-3">
                 {stat.label}
               </dt>
               <dd className="font-display order-1 text-4xl font-bold text-zinc-900 dark:text-zinc-100 md:text-5xl">
@@ -58,7 +58,7 @@ export default function AboutPage() {
               <h2 className="font-display text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100 md:text-3xl">
                 {section.title}
               </h2>
-              <p className="mt-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base">
+              <p className="mt-5 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400 md:text-base">
                 {section.body}
               </p>
             </div>
@@ -72,7 +72,7 @@ export default function AboutPage() {
           <h2 className="font-display text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100 md:text-3xl">
             Try the chemistry
           </h2>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
             Every bottle carries the 60-day performance guarantee. If it does not outperform what
             you use today, it is on us.
           </p>

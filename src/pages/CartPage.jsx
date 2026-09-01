@@ -15,6 +15,9 @@ import {
   FREE_SHIPPING_THRESHOLD,
 } from '../data/catalog'
 import { promoGivesFreeShipping } from '../utils/promos'
+import { kitCompletionCandidate } from '../utils/bundles'
+import { orderWashEstimate } from '../utils/washEconomics'
+import OrderByCountdown from '../components/OrderByCountdown'
 import { useCart } from '../context/CartContext'
 import { REDEEM_THRESHOLD, REDEEM_VALUE, useLoyalty } from '../context/LoyaltyContext'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -54,16 +57,22 @@ export default function CartPage() {
     .filter((product) => !items.some((item) => item.product.id === product.id))
     .slice(0, 3)
 
+  // Smart kit-upgrade suggestion (2+ of a kit's products in cart)
+  const kitUpgrade = kitCompletionCandidate(items.map(({ product }) => product))
+  const washEstimate = orderWashEstimate(
+    items.map(({ product, size, qty }) => ({ id: product.id, size, qty }))
+  )
+
   if (items.length === 0) {
     return (
       <>
         <PageHeader breadcrumb={[{ label: 'Cart' }]} title="Your Cart" />
         <div className="mx-auto flex max-w-7xl flex-col items-center px-6 py-24 text-center md:py-32">
-          <EmptyBucket className="h-28 w-28 text-zinc-400 dark:text-zinc-600" />
+          <EmptyBucket className="h-28 w-28 text-zinc-800 dark:text-zinc-600" />
           <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
             Your cart is empty
           </h2>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
             Chemistry, kits and studio-tested tools are waiting. Free shipping kicks in at{' '}
             {formatPrice(FREE_SHIPPING_THRESHOLD)}.
           </p>
@@ -112,23 +121,23 @@ export default function CartPage() {
                 <div className="flex flex-1 flex-col">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-[11px] tracking-[0.15em] text-zinc-600 dark:text-zinc-400 uppercase">
+                      <p className="text-[11px] tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase">
                         {product.category}
                       </p>
                       <h2 className="mt-1 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                         <Link
                           to={`/product/${product.id}`}
-                          className="transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
+                          className="transition-colors hover:text-zinc-800 dark:hover:text-zinc-300"
                         >
                           {product.name}
                         </Link>
                         {size && (
-                          <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
+                          <span className="ml-2 text-xs text-zinc-800 dark:text-zinc-400">
                             {size}
                           </span>
                         )}
                         {recurring && (
-                          <span className="ml-2 rounded-full border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-zinc-600 dark:text-zinc-300 uppercase">
+                          <span className="ml-2 rounded-full border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-zinc-800 dark:text-zinc-300 uppercase">
                             Subscription · 15% off
                           </span>
                         )}
@@ -138,7 +147,7 @@ export default function CartPage() {
                       type="button"
                       aria-label={`Remove ${product.name}${size ? ` ${size}` : ''} from cart`}
                       onClick={() => removeItem(product.id, size, plan)}
-                      className="cursor-pointer p-2 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                      className="cursor-pointer p-2 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                     >
                       <XIcon size={18} weight="light" />
                     </button>
@@ -150,7 +159,7 @@ export default function CartPage() {
                         type="button"
                         aria-label={`Decrease quantity of ${product.name}`}
                         onClick={() => setQty(product.id, size, plan, qty - 1)}
-                        className="cursor-pointer p-2.5 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                        className="cursor-pointer p-2.5 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                       >
                         <MinusIcon size={14} weight="light" />
                       </button>
@@ -161,13 +170,13 @@ export default function CartPage() {
                         type="button"
                         aria-label={`Increase quantity of ${product.name}`}
                         onClick={() => setQty(product.id, size, plan, qty + 1)}
-                        className="cursor-pointer p-2.5 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                        className="cursor-pointer p-2.5 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                       >
                         <PlusIcon size={14} weight="light" />
                       </button>
                     </div>
                     <p className="flex items-baseline gap-2.5 text-sm">
-                      <span className="text-zinc-500 dark:text-zinc-400 line-through">
+                      <span className="text-zinc-800 dark:text-zinc-400 line-through">
                         {formatPrice(unitCompareAt * qty)}
                       </span>
                       <span className="font-semibold text-zinc-900 dark:text-zinc-100">
@@ -183,14 +192,14 @@ export default function CartPage() {
           <div className="mt-6 flex items-center justify-between">
             <Link
               to="/shop"
-              className="text-xs font-medium tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+              className="text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
             >
               Continue shopping
             </Link>
             <button
               type="button"
               onClick={clearCart}
-              className="cursor-pointer text-xs font-medium tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+              className="cursor-pointer text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
             >
               Clear cart
             </button>
@@ -202,7 +211,7 @@ export default function CartPage() {
               <h2 className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
                 Choose a complimentary sample
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              <p className="mt-2 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
                 One free 50 ml vial with every order — try a formula before you commit to a bottle.
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
@@ -211,13 +220,34 @@ export default function CartPage() {
                     key={sample.id}
                     type="button"
                     onClick={() => addItem(sample.id)}
-                    className="cursor-pointer rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 transition-colors hover:border-zinc-900 dark:hover:border-white"
+                    className="cursor-pointer rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3 text-sm text-zinc-800 dark:text-zinc-300 transition-colors hover:border-zinc-900 dark:hover:border-white"
                   >
                     {sample.name.replace(' Sample · 50 ml', '')}
-                    <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">Free</span>
+                    <span className="ml-2 text-xs text-zinc-800 dark:text-zinc-400">Free</span>
                   </button>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Smart kit completion */}
+          {kitUpgrade && (
+            <div className="mt-10 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-zinc-900 dark:border-white bg-zinc-50 dark:bg-zinc-900 px-5 py-4">
+              <p className="text-sm text-zinc-800 dark:text-zinc-300">
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                  You&apos;re {kitUpgrade.matchedCount} products into the {kitUpgrade.bundle.title}{' '}
+                  kit.
+                </span>{' '}
+                The full box ({kitUpgrade.bundle.product}) is {formatPrice(kitUpgrade.bundle.price)}{' '}
+                — everything you&apos;re buying plus the extras, at the kit price.
+              </p>
+              <button
+                type="button"
+                onClick={() => addItem(kitUpgrade.bundle.productId)}
+                className="shrink-0 cursor-pointer bg-zinc-900 dark:bg-white px-5 py-3 text-xs font-semibold tracking-[0.15em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
+              >
+                Add the {kitUpgrade.bundle.title} kit
+              </button>
             </div>
           )}
 
@@ -244,7 +274,7 @@ export default function CartPage() {
 
           {/* Free shipping progress */}
           <div className="mt-5">
-            <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+            <div className="flex items-center gap-2 text-xs text-zinc-800 dark:text-zinc-400">
               <TruckIcon size={16} weight="light" aria-hidden="true" />
               {freeShipping ? (
                 <span>Free shipping unlocked</span>
@@ -265,31 +295,41 @@ export default function CartPage() {
                 style={{ width: `${progress}%` }}
               />
             </div>
+            <div className="mt-3">
+              <OrderByCountdown compact />
+            </div>
           </div>
 
+          {washEstimate && (
+            <p className="mt-4 rounded-md border border-zinc-200 dark:border-zinc-800 px-4 py-3 text-xs leading-relaxed text-zinc-800 dark:text-zinc-300">
+              This cart covers ≈ <span className="font-semibold">{washEstimate.washes} washes</span>{' '}
+              ({washEstimate.months} months of weekend detailing).
+            </p>
+          )}
+
           <dl className="mt-6 space-y-3 border-t border-zinc-200 dark:border-zinc-800 pt-5 text-sm">
-            <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
+            <div className="flex justify-between text-zinc-800 dark:text-zinc-400">
               <dt>Subtotal</dt>
               <dd className="font-medium text-zinc-900 dark:text-zinc-100">
                 {formatPrice(subtotal)}
               </dd>
             </div>
             {discount > 0 && (
-              <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
+              <div className="flex justify-between text-zinc-800 dark:text-zinc-400">
                 <dt>Discount ({promo.code})</dt>
                 <dd className="font-medium text-zinc-900 dark:text-zinc-100">
                   −{formatPrice(discount)}
                 </dd>
               </div>
             )}
-            <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
+            <div className="flex justify-between text-zinc-800 dark:text-zinc-400">
               <dt>Shipping</dt>
               <dd className="font-medium text-zinc-900 dark:text-zinc-100">
                 {shipping === 0 ? 'Free' : formatPrice(shipping)}
               </dd>
             </div>
             {pointsDiscount > 0 && (
-              <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
+              <div className="flex justify-between text-zinc-800 dark:text-zinc-400">
                 <dt>Studio Points (−{REDEEM_THRESHOLD})</dt>
                 <dd className="font-medium text-zinc-900 dark:text-zinc-100">
                   −{formatPrice(pointsDiscount)}
@@ -306,7 +346,7 @@ export default function CartPage() {
           <div className="mt-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3.5">
             {canRedeem ? (
               <label className="flex cursor-pointer items-center justify-between gap-3 text-sm">
-                <span className="text-zinc-700 dark:text-zinc-300">
+                <span className="text-zinc-800 dark:text-zinc-300">
                   <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                     {balance} pts
                   </span>{' '}
@@ -320,14 +360,14 @@ export default function CartPage() {
                 />
               </label>
             ) : (
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              <p className="text-sm text-zinc-800 dark:text-zinc-400">
                 <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                   {balance} pts
                 </span>{' '}
                 — {REDEEM_THRESHOLD - balance} more unlocks {formatPrice(REDEEM_VALUE)} off
               </p>
             )}
-            <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1.5 text-xs text-zinc-800 dark:text-zinc-400">
               This order earns <span className="font-semibold">{pointsEarned} pts</span>
             </p>
           </div>
@@ -335,7 +375,7 @@ export default function CartPage() {
           {/* Promo code */}
           <div className="mt-5 border-t border-zinc-200 dark:border-zinc-800 pt-5">
             {promo ? (
-              <p className="flex items-center justify-between gap-3 text-xs text-zinc-600 dark:text-zinc-400">
+              <p className="flex items-center justify-between gap-3 text-xs text-zinc-800 dark:text-zinc-400">
                 <span>
                   <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                     {promo.code}
@@ -345,7 +385,7 @@ export default function CartPage() {
                 <button
                   type="button"
                   onClick={clearPromo}
-                  className="cursor-pointer p-2 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
+                  className="cursor-pointer p-2 text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                   aria-label={`Remove promo code ${promo.code}`}
                 >
                   <XIcon size={14} weight="light" />
@@ -391,7 +431,7 @@ export default function CartPage() {
           >
             Proceed to checkout
           </Link>
-          <p className="mt-3 text-center text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="mt-3 text-center text-xs text-zinc-800 dark:text-zinc-400">
             Demo checkout — no payment is processed.
           </p>
         </aside>

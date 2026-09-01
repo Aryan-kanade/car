@@ -43,7 +43,7 @@ export default function HomePage() {
           <h2 className="font-display text-2xl font-bold tracking-[0.12em] uppercase text-zinc-900 dark:text-zinc-100 md:text-4xl">
             Recommended for you
           </h2>
-          <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400 md:text-base">
+          <p className="mt-3 text-sm text-zinc-800 dark:text-zinc-400 md:text-base">
             Based on the categories you have been browsing on this device.
           </p>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">

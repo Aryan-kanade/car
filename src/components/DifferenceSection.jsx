@@ -52,7 +52,7 @@ export default function DifferenceSection() {
                 <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                   {item.title}
                 </h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                <p className="mt-1.5 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
                   {item.body}
                 </p>
               </li>

@@ -18,13 +18,13 @@ export default function SectionHeader({ title, subtext, to = '/shop' }) {
           <SplitText text={title} />
         </h2>
         {subtext && (
-          <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400 md:text-base">{subtext}</p>
+          <p className="mt-3 text-sm text-zinc-800 dark:text-zinc-400 md:text-base">{subtext}</p>
         )}
       </div>
       {to && (
         <Link
           to={to}
-          className="group flex shrink-0 items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+          className="group flex shrink-0 items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-zinc-800 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
         >
           View All
           <ArrowRightIcon

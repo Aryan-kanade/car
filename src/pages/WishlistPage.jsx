@@ -51,11 +51,11 @@ export default function WishlistPage() {
         )}
         {saved.length === 0 ? (
           <div className="flex flex-col items-center rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-6 py-20 text-center">
-            <EmptyHeart className="h-28 w-28 text-zinc-400 dark:text-zinc-600" />
+            <EmptyHeart className="h-28 w-28 text-zinc-800 dark:text-zinc-600" />
             <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
               Nothing saved yet
             </h2>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               Browse the range and tap the heart on anything worth a second look. Your list stays on
               this device.
             </p>

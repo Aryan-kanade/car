@@ -49,7 +49,7 @@ export default function ReferralPage() {
             </button>
           </div>
           {copied && (
-            <p role="status" className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
+            <p role="status" className="mt-3 text-sm text-zinc-800 dark:text-zinc-400">
               Copied — send it to a fellow detailer.
             </p>
           )}
@@ -60,7 +60,7 @@ export default function ReferralPage() {
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
               They save 10%
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-2 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               Your friend enters the code at the promo field at checkout — 10% off their first
               order, any size.
             </p>
@@ -69,14 +69,14 @@ export default function ReferralPage() {
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
               You earn 250 pts
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="mt-2 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               When their order ships, 250 Studio Points land in your balance — halfway to a ₹250
               reward on your next order.
             </p>
           </div>
         </div>
 
-        <p className="mt-8 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+        <p className="mt-8 text-xs leading-relaxed text-zinc-800 dark:text-zinc-400">
           Demo storefront: referral tracking is simulated. Codes entered at checkout apply the 10%
           discount immediately; the point award is not automated.
         </p>

@@ -1,12 +1,15 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { defaultSizeLabel, getProductById, getVariant } from '../data/catalog'
+import { resolveUnitPrice } from '../utils/pricing'
+// Re-exported for existing importers (ProductPage) — pricing lives in utils/pricing
+export { SUBSCRIBE_DISCOUNT, subscribePrice } from '../utils/pricing'
 import { lookupPromo, promoDiscount } from '../utils/promos'
 import { toast } from '../components/ToastStack'
 
 const STORAGE_KEY = 'kmkiramyki-cart'
+/** Last time the cart contents changed — drives the abandoned-cart nudge. */
+const TOUCHED_KEY = 'kmkiramyki-cart-touched'
 
-export const SUBSCRIBE_DISCOUNT = 0.15
-export const subscribePrice = (price) => Math.round(price * (1 - SUBSCRIBE_DISCOUNT))
 const CartContext = createContext(null)
 
 function readStoredCart() {
@@ -46,6 +49,20 @@ export function CartProvider({ children }) {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
     } catch {
       /* storage unavailable — cart simply won't persist */
+    }
+  }, [items])
+
+  // Stamp real cart activity (not the initial hydration) for the nudge
+  const hydrated = useRef(false)
+  useEffect(() => {
+    if (!hydrated.current) {
+      hydrated.current = true
+      return
+    }
+    try {
+      window.localStorage.setItem(TOUCHED_KEY, String(Date.now()))
+    } catch {
+      /* optional */
     }
   }, [items])
 
@@ -124,8 +141,7 @@ export function CartProvider({ children }) {
         const product = getProductById(id)
         if (!product) return null
         const variant = getVariant(product, size)
-        const base = variant.price
-        const unitPrice = plan === 'sub' ? subscribePrice(base) : base
+        const unitPrice = resolveUnitPrice(id, size, plan)
         return {
           product,
           size: variant.label,

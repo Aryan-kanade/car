@@ -11,7 +11,7 @@ export default function QtyStepper({ qty, onChange, compact = false }) {
         type="button"
         aria-label="Decrease quantity"
         onClick={() => onChange(Math.max(1, qty - 1))}
-        className={`cursor-pointer ${pad} text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white`}
+        className={`cursor-pointer ${pad} text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white`}
       >
         <MinusIcon size={icon} weight="light" />
       </button>
@@ -25,7 +25,7 @@ export default function QtyStepper({ qty, onChange, compact = false }) {
         type="button"
         aria-label="Increase quantity"
         onClick={() => onChange(Math.min(99, qty + 1))}
-        className={`cursor-pointer ${pad} text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white`}
+        className={`cursor-pointer ${pad} text-zinc-800 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white`}
       >
         <PlusIcon size={icon} weight="light" />
       </button>

@@ -20,7 +20,7 @@ function AccordionItem({ q, a, index }) {
         <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100 md:text-base">
           {q}
         </span>
-        <span className="shrink-0 rounded-full border border-zinc-200 dark:border-zinc-800 p-2 text-zinc-600 dark:text-zinc-400">
+        <span className="shrink-0 rounded-full border border-zinc-200 dark:border-zinc-800 p-2 text-zinc-800 dark:text-zinc-400">
           <span className="block group-open:hidden">
             <PlusIcon size={14} weight="light" />
           </span>
@@ -29,7 +29,7 @@ function AccordionItem({ q, a, index }) {
           </span>
         </span>
       </summary>
-      <p className="max-w-[70ch] pb-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+      <p className="max-w-[70ch] pb-6 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
         {a}
       </p>
     </details>
@@ -63,7 +63,7 @@ export default function FaqPage() {
         <div>
           <label
             htmlFor="faq-filter"
-            className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+            className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
           >
             Search questions
           </label>
@@ -75,14 +75,14 @@ export default function FaqPage() {
             placeholder="Shipping, dilution, guarantee…"
             className="w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-500 dark:placeholder:text-zinc-400 focus:border-zinc-900 dark:focus:border-white focus:outline-none"
           />
-          <p aria-live="polite" className="mt-2.5 text-xs text-zinc-500 dark:text-zinc-400">
+          <p aria-live="polite" className="mt-2.5 text-xs text-zinc-800 dark:text-zinc-400">
             {visibleFaqs.length} question{visibleFaqs.length === 1 ? '' : 's'}
           </p>
         </div>
 
         <div className="mt-8">
           {visibleFaqs.length === 0 ? (
-            <p className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-5 py-8 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <p className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-5 py-8 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               Nothing matches “{query.trim()}”. Try a broader word, or ask us directly via the{' '}
               <Link
                 to="/contact"

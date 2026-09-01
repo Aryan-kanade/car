@@ -30,7 +30,7 @@ export default function ContactPage() {
           <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
             Message received
           </h2>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
             Thanks for writing in. A human from the studio replies within one working day —
             accessibility reports jump the queue.
           </p>
@@ -64,7 +64,7 @@ export default function ContactPage() {
           <div>
             <label
               htmlFor="contact-name"
-              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
             >
               Name
             </label>
@@ -81,7 +81,7 @@ export default function ContactPage() {
           <div>
             <label
               htmlFor="contact-email"
-              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
             >
               Email
             </label>
@@ -98,7 +98,7 @@ export default function ContactPage() {
           <div>
             <label
               htmlFor="contact-message"
-              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+              className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
             >
               Message
             </label>

@@ -18,7 +18,7 @@ export default function Newsletter() {
           className="shrink-0 text-zinc-900 dark:text-zinc-100"
           aria-hidden="true"
         />
-        <p className="text-sm text-zinc-700 dark:text-zinc-300">
+        <p className="text-sm text-zinc-800 dark:text-zinc-300">
           You are on the list. Welcome to the studio.
         </p>
       </div>
@@ -35,7 +35,7 @@ export default function Newsletter() {
     >
       <label
         htmlFor="newsletter-email"
-        className="text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+        className="text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
       >
         Join the studio list
       </label>
@@ -61,7 +61,7 @@ export default function Newsletter() {
           />
         </button>
       </div>
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="text-xs text-zinc-800 dark:text-zinc-400">
         Drops, restocks and lab notes. No spam, ever.
       </p>
     </form>

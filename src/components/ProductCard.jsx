@@ -7,6 +7,9 @@ import Placeholder from './Placeholder'
 import { formatPrice } from '../data/catalog'
 import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
+import { washEconomics } from '../utils/washEconomics'
+import { isLowestInWindow, trackPrice } from '../utils/priceTracker'
+import { useEffect } from 'react'
 
 /** Product card — discount badge, wishlist heart, hover "Add to cart" overlay. */
 export default function ProductCard({ product }) {
@@ -14,6 +17,12 @@ export default function ProductCard({ product }) {
   const { addItem } = useCart()
   const { has, toggle } = useWishlist()
   const wished = has(product.id)
+  const econ = washEconomics(product.id, null, 'once')
+  // Price history snapshot for the 30-day-low badge
+  useEffect(() => {
+    trackPrice(product.id, null, product.price)
+  }, [product.id, product.price])
+  const isLowest = isLowestInWindow(product.id, null, product.price)
 
   return (
     <article className="group flex flex-col">
@@ -41,7 +50,7 @@ export default function ProductCard({ product }) {
           className={`absolute top-3 right-3 cursor-pointer rounded-full bg-white/90 dark:bg-zinc-900/90 p-2.5 backdrop-blur-sm transition-colors ${
             wished
               ? 'text-zinc-900 dark:text-zinc-100'
-              : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
+              : 'text-zinc-800 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white'
           }`}
         >
           <HeartIcon size={16} weight={wished ? 'fill' : 'light'} />
@@ -62,13 +71,13 @@ export default function ProductCard({ product }) {
 
       {/* Meta */}
       <div className="mt-5 flex flex-col gap-1.5">
-        <p className="text-[11px] tracking-[0.15em] text-zinc-600 dark:text-zinc-400 uppercase">
+        <p className="text-[11px] tracking-[0.15em] text-zinc-800 dark:text-zinc-400 uppercase">
           {product.category}
         </p>
         <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
           <Link
             to={`/product/${product.id}`}
-            className="transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
+            className="transition-colors hover:text-zinc-800 dark:hover:text-zinc-300"
           >
             {product.name}
           </Link>
@@ -90,21 +99,32 @@ export default function ProductCard({ product }) {
                 />
               ))}
             </span>
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">({rating.reviews})</span>
+            <span className="text-xs text-zinc-800 dark:text-zinc-400">({rating.reviews})</span>
           </div>
         )}
 
         <p className="mt-1 flex items-baseline gap-2.5 text-sm">
-          <span className="text-zinc-500 dark:text-zinc-400 line-through">
+          <span className="text-zinc-800 dark:text-zinc-400 line-through">
             {formatPrice(product.compareAt)}
           </span>
           <span className="font-semibold text-zinc-900 dark:text-zinc-100">
             {formatPrice(product.price)}
           </span>
+          {isLowest && (
+            <span className="rounded-full bg-emerald-100 dark:bg-emerald-900 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-emerald-800 dark:text-emerald-200 uppercase">
+              30-day low
+            </span>
+          )}
         </p>
 
+        {econ && (
+          <p className="mt-1 text-[11px] text-zinc-800 dark:text-zinc-400">
+            ≈ {econ.washes} washes · ₹{econ.perWash}/wash
+          </p>
+        )}
+
         {product.stock <= 5 && (
-          <p className="mt-1.5 flex items-center gap-1.5 text-xs text-amber-700 dark:text-amber-400">
+          <p className="mt-1.5 flex items-center gap-1.5 text-xs text-amber-800 dark:text-amber-400">
             <FireIcon size={13} weight="fill" aria-hidden="true" />
             Only {product.stock} left
           </p>

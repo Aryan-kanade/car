@@ -43,7 +43,7 @@ function WriteForm({ onSubmit }) {
         <div>
           <label
             htmlFor="review-name"
-            className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+            className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
           >
             Name
           </label>
@@ -57,7 +57,7 @@ function WriteForm({ onSubmit }) {
           />
         </div>
         <div>
-          <span className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase">
+          <span className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase">
             Rating
           </span>
           <div className="flex items-center gap-1" role="radiogroup" aria-label="Star rating">
@@ -77,7 +77,7 @@ function WriteForm({ onSubmit }) {
                   className={
                     value <= stars
                       ? 'text-zinc-900 dark:text-zinc-100'
-                      : 'text-zinc-400 dark:text-zinc-500'
+                      : 'text-zinc-800 dark:text-zinc-500'
                   }
                 />
               </button>
@@ -88,7 +88,7 @@ function WriteForm({ onSubmit }) {
       <div>
         <label
           htmlFor="review-text"
-          className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase"
+          className="mb-2 block text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase"
         >
           Review
         </label>
@@ -136,7 +136,7 @@ export default function ReviewSection({ productId }) {
             </p>
             <div className="pb-1.5">
               <Stars value={Math.round(average)} size={14} />
-              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="mt-1 text-xs text-zinc-800 dark:text-zinc-400">
                 {reviews.length} review{reviews.length === 1 ? '' : 's'}
               </p>
             </div>
@@ -145,7 +145,7 @@ export default function ReviewSection({ productId }) {
             {breakdown.map(({ stars, count }) => (
               <li
                 key={stars}
-                className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400"
+                className="flex items-center gap-3 text-xs text-zinc-800 dark:text-zinc-400"
               >
                 <span className="w-6 tabular-nums">{stars}★</span>
                 <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
@@ -169,7 +169,7 @@ export default function ReviewSection({ productId }) {
           ) : justPosted ? (
             <p
               role="status"
-              className="mt-7 rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300"
+              className="mt-7 rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3 text-sm text-zinc-800 dark:text-zinc-300"
             >
               Thanks — your review is live below.
             </p>
@@ -189,7 +189,7 @@ export default function ReviewSection({ productId }) {
         {/* List */}
         <ul className="space-y-8">
           {reviews.length === 0 && (
-            <li className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            <li className="text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
               No reviews yet. Be the first to tell the next detailer how it performed.
             </li>
           )}
@@ -208,14 +208,14 @@ export default function ReviewSection({ productId }) {
                   {review.verified && (
                     <span
                       title="Verified buyer"
-                      className="flex items-center gap-1 rounded-full border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-zinc-600 dark:text-zinc-300 uppercase"
+                      className="flex items-center gap-1 rounded-full border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-zinc-800 dark:text-zinc-300 uppercase"
                     >
                       <SealCheckIcon size={11} weight="fill" aria-hidden="true" />
                       Verified
                     </span>
                   )}
                 </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-zinc-800 dark:text-zinc-400">
                   {new Date(review.at).toLocaleDateString('en-IN', {
                     day: 'numeric',
                     month: 'short',
@@ -226,7 +226,7 @@ export default function ReviewSection({ productId }) {
               <div className="mt-2">
                 <Stars value={review.stars} />
               </div>
-              <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
                 {review.text}
 
                 {review.photos?.length > 0 && (
@@ -247,7 +247,7 @@ export default function ReviewSection({ productId }) {
                     <p className="text-[11px] font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase">
                       {review.response.author}
                     </p>
-                    <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
                       {review.response.text}
                     </p>
                   </div>
