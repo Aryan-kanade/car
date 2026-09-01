@@ -679,7 +679,9 @@ export const footerColumns = [
       { label: 'Order Lookup', to: '/order-lookup' },
       { label: 'Order History', to: '/orders' },
       { label: 'My Garage', to: '/garage' },
+      { label: 'My Account', to: '/account' },
       { label: 'Contact Us', to: '/contact' },
+      { label: 'Referral Program', to: '/referral' },
     ],
   },
   {

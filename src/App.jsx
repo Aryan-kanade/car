@@ -29,6 +29,8 @@ const QuizPage = lazy(() => import('./pages/QuizPage'))
 const DesignSystemPage = lazy(() => import('./pages/DesignSystemPage'))
 const OrdersPage = lazy(() => import('./pages/OrdersPage'))
 const GaragePage = lazy(() => import('./pages/GaragePage'))
+const AccountPage = lazy(() => import('./pages/AccountPage'))
+const ReferralPage = lazy(() => import('./pages/ReferralPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 export default function App() {
@@ -57,6 +59,8 @@ export default function App() {
                       <Route path="order-lookup" element={<OrderLookupPage />} />
                       <Route path="orders" element={<OrdersPage />} />
                       <Route path="garage" element={<GaragePage />} />
+                      <Route path="account" element={<AccountPage />} />
+                      <Route path="referral" element={<ReferralPage />} />
                       <Route path="contact" element={<ContactPage />} />
                       <Route path="about" element={<AboutPage />} />
                       <Route path="notes" element={<NotesIndexPage />} />
