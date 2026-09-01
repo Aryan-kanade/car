@@ -6,6 +6,7 @@ const SEEDS = {
   'complete-detail-kit': [
     {
       name: 'Rahul S.',
+      verified: true,
       stars: 5,
       text: 'Bought the PRO kit two months ago and it replaced my entire shelf. The dilution cards alone are worth it — every product tells you exactly how to use it.',
       at: Date.parse('2026-07-14'),

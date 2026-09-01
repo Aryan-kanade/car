@@ -6,6 +6,7 @@ import Footer from './Footer'
 import SearchOverlay from './SearchOverlay'
 import CartDrawer from './CartDrawer'
 import BackToTop from './BackToTop'
+import BottomNav from './BottomNav'
 import ErrorBoundary from './ErrorBoundary'
 import { useCart } from '../context/CartContext'
 import { prefetchRoutes } from '../utils/prefetch'
@@ -50,7 +51,7 @@ export default function Layout() {
   return (
     <div
       id="top"
-      className="flex min-h-screen flex-col bg-white dark:bg-zinc-950 font-sans text-zinc-900 dark:text-zinc-100 antialiased"
+      className="flex min-h-screen flex-col bg-white dark:bg-zinc-950 pb-16 lg:pb-0 font-sans text-zinc-900 dark:text-zinc-100 antialiased"
     >
       <a
         href="#main-content"
@@ -85,6 +86,7 @@ export default function Layout() {
       <Footer />
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       <CartDrawer />
+      <BottomNav onOpenSearch={() => setSearchOpen(true)} />
       <BackToTop />
     </div>
   )

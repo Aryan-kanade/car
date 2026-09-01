@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { m } from 'motion/react'
+import { SealCheckIcon } from '@phosphor-icons/react/dist/csr/SealCheck'
 import { StarIcon } from '@phosphor-icons/react/dist/csr/Star'
 import { useProductReviews } from '../hooks/useProductReviews'
 
@@ -201,8 +202,17 @@ export default function ReviewSection({ productId }) {
               className="border-b border-zinc-200 dark:border-zinc-800 pb-8 last:border-b-0"
             >
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                <p className="flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                   {review.name}
+                  {review.verified && (
+                    <span
+                      title="Verified buyer"
+                      className="flex items-center gap-1 rounded-full border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-zinc-600 dark:text-zinc-300 uppercase"
+                    >
+                      <SealCheckIcon size={11} weight="fill" aria-hidden="true" />
+                      Verified
+                    </span>
+                  )}
                 </p>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">
                   {new Date(review.at).toLocaleDateString('en-IN', {

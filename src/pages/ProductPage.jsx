@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import { AnimatePresence, m } from 'motion/react'
 import { CheckCircleIcon } from '@phosphor-icons/react/dist/csr/CheckCircle'
 import { FireIcon } from '@phosphor-icons/react/dist/csr/Fire'
@@ -13,6 +13,7 @@ import PageHeader from '../components/PageHeader'
 import Placeholder from '../components/Placeholder'
 import ProductCard from '../components/ProductCard'
 import ReviewSection from '../components/ReviewSection'
+import TrustRow from '../components/TrustRow'
 import NotFoundPage from './NotFoundPage'
 import {
   defaultSizeLabel,
@@ -89,6 +90,7 @@ export default function ProductPage() {
 }
 
 function ProductView({ product }) {
+  const navigate = useNavigate()
   const [qty, setQty] = useState(1)
   const [sizeLabel, setSizeLabel] = useState(() => defaultSizeLabel(product))
   const [view, setView] = useState(0)
@@ -182,11 +184,22 @@ function ProductView({ product }) {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                <Placeholder
-                  label={views[view]}
-                  iconSize={48}
-                  className="aspect-square rounded-xl"
-                />
+                <div
+                  className="group relative cursor-zoom-in overflow-hidden rounded-xl"
+                  onMouseMove={(event) => {
+                    const rect = event.currentTarget.getBoundingClientRect()
+                    const x = ((event.clientX - rect.left) / rect.width) * 100
+                    const y = ((event.clientY - rect.top) / rect.height) * 100
+                    event.currentTarget.style.setProperty('--zoom-origin', `${x}% ${y}%`)
+                  }}
+                >
+                  <div
+                    className="transition-transform duration-300 group-hover:scale-[1.6]"
+                    style={{ transformOrigin: 'var(--zoom-origin, 50% 50%)' }}
+                  >
+                    <Placeholder label={views[view]} iconSize={48} className="aspect-square" />
+                  </div>
+                </div>
               </m.div>
             </AnimatePresence>
             <div className="mt-4 grid grid-cols-3 gap-4">
@@ -320,7 +333,38 @@ function ProductView({ product }) {
               </div>
             )}
 
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-7">
+              <p className="text-[11px] font-medium tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
+                Express checkout
+              </p>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    addItem(product.id, qty, sizeLabel)
+                    navigate('/checkout')
+                  }}
+                  className="cursor-pointer rounded-md bg-zinc-900 dark:bg-white py-3 text-xs font-semibold tracking-[0.15em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
+                >
+                  UPI · Pay now
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    addItem(product.id, qty, sizeLabel)
+                    navigate('/checkout')
+                  }}
+                  className="cursor-pointer rounded-md border border-zinc-300 dark:border-zinc-700 py-3 text-xs font-semibold tracking-[0.15em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
+                >
+                  Card · Pay now
+                </button>
+              </div>
+              <p className="mt-4 flex items-center justify-center gap-3 text-[11px] tracking-[0.25em] text-zinc-400 dark:text-zinc-500 uppercase">
+                <span aria-hidden="true">—</span> or add to cart <span aria-hidden="true">—</span>
+              </p>
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-4">
               <QtyStepper qty={qty} onChange={setQty} />
               <button
                 type="button"
@@ -368,6 +412,8 @@ function ProductView({ product }) {
               Ordered before 4 PM IST on working days ships the same day · Metro delivery in 2–3
               days
             </p>
+
+            <TrustRow />
 
             <ul className="mt-8 grid grid-cols-1 gap-3 border-t border-zinc-200 dark:border-zinc-800 pt-6 sm:grid-cols-3">
               {valueProps.map((prop) => (
