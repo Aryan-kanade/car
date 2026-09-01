@@ -1,10 +1,12 @@
 import { Link } from 'react-router'
 import Logo from './Logo'
 import Newsletter from './Newsletter'
+import { REDEEM_THRESHOLD, REDEEM_VALUE, useLoyalty } from '../context/LoyaltyContext'
 import { footerColumns, legalLinks, paymentMethods } from '../data/catalog'
 
 /** Site footer — brand blurb, link columns, payment badges and legal bottom bar. */
 export default function Footer() {
+  const { balance, canRedeem } = useLoyalty()
   return (
     <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
       <div className="mx-auto max-w-7xl px-6 pt-20 pb-8 md:pt-28">
@@ -18,6 +20,35 @@ export default function Footer() {
 
             <div className="mt-8">
               <Newsletter />
+            </div>
+
+            {/* Studio Points widget */}
+            <div className="mt-6 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3.5">
+              <p className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
+                Studio Points
+              </p>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                  {balance} pts
+                </span>{' '}
+                ·{' '}
+                {canRedeem
+                  ? `₹${(REDEEM_VALUE / 100) * 100} reward ready to redeem`
+                  : `${REDEEM_THRESHOLD - balance} pts to a reward`}
+              </p>
+              <div
+                className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800"
+                role="progressbar"
+                aria-valuenow={Math.min(100, Math.round((balance / REDEEM_THRESHOLD) * 100))}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label="Progress to next Studio Points reward"
+              >
+                <div
+                  className="h-full rounded-full bg-zinc-900 dark:bg-white"
+                  style={{ width: `${Math.min(100, (balance / REDEEM_THRESHOLD) * 100)}%` }}
+                />
+              </div>
             </div>
 
             {/* Payment methods */}

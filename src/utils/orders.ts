@@ -5,6 +5,7 @@
 
 import { FREE_SHIPPING_THRESHOLD } from '../data/catalog'
 import { promoDiscount, promoGivesFreeShipping, type Promo } from './promos'
+import { REDEEM_VALUE } from '../context/LoyaltyContext'
 
 const KEY = 'kmkiramyki-orders'
 
@@ -27,6 +28,10 @@ export interface Order {
   promoCode: string | null
   shipping: number
   total: number
+  pointsSpent: number
+  pointsEarned: number
+  giftCode: string | null
+  giftDiscount: number
   placedAt: number
 }
 
@@ -44,6 +49,10 @@ interface SaveOrderInput {
   items: CartLine[]
   subtotal: number
   promo: Promo | null
+  pointsSpent?: number
+  pointsEarned?: number
+  giftCode?: string | null
+  giftDiscount?: number
 }
 
 export const SHIPPING_FEE = 199
@@ -63,7 +72,8 @@ export function generateOrderNumber() {
 }
 
 /** Snapshot the current cart into a persisted order and return it. */
-export function saveOrder({ email, name, items, subtotal, promo }: SaveOrderInput): Order {
+export function saveOrder(input: SaveOrderInput): Order {
+  const { email, name, items, subtotal, promo } = input
   const discount = promoDiscount(promo, subtotal)
   const shipping =
     subtotal - discount >= FREE_SHIPPING_THRESHOLD || promoGivesFreeShipping(promo)
@@ -84,8 +94,19 @@ export function saveOrder({ email, name, items, subtotal, promo }: SaveOrderInpu
     subtotal,
     discount,
     promoCode: promo?.code ?? null,
+    pointsSpent: input.pointsSpent ?? 0,
+    pointsEarned: input.pointsEarned ?? 0,
+    giftCode: input.giftCode ?? null,
+    giftDiscount: input.giftDiscount ?? 0,
     shipping,
-    total: subtotal - discount + shipping,
+    total: Math.max(
+      0,
+      subtotal -
+        discount -
+        (input.pointsSpent ? REDEEM_VALUE : 0) +
+        shipping -
+        (input.giftDiscount ?? 0)
+    ),
     placedAt: Date.now(),
   }
 

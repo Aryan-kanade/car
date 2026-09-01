@@ -11,6 +11,8 @@ import { useCart } from '../context/CartContext'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { saveOrder } from '../utils/orders'
 import { promoGivesFreeShipping } from '../utils/promos'
+import { lookupGiftCard, redeemGiftCard, useGiftCard } from '../utils/giftcards'
+import { REDEEM_THRESHOLD, REDEEM_VALUE, useLoyalty } from '../context/LoyaltyContext'
 
 const STEPS = ['Shipping', 'Payment', 'Confirmed']
 
@@ -69,6 +71,14 @@ export default function CheckoutPage() {
   const [method, setMethod] = useState('card')
   const [errors, setErrors] = useState({})
   const [placedOrder, setPlacedOrder] = useState(null)
+  const {
+    appliedCode: giftCode,
+    error: giftError,
+    apply: applyGift,
+    clear: clearGift,
+  } = useGiftCard()
+  const { balance, pointsForAmount, canRedeem, spendPoints, addPoints } = useLoyalty()
+  const [redeemPoints, setRedeemPoints] = useState(false)
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -88,7 +98,13 @@ export default function CheckoutPage() {
 
   const freeShipping = subtotal >= FREE_SHIPPING_THRESHOLD
   const shipping = freeShipping || promoGivesFreeShipping(promo) ? 0 : 199
-  const total = Math.max(0, subtotal - discount) + shipping
+  const pointsDiscount = redeemPoints && canRedeem ? REDEEM_VALUE : 0
+  const giftCard = giftCode ? lookupGiftCard(giftCode) : null
+  const giftDiscount = giftCard
+    ? Math.min(giftCard.balance, Math.max(0, subtotal - discount - pointsDiscount + shipping))
+    : 0
+  const total = Math.max(0, subtotal - discount - pointsDiscount + shipping - giftDiscount)
+  const pointsEarned = pointsForAmount(total)
 
   // Empty cart (and not showing a confirmation) → guide back to the shop
   if (items.length === 0 && step < 3) {
@@ -126,7 +142,20 @@ export default function CheckoutPage() {
     setErrors(next)
     if (Object.keys(next).length > 0) return
 
-    const order = saveOrder({ email: form.email, name: form.name, items, subtotal, promo })
+    const order = saveOrder({
+      email: form.email,
+      name: form.name,
+      items,
+      subtotal,
+      promo,
+      pointsSpent: pointsDiscount > 0 ? REDEEM_THRESHOLD : 0,
+      pointsEarned,
+      giftCode: giftDiscount > 0 ? giftCode : null,
+      giftDiscount,
+    })
+    if (pointsDiscount > 0) spendPoints(REDEEM_THRESHOLD)
+    addPoints(pointsEarned)
+    if (giftDiscount > 0 && giftCode) redeemGiftCard(giftCode, giftDiscount)
     clearCart()
     setPlacedOrder(order)
     setStep(3)
@@ -207,6 +236,15 @@ export default function CheckoutPage() {
               <p className="font-display mt-8 text-3xl font-bold tracking-[0.1em] text-zinc-900 dark:text-zinc-100">
                 {placedOrder.number}
               </p>
+              {placedOrder.pointsEarned > 0 && (
+                <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
+                  You earned{' '}
+                  <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    {placedOrder.pointsEarned} Studio Points
+                  </span>{' '}
+                  on this order.
+                </p>
+              )}
               <p className="mt-1.5 text-xs tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
                 Order number
               </p>
@@ -398,6 +436,85 @@ export default function CheckoutPage() {
                     or transmitted.
                   </p>
 
+                  {/* Studio Points */}
+                  <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3.5">
+                    {canRedeem ? (
+                      <label className="flex cursor-pointer items-center justify-between gap-3 text-sm text-zinc-700 dark:text-zinc-300">
+                        <span>
+                          Redeem {REDEEM_THRESHOLD} of your{' '}
+                          <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                            {balance} Studio Points
+                          </span>{' '}
+                          for {formatPrice(REDEEM_VALUE)} off
+                        </span>
+                        <input
+                          type="checkbox"
+                          checked={redeemPoints}
+                          onChange={(event) => setRedeemPoints(event.target.checked)}
+                          className="h-4 w-4 shrink-0 accent-zinc-900 dark:accent-white"
+                        />
+                      </label>
+                    ) : (
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                        {balance} Studio Points — {REDEEM_THRESHOLD - balance} more to unlock a{' '}
+                        {formatPrice(REDEEM_VALUE)} reward
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Gift card */}
+                  <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3.5">
+                    {giftCode ? (
+                      <p className="flex items-center justify-between gap-3 text-sm text-zinc-600 dark:text-zinc-400">
+                        <span>
+                          <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                            {giftCode}
+                          </span>{' '}
+                          · {formatPrice(lookupGiftCard(giftCode)?.balance ?? 0)} available
+                        </span>
+                        <button
+                          type="button"
+                          onClick={clearGift}
+                          className="cursor-pointer text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+                        >
+                          Remove
+                        </button>
+                      </p>
+                    ) : (
+                      <div className="flex gap-2">
+                        <label htmlFor="co-gift" className="sr-only">
+                          Gift card code
+                        </label>
+                        <input
+                          id="co-gift"
+                          type="text"
+                          placeholder="Gift card code"
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter') {
+                              event.preventDefault()
+                              applyGift(event.currentTarget.value)
+                            }
+                          }}
+                          className="min-w-0 flex-1 rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-3.5 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-500 dark:placeholder:text-zinc-400 focus:border-zinc-900 dark:focus:border-white focus:outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={(event) => {
+                            const input = event.currentTarget.previousElementSibling
+                            applyGift(input?.value ?? '')
+                            if (input) input.value = ''
+                          }}
+                          className="cursor-pointer rounded-md border border-zinc-300 dark:border-zinc-700 px-4 text-xs font-semibold tracking-[0.15em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
+                        >
+                          Apply
+                        </button>
+                      </div>
+                    )}
+                    {giftError && (
+                      <p className="mt-2 text-xs text-red-600 dark:text-red-400">{giftError}</p>
+                    )}
+                  </div>
+
                   <fieldset>
                     <legend className="mb-3 text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase">
                       Method
@@ -562,6 +679,22 @@ export default function CheckoutPage() {
                     {shipping === 0 ? 'Free' : formatPrice(shipping)}
                   </dd>
                 </div>
+                {pointsDiscount > 0 && (
+                  <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
+                    <dt>Studio Points (−{REDEEM_THRESHOLD})</dt>
+                    <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                      −{formatPrice(pointsDiscount)}
+                    </dd>
+                  </div>
+                )}
+                {giftDiscount > 0 && (
+                  <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
+                    <dt>Gift card ({giftCode})</dt>
+                    <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                      −{formatPrice(giftDiscount)}
+                    </dd>
+                  </div>
+                )}
                 <div className="flex justify-between border-t border-zinc-200 dark:border-zinc-800 pt-3 text-base font-semibold text-zinc-900 dark:text-zinc-100">
                   <dt>Total</dt>
                   <dd>{formatPrice(total)}</dd>

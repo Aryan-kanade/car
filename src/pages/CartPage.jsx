@@ -16,6 +16,7 @@ import {
 } from '../data/catalog'
 import { promoGivesFreeShipping } from '../utils/promos'
 import { useCart } from '../context/CartContext'
+import { REDEEM_THRESHOLD, REDEEM_VALUE, useLoyalty } from '../context/LoyaltyContext'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { EmptyBucket } from '../components/illustrations'
 import { SHIPPING_FEE } from '../utils/orders'
@@ -35,6 +36,8 @@ export default function CartPage() {
     clearCart,
   } = useCart()
   const [promoError, setPromoError] = useState(null)
+  const { balance, pointsForAmount, canRedeem } = useLoyalty()
+  const [redeemPoints, setRedeemPoints] = useState(false)
 
   usePageMeta('Your Cart', 'Review your KMKIRAMYKI order — free shipping over ₹7,155.')
 
@@ -43,7 +46,9 @@ export default function CartPage() {
   const progress = Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100)
   const shipping =
     items.length === 0 || freeShipping || promoGivesFreeShipping(promo) ? 0 : SHIPPING_FEE
-  const total = Math.max(0, subtotal - discount) + shipping
+  const pointsDiscount = redeemPoints && canRedeem ? REDEEM_VALUE : 0
+  const total = Math.max(0, subtotal - discount - pointsDiscount) + shipping
+  const pointsEarned = pointsForAmount(total)
 
   const crossSells = purchasableProducts
     .filter((product) => !items.some((item) => item.product.id === product.id))
@@ -283,11 +288,49 @@ export default function CartPage() {
                 {shipping === 0 ? 'Free' : formatPrice(shipping)}
               </dd>
             </div>
+            {pointsDiscount > 0 && (
+              <div className="flex justify-between text-zinc-600 dark:text-zinc-400">
+                <dt>Studio Points (−{REDEEM_THRESHOLD})</dt>
+                <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                  −{formatPrice(pointsDiscount)}
+                </dd>
+              </div>
+            )}
             <div className="flex justify-between border-t border-zinc-200 dark:border-zinc-800 pt-3 text-base font-semibold text-zinc-900 dark:text-zinc-100">
               <dt>Total</dt>
               <dd>{formatPrice(total)}</dd>
             </div>
           </dl>
+
+          {/* Studio Points */}
+          <div className="mt-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3.5">
+            {canRedeem ? (
+              <label className="flex cursor-pointer items-center justify-between gap-3 text-sm">
+                <span className="text-zinc-700 dark:text-zinc-300">
+                  <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    {balance} pts
+                  </span>{' '}
+                  available — redeem {REDEEM_THRESHOLD} for {formatPrice(REDEEM_VALUE)} off
+                </span>
+                <input
+                  type="checkbox"
+                  checked={redeemPoints}
+                  onChange={(event) => setRedeemPoints(event.target.checked)}
+                  className="h-4 w-4 shrink-0 accent-zinc-900 dark:accent-white"
+                />
+              </label>
+            ) : (
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                  {balance} pts
+                </span>{' '}
+                — {REDEEM_THRESHOLD - balance} more unlocks {formatPrice(REDEEM_VALUE)} off
+              </p>
+            )}
+            <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+              This order earns <span className="font-semibold">{pointsEarned} pts</span>
+            </p>
+          </div>
 
           {/* Promo code */}
           <div className="mt-5 border-t border-zinc-200 dark:border-zinc-800 pt-5">

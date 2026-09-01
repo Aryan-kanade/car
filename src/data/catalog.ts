@@ -473,6 +473,34 @@ export const products: Product[] = [
     usage: 'Spray onto a short-pile towel and wipe in one direction.',
     highlights: ['One per order', 'Streak-free trial'],
   },
+  {
+    id: 'gift-card-1000',
+    category: 'Gift Cards',
+    name: 'Gift Card · ₹1,000',
+    price: 1000,
+    compareAt: 1000,
+    badge: 'Digital delivery',
+    stock: 99,
+    imageLabel: 'KMKIRAMYKI digital gift card, one thousand rupees',
+    description:
+      'The perfect present for the detailer who has opinions about shampoo. Delivered by email, redeemable on everything in the store.',
+    usage: 'Added to your order like any product; the code arrives by email after checkout.',
+    highlights: ['No expiry', 'Redeemable storewide'],
+  },
+  {
+    id: 'gift-card-2500',
+    category: 'Gift Cards',
+    name: 'Gift Card · ₹2,500',
+    price: 2500,
+    compareAt: 2500,
+    badge: 'Digital delivery',
+    stock: 99,
+    imageLabel: 'KMKIRAMYKI digital gift card, two thousand five hundred rupees',
+    description:
+      'A full wash-stage system as a gift. Delivered by email, redeemable on everything in the store.',
+    usage: 'Added to your order like any product; the code arrives by email after checkout.',
+    highlights: ['No expiry', 'Redeemable storewide'],
+  },
 ]
 
 /** Shop-facing products — excludes free samples (cart-only offers). */
