@@ -287,6 +287,104 @@ export const products = [
       'Spray onto a short-pile glass towel — not the glass — and wipe in one direction. Buff with a dry side.',
     highlights: ['Streak-free finish', 'Tint safe, ammonia-free', 'Direct-sun friendly'],
   },
+  {
+    id: 'twist-loop-drying-towel',
+    category: 'Accessories',
+    name: 'Twist-Loop Drying Towel',
+    price: 649,
+    compareAt: 999,
+    badge: 'Save 35%',
+    stock: 12,
+    imageLabel: 'Folded twist-loop microfibre drying towel on dark background',
+    description:
+      'A 60×90 cm twist-loop microfibre that absorbs a full sedan in one pass. Edged in silk to keep paint safe, machine-washable hundreds of times without losing bite.',
+    usage:
+      'Lay flat on the panel and pull towards you — the towel drinks water without scrubbing. Wash separately from cotton, no fabric softener.',
+    highlights: ['Absorbs a full sedan in one pass', 'Silk-edged, paint safe', 'Machine washable'],
+  },
+  {
+    id: 'plush-wash-mitt',
+    category: 'Accessories',
+    name: 'Plush Wash Mitt',
+    price: 449,
+    compareAt: 749,
+    badge: 'Save 40%',
+    stock: 15,
+    imageLabel: 'Plush microfibre wash mitt on dark background',
+    description:
+      'Deep-pile 1200 GSM microfibre mitt that lifts grit into the fibres and away from paint. Elastic cuff keeps it snug, and the two-tone pile shows when it is time to rinse.',
+    usage:
+      'Use one mitt for the upper body and a second for the lower panels. Rinse clean between sections in your rinse bucket.',
+    highlights: ['1200 GSM deep pile', 'Grit-lifting fibres', 'Two-tone rinse indicator'],
+  },
+  {
+    id: 'foam-applicator-set',
+    category: 'Accessories',
+    name: 'Foam Applicator Set',
+    price: 299,
+    compareAt: 499,
+    badge: 'Save 40%',
+    stock: 18,
+    imageLabel: 'Set of foam applicator pads on dark background',
+    description:
+      'Four dense-foam applicator pads for dressings, polish and interior protectants. Rounded edges glide into vents and trim without soaking product into your hands.',
+    usage:
+      'Apply a few drops of product to the pad face and spread thin. Label one pad per chemistry to avoid cross-contamination.',
+    highlights: ['Set of four pads', 'Dense foam, low soak', 'Rounded edge for trim'],
+  },
+  {
+    id: 'detailing-brush-set',
+    category: 'Accessories',
+    name: 'Detailing Brush Set',
+    price: 549,
+    compareAt: 899,
+    badge: 'Save 39%',
+    stock: 9,
+    imageLabel: 'Detailing brush set of three sizes on dark background',
+    description:
+      'Three boar-hair and synthetic blend brushes for emblems, vents, badges and wheel crevices. Chemical-resistant handles survive degreasers and iron removers.',
+    usage:
+      'Spray product on the brush — not the surface — then agitate. Shake out and rinse between panels.',
+    highlights: [
+      'Three sizes for every gap',
+      'Boar-hair blend bristles',
+      'Chemical-resistant handles',
+    ],
+  },
+  {
+    id: 'dual-layer-microfibre-pack',
+    category: 'Accessories',
+    name: 'Dual-Layer Microfibre Pack',
+    price: 799,
+    compareAt: 1249,
+    badge: 'Save 36%',
+    stock: 7,
+    imageLabel: 'Stack of dual-layer microfibre towels on dark background',
+    description:
+      'Six 350 GSM dual-layer towels: plush side for buffing polish, tight-weave side for glass and interior trim. Colour-coded so glass towels never touch wheels.',
+    usage:
+      'Plush side for paint and polish, tight side for glass and screens. Wash warm, no softener.',
+    highlights: ['Six colour-coded towels', 'Dual-sided weave', 'Lint-free on glass'],
+  },
+  {
+    id: 'grit-guard',
+    category: 'Accessories',
+    name: 'Grit Guard',
+    price: 399,
+    compareAt: 649,
+    badge: 'Save 39%',
+    stock: 11,
+    imageLabel: 'Bucket grit guard insert on dark background',
+    description:
+      'The unsung hero of the two-bucket method. This insert sits at the bottom of your rinse bucket, trapping released grit below the grille so your mitt never picks it back up.',
+    usage:
+      'Drop into a standard 12-inch bucket and fill above the grille. Rub the mitt across the radial fins to release dirt before reloading soap.',
+    highlights: [
+      'Traps grit below the grille',
+      'Fits standard 12-inch buckets',
+      'Radial dirt-release fins',
+    ],
+  },
 ]
 
 export const getProductById = (id) => products.find((p) => p.id === id)
