@@ -13,6 +13,7 @@ checkout and order lookup — plus a light/dark theme system and an on-brand con
 - **Phosphor Icons** (`@phosphor-icons/react`, light weight, deep CSR imports)
 - **Framer Motion** — reveals, hero parallax, route transitions, drawer/toast motion
 - **Vitest** — unit tests for pricing, orders and promo logic
+- **Playwright** — E2E smoke of the full purchase loop (search → checkout → lookup)
 
 ## Scripts
 
@@ -58,6 +59,8 @@ the [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) ski
 `.skills/` with a generated design system in `design-system/`.
 
 ## Deploying
+
+The app is a full PWA: `vite-plugin-pwa` precaches assets and serves an offline fallback (service worker generated at build).
 
 Any static host works. `vercel.json` includes the SPA rewrite; for other hosts, rewrite
 all paths to `index.html`. Swap the placeholder domain in `public/sitemap.xml` and
