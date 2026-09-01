@@ -9,7 +9,7 @@ export default [
   },
   js.configs.recommended,
   {
-    files: ['scripts/**'],
+    files: ['scripts/**', 'playwright.config.js', 'e2e/**'],
     languageOptions: {
       globals: { ...globals.node, ...globals.browser },
     },

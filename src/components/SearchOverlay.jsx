@@ -93,7 +93,7 @@ export default function SearchOverlay({ open, onClose }) {
             <div className="max-h-[55vh] overflow-y-auto p-2">
               <p
                 aria-live="polite"
-                className="px-3 pt-2 pb-1 text-[11px] tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase"
+                className="px-3 pt-2 pb-1 text-[11px] tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase"
               >
                 {query.trim()
                   ? `${results.length} result${results.length === 1 ? '' : 's'}`

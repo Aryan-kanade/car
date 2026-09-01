@@ -7,7 +7,7 @@ import { useProductReviews } from '../hooks/useProductReviews'
 
 function Stars({ value = 5, size = 12 }) {
   return (
-    <span className="flex gap-0.5" aria-label={`Rated ${value} out of 5 stars`}>
+    <span role="img" className="flex gap-0.5" aria-label={`Rated ${value} out of 5 stars`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <StarIcon
           key={i}

@@ -40,7 +40,7 @@ export default function NotesIndexPage() {
                 />
               </Link>
               <div className="mt-5 flex flex-1 flex-col">
-                <p className="text-[11px] tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
+                <p className="text-[11px] tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase">
                   {note.category} · {note.readingTime}
                 </p>
                 <h2 className="font-display mt-2.5 text-lg font-bold tracking-[0.04em] uppercase text-zinc-900 dark:text-zinc-100">

@@ -4,9 +4,9 @@ import { LazyMotion, MotionConfig, domAnimation } from 'motion/react'
 import { CartProvider } from './context/CartContext'
 import { WishlistProvider } from './context/WishlistContext'
 import Layout from './components/Layout'
-import HomePage from './pages/HomePage'
 
-// Route-level code splitting — the home page ships eager, everything else lazy
+// Route-level code splitting — every page is lazy; idle prefetch warms them after load
+const HomePage = lazy(() => import('./pages/HomePage'))
 const ShopPage = lazy(() => import('./pages/ShopPage'))
 const ProductPage = lazy(() => import('./pages/ProductPage'))
 const KitsPage = lazy(() => import('./pages/KitsPage'))

@@ -62,7 +62,7 @@ export default function ProductCard({ product }) {
 
       {/* Meta */}
       <div className="mt-5 flex flex-col gap-1.5">
-        <p className="text-[11px] tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase">
+        <p className="text-[11px] tracking-[0.15em] text-zinc-600 dark:text-zinc-400 uppercase">
           {product.category}
         </p>
         <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
@@ -76,7 +76,11 @@ export default function ProductCard({ product }) {
 
         {rating && (
           <div className="mt-0.5 flex items-center gap-1.5">
-            <span className="flex gap-0.5" aria-label={`Rated ${rating.stars} out of 5 stars`}>
+            <span
+              role="img"
+              className="flex gap-0.5"
+              aria-label={`Rated ${rating.stars} out of 5 stars`}
+            >
               {Array.from({ length: rating.stars }).map((_, i) => (
                 <StarIcon
                   key={i}

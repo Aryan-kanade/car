@@ -158,7 +158,7 @@ function ProductView({ product }) {
             transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
             className="flex flex-col"
           >
-            <p className="text-[11px] tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
+            <p className="text-[11px] tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase">
               {category ? (
                 <Link
                   to={`/shop/${category.slug}`}

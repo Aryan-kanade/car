@@ -9,6 +9,7 @@ export function prefetchRoutes() {
 
   idle(() => {
     const routes = [
+      import('./../pages/HomePage'),
       import('./../pages/ShopPage'),
       import('./../pages/ProductPage'),
       import('./../pages/KitsPage'),

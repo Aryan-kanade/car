@@ -107,7 +107,7 @@ export default function CartPage() {
                 <div className="flex flex-1 flex-col">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-[11px] tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase">
+                      <p className="text-[11px] tracking-[0.15em] text-zinc-600 dark:text-zinc-400 uppercase">
                         {product.category}
                       </p>
                       <h2 className="mt-1 text-sm font-medium text-zinc-900 dark:text-zinc-100">
