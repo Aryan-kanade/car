@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import { AnimatePresence, m } from 'motion/react'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
-import { formatPrice, products } from '../data/catalog'
+import { formatPrice, purchasableProducts } from '../data/catalog'
 import { useFocusTrap } from '../hooks/useFocusTrap'
 
 /**
@@ -34,8 +34,8 @@ export default function SearchOverlay({ open, onClose }) {
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
-    if (!q) return products.slice(0, 5)
-    return products
+    if (!q) return purchasableProducts.slice(0, 5)
+    return purchasableProducts
       .filter((p) => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q))
       .slice(0, 8)
   }, [query])

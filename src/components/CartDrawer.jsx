@@ -117,8 +117,8 @@ export default function CartDrawer() {
 
                 {/* Items */}
                 <ul className="flex-1 divide-y divide-zinc-200 dark:divide-zinc-800 overflow-y-auto px-6">
-                  {items.map(({ product, size, qty, lineTotal }) => (
-                    <li key={`${product.id}|${size ?? 'kit'}`} className="flex gap-4 py-5">
+                  {items.map(({ product, size, plan, recurring, qty, lineTotal }) => (
+                    <li key={`${product.id}|${size ?? 'kit'}|${plan}`} className="flex gap-4 py-5">
                       <Link
                         to={`/product/${product.id}`}
                         onClick={closeDrawer}
@@ -140,11 +140,16 @@ export default function CartDrawer() {
                                 {size}
                               </span>
                             )}
+                            {recurring && (
+                              <span className="mt-0.5 block text-[10px] font-semibold tracking-wide text-zinc-500 dark:text-zinc-400 uppercase">
+                                Subscription · 15% off
+                              </span>
+                            )}
                           </p>
                           <button
                             type="button"
                             aria-label={`Remove ${product.name}${size ? ` ${size}` : ''}`}
-                            onClick={() => removeItem(product.id, size)}
+                            onClick={() => removeItem(product.id, size, plan)}
                             className="cursor-pointer p-1 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                           >
                             <XIcon size={14} weight="light" />
@@ -155,7 +160,7 @@ export default function CartDrawer() {
                             <button
                               type="button"
                               aria-label={`Decrease quantity of ${product.name}`}
-                              onClick={() => setQty(product.id, size, qty - 1)}
+                              onClick={() => setQty(product.id, size, plan, qty - 1)}
                               className="cursor-pointer p-2 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                             >
                               <MinusIcon size={12} weight="light" />
@@ -166,7 +171,7 @@ export default function CartDrawer() {
                             <button
                               type="button"
                               aria-label={`Increase quantity of ${product.name}`}
-                              onClick={() => setQty(product.id, size, qty + 1)}
+                              onClick={() => setQty(product.id, size, plan, qty + 1)}
                               className="cursor-pointer p-2 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                             >
                               <PlusIcon size={12} weight="light" />

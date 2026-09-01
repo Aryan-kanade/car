@@ -5,7 +5,7 @@ import { CircleIcon } from '@phosphor-icons/react/dist/csr/Circle'
 import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
 import PageHeader from '../components/PageHeader'
 import Placeholder from '../components/Placeholder'
-import { defaultSizeLabel, formatPrice, products } from '../data/catalog'
+import { defaultSizeLabel, formatPrice, purchasableProducts } from '../data/catalog'
 import { useCart } from '../context/CartContext'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -22,7 +22,7 @@ export default function BuilderPage() {
     'Build your own KMKIRAMYKI kit — pick any three or more items and save 10% on the set.'
   )
 
-  const selectable = products.filter((p) => p.category !== 'Kits & Bundles')
+  const selectable = purchasableProducts.filter((p) => p.category !== 'Kits & Bundles')
 
   const toggle = (id) => {
     setSelected((current) =>

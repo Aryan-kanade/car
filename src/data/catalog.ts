@@ -431,7 +431,55 @@ export const products: Product[] = [
       'Radial dirt-release fins',
     ],
   },
+  {
+    id: 'sample-washberry',
+    category: 'Free Sample',
+    name: 'Washberry Sample · 50 ml',
+    price: 0,
+    compareAt: 0,
+    badge: 'Free',
+    stock: 99,
+    imageLabel: 'Small 50 ml sample vial of washberry shampoo',
+    description:
+      'A complimentary 50 ml vial of our gentlest shampoo — enough for one full bucket wash. One per order, on the house.',
+    usage: 'Half a cap in a 5-litre bucket for a single maintenance wash.',
+    highlights: ['One per order', 'Enough for one wash'],
+  },
+  {
+    id: 'sample-pre-wash',
+    category: 'Free Sample',
+    name: 'Pre Wash Sample · 50 ml',
+    price: 0,
+    compareAt: 0,
+    badge: 'Free',
+    stock: 99,
+    imageLabel: 'Small 50 ml sample vial of pre wash shampoo',
+    description:
+      'A complimentary 50 ml vial of our touchless pre-wash soak. Try the scratch-prevention step before committing to a bottle.',
+    usage: 'Dilute 1:10 in a spray bottle, dwell, rinse.',
+    highlights: ['One per order', 'Touchless trial'],
+  },
+  {
+    id: 'sample-glass',
+    category: 'Free Sample',
+    name: 'Glass Cleaner Sample · 50 ml',
+    price: 0,
+    compareAt: 0,
+    badge: 'Free',
+    stock: 99,
+    imageLabel: 'Small 50 ml sample vial of glass cleaner',
+    description:
+      'A complimentary 50 ml vial of our streak-free glass chemistry. One interior-and-glass session on the house.',
+    usage: 'Spray onto a short-pile towel and wipe in one direction.',
+    highlights: ['One per order', 'Streak-free trial'],
+  },
 ]
+
+/** Shop-facing products — excludes free samples (cart-only offers). */
+export const purchasableProducts: Product[] = products.filter((p) => p.category !== 'Free Sample')
+
+/** Free samples offered once per order. */
+export const freeSamples: Product[] = products.filter((p) => p.category === 'Free Sample')
 
 export const getProductById = (id: string): Product | undefined => products.find((p) => p.id === id)
 
@@ -469,6 +517,15 @@ export const getSizes = (product: Product): SizeOption[] | null =>
 
 export const defaultSizeLabel = (product: Product): string | null =>
   getSizes(product)?.[0]?.label ?? null
+
+/** Parse a size label like '500 ml' or '1 L' into litres. */
+export function sizeLitres(label: string | null): number | null {
+  if (!label) return null
+  const match = label.match(/([\d.]+)\s*(ml|l)/i)
+  if (!match) return null
+  const value = Number(match[1])
+  return match[2].toLowerCase() === 'ml' ? value / 1000 : value
+}
 
 /** Resolve a product + size label to concrete pricing (rounded to ₹10). */
 export interface Variant {
@@ -548,6 +605,25 @@ export const valueProps = [
     subtext: 'Love it or your money back',
   },
 ]
+
+// ── Wash-stage comparison ─────────────────────────────────────
+
+const WASH_STAGE_IDS = ['pre-wash-shampoo', 'washberry-shampoo', 'wax-shampoo'] as const
+
+export const washStageComparison = {
+  productIds: [...WASH_STAGE_IDS],
+  columns: WASH_STAGE_IDS.map((id) => products.find((p) => p.id === id)?.name ?? id),
+  rows: [
+    { label: 'Use stage', values: ['Pre-wash soak', 'Contact wash', 'Wash + enhance'] },
+    { label: 'Slickness', values: ['—', 'High', 'Medium'] },
+    { label: 'Gloss boost', values: ['—', 'Light', 'High'] },
+    { label: 'Adds protection', values: ['No', 'No', 'Yes — carnauba'] },
+    {
+      label: 'Best for',
+      values: ['Dirt-heavy daily cars', 'Coated & PPF paint', 'Uncoated or waxed paint'],
+    },
+  ],
+}
 
 // ── Footer ───────────────────────────────────────────────────
 

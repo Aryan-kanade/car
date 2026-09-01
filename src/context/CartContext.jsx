@@ -3,6 +3,9 @@ import { defaultSizeLabel, getProductById, getVariant } from '../data/catalog'
 import { lookupPromo, promoDiscount } from '../utils/promos'
 
 const STORAGE_KEY = 'kmkiramyki-cart'
+
+export const SUBSCRIBE_DISCOUNT = 0.15
+export const subscribePrice = (price) => Math.round(price * (1 - SUBSCRIBE_DISCOUNT))
 const CartContext = createContext(null)
 
 function readStoredCart() {
@@ -18,7 +21,8 @@ function readStoredCart() {
         if (!product) return null
         const size = item.size ?? defaultSizeLabel(product)
         const qty = Number.isInteger(item.qty) && item.qty > 0 ? item.qty : 1
-        return { id: item.id, size, qty }
+        const plan = item.plan === 'sub' ? 'sub' : 'once'
+        return { id: item.id, size, plan, qty }
       })
       .filter(Boolean)
   } catch {
@@ -44,45 +48,56 @@ export function CartProvider({ children }) {
     }
   }, [items])
 
-  const addItem = useCallback((id, qty = 1, sizeLabel = null, { openDrawer = true } = {}) => {
-    const product = getProductById(id)
-    if (!product) return
-    const size = sizeLabel ?? defaultSizeLabel(product)
+  const addItem = useCallback(
+    (id, qty = 1, sizeLabel = null, { openDrawer = true, plan = 'once' } = {}) => {
+      const product = getProductById(id)
+      if (!product) return
+      const size = sizeLabel ?? defaultSizeLabel(product)
 
-    setItems((current) => {
-      const existing = current.find((item) => item.id === id && item.size === size)
-      if (existing) {
-        return current.map((item) =>
-          item.id === id && item.size === size
-            ? { ...item, qty: Math.min(item.qty + qty, 99) }
-            : item
+      setItems((current) => {
+        const existing = current.find(
+          (item) => item.id === id && item.size === size && item.plan === plan
         )
-      }
-      return [...current, { id, size, qty }]
-    })
-    const variant = getVariant(product, size)
-    setAnnouncement({
-      key: Date.now(),
-      message: `${product.name}${variant.label ? ` (${variant.label})` : ''} added to cart`,
-    })
-    if (openDrawer) setDrawerOpen(true)
-  }, [])
+        if (existing) {
+          return current.map((item) =>
+            item.id === id && item.size === size && item.plan === plan
+              ? { ...item, qty: Math.min(item.qty + qty, 99) }
+              : item
+          )
+        }
+        return [...current, { id, size, plan, qty }]
+      })
+      const variant = getVariant(product, size)
+      const suffix = variant.label ? ` (${variant.label})` : ''
+      const planText = plan === 'sub' ? ' subscription' : ''
+      setAnnouncement({
+        key: Date.now(),
+        message: `${product.name}${suffix}${planText} added to cart`,
+      })
+      if (openDrawer) setDrawerOpen(true)
+    },
+    []
+  )
 
   const openDrawer = useCallback(() => setDrawerOpen(true), [])
   const closeDrawer = useCallback(() => setDrawerOpen(false), [])
 
-  const setQty = useCallback((id, size, qty) => {
+  const setQty = useCallback((id, size, plan, qty) => {
     setItems((current) =>
       qty <= 0
-        ? current.filter((item) => !(item.id === id && item.size === size))
+        ? current.filter((item) => !(item.id === id && item.size === size && item.plan === plan))
         : current.map((item) =>
-            item.id === id && item.size === size ? { ...item, qty: Math.min(qty, 99) } : item
+            item.id === id && item.size === size && item.plan === plan
+              ? { ...item, qty: Math.min(qty, 99) }
+              : item
           )
     )
   }, [])
 
-  const removeItem = useCallback((id, size) => {
-    setItems((current) => current.filter((item) => !(item.id === id && item.size === size)))
+  const removeItem = useCallback((id, size, plan) => {
+    setItems((current) =>
+      current.filter((item) => !(item.id === id && item.size === size && item.plan === plan))
+    )
   }, [])
 
   const clearCart = useCallback(() => setItems([]), [])
@@ -103,17 +118,21 @@ export function CartProvider({ children }) {
 
   const value = useMemo(() => {
     const detailed = items
-      .map(({ id, size, qty }) => {
+      .map(({ id, size, plan, qty }) => {
         const product = getProductById(id)
         if (!product) return null
         const variant = getVariant(product, size)
+        const base = variant.price
+        const unitPrice = plan === 'sub' ? subscribePrice(base) : base
         return {
           product,
           size: variant.label,
+          plan,
+          recurring: plan === 'sub',
           qty,
-          unitPrice: variant.price,
+          unitPrice,
           unitCompareAt: variant.compareAt,
-          lineTotal: variant.price * qty,
+          lineTotal: unitPrice * qty,
         }
       })
       .filter(Boolean)

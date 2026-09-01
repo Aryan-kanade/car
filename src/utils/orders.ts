@@ -12,6 +12,7 @@ export interface OrderItem {
   id: string
   name: string
   size: string | null
+  subscription: boolean
   qty: number
   unitPrice: number
 }
@@ -32,6 +33,7 @@ export interface Order {
 interface CartLine {
   product: { id: string; name: string }
   size: string | null
+  plan: 'once' | 'sub'
   qty: number
   unitPrice: number
 }
@@ -71,10 +73,11 @@ export function saveOrder({ email, name, items, subtotal, promo }: SaveOrderInpu
     number: generateOrderNumber(),
     email,
     name,
-    items: items.map(({ product, size, qty, unitPrice }) => ({
+    items: items.map(({ product, size, plan, qty, unitPrice }) => ({
       id: product.id,
       name: product.name,
       size,
+      subscription: plan === 'sub',
       qty,
       unitPrice,
     })),

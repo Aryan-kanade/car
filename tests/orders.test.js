@@ -23,6 +23,7 @@ const cartItems = [
   {
     product: { id: 'wax-shampoo', name: 'Wax Shampoo' },
     size: '500 ml',
+    plan: 'once',
     qty: 2,
     unitPrice: 439,
     lineTotal: 878,
@@ -45,6 +46,7 @@ describe('saveOrder', () => {
       id: 'wax-shampoo',
       name: 'Wax Shampoo',
       size: '500 ml',
+      subscription: false,
       qty: 2,
       unitPrice: 439,
     })

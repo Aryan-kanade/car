@@ -15,6 +15,8 @@ import ReviewSection from '../components/ReviewSection'
 import TrustRow from '../components/TrustRow'
 import NotFoundPage from './NotFoundPage'
 import {
+  sizeLitres,
+  washStageComparison,
   defaultSizeLabel,
   formatPrice,
   getCategoryForProduct,
@@ -24,7 +26,7 @@ import {
   products,
   valueProps,
 } from '../data/catalog'
-import { useCart } from '../context/CartContext'
+import { subscribePrice, useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { readReviews } from '../hooks/useProductReviews'
@@ -60,6 +62,7 @@ export default function ProductPage() {
 function ProductView({ product }) {
   const navigate = useNavigate()
   const [qty, setQty] = useState(1)
+  const [plan, setPlan] = useState('once')
   const [sizeLabel, setSizeLabel] = useState(() => defaultSizeLabel(product))
   const [view, setView] = useState(0)
   const [recent] = useState(() =>
@@ -95,6 +98,10 @@ function ProductView({ product }) {
   const category = getCategoryForProduct(product)
   const sizes = getSizes(product)
   const variant = getVariant(product, sizeLabel)
+  const subscribeEligible = Boolean(product.dilutionMlPerLitre)
+  const effectivePrice = plan === 'sub' ? subscribePrice(variant.price) : variant.price
+  const litres = sizeLitres(variant.label)
+  const unitPrice = litres ? effectivePrice / litres : null
   const wished = has(product.id)
   const reviewCount = readReviews(product.id).length
   const rating = product.rating
@@ -182,7 +189,7 @@ function ProductView({ product }) {
 
             <div className="mt-4 flex flex-wrap items-baseline gap-3">
               <span className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
-                {formatPrice(variant.price)}
+                {formatPrice(effectivePrice)}
               </span>
               <span className="text-base text-zinc-500 dark:text-zinc-400 line-through">
                 {formatPrice(variant.compareAt)}
@@ -241,6 +248,54 @@ function ProductView({ product }) {
               </fieldset>
             )}
 
+            {subscribeEligible && (
+              <fieldset className="mt-7">
+                <legend className="text-xs font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase">
+                  Purchase plan
+                </legend>
+                <div
+                  className="mt-3 grid gap-3 sm:grid-cols-2"
+                  role="radiogroup"
+                  aria-label="Purchase plan"
+                >
+                  {[
+                    { value: 'once', title: 'One-time', note: 'Single delivery' },
+                    {
+                      value: 'sub',
+                      title: 'Subscribe & save 15%',
+                      note: 'Every 2 months · cancel anytime',
+                    },
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      role="radio"
+                      aria-checked={plan === option.value}
+                      onClick={() => setPlan(option.value)}
+                      className={`cursor-pointer rounded-md border px-4 py-3.5 text-left transition-colors ${
+                        plan === option.value
+                          ? 'border-zinc-900 dark:border-white bg-zinc-50 dark:bg-zinc-900'
+                          : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600'
+                      }`}
+                    >
+                      <span className="block text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                        {option.title}
+                      </span>
+                      <span className="mt-0.5 block text-xs text-zinc-500 dark:text-zinc-400">
+                        {option.note}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+            )}
+
+            {litres && (
+              <p className="mt-4 text-xs text-zinc-500 dark:text-zinc-400">
+                {formatPrice(Math.round(unitPrice))} per litre · {variant.label}
+              </p>
+            )}
+
             {product.usage && (
               <div className="mt-6 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-5">
                 <h2 className="text-[11px] font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase">
@@ -260,7 +315,7 @@ function ProductView({ product }) {
                 <button
                   type="button"
                   onClick={() => {
-                    addItem(product.id, qty, sizeLabel)
+                    addItem(product.id, qty, sizeLabel, { plan })
                     navigate('/checkout')
                   }}
                   className="cursor-pointer rounded-md bg-zinc-900 dark:bg-white py-3 text-xs font-semibold tracking-[0.15em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
@@ -270,7 +325,7 @@ function ProductView({ product }) {
                 <button
                   type="button"
                   onClick={() => {
-                    addItem(product.id, qty, sizeLabel)
+                    addItem(product.id, qty, sizeLabel, { plan })
                     navigate('/checkout')
                   }}
                   className="cursor-pointer rounded-md border border-zinc-300 dark:border-zinc-700 py-3 text-xs font-semibold tracking-[0.15em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
@@ -287,7 +342,7 @@ function ProductView({ product }) {
               <QtyStepper qty={qty} onChange={setQty} />
               <button
                 type="button"
-                onClick={() => addItem(product.id, qty, sizeLabel)}
+                onClick={() => addItem(product.id, qty, sizeLabel, { plan })}
                 className="flex flex-1 cursor-pointer items-center justify-center gap-3 bg-zinc-900 dark:bg-white px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
               >
                 <ShoppingCartIcon size={16} weight="light" />
@@ -346,6 +401,80 @@ function ProductView({ product }) {
             </ul>
           </m.div>
         </div>
+
+        {washStageComparison.productIds.includes(product.id) && (
+          <section
+            aria-label="Compare wash-stage formulas"
+            className="mt-20 border-t border-zinc-200 dark:border-zinc-800 pt-14 md:mt-24"
+          >
+            <h2 className="font-display text-xl font-bold tracking-[0.12em] uppercase text-zinc-900 dark:text-zinc-100 md:text-2xl">
+              Compare the wash stage
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              Three wash-stage formulas, three jobs. Pick the one that matches your paint and
+              routine.
+            </p>
+            <div className="mt-8 overflow-x-auto">
+              <table className="w-full min-w-[36rem] border-collapse text-sm">
+                <thead>
+                  <tr className="border-b border-zinc-200 dark:border-zinc-800">
+                    <th
+                      scope="col"
+                      className="py-3 pr-4 text-left text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase"
+                    >
+                      Formula
+                    </th>
+                    {washStageComparison.columns.map((column) => (
+                      <th
+                        key={column}
+                        scope="col"
+                        className={`py-3 px-4 text-left font-medium ${
+                          column === product.name
+                            ? 'text-zinc-900 dark:text-zinc-100'
+                            : 'text-zinc-600 dark:text-zinc-400'
+                        }`}
+                      >
+                        {column}
+                        {column === product.name && (
+                          <span className="ml-2 rounded-full bg-zinc-900 dark:bg-white px-2 py-0.5 text-[10px] font-semibold text-white dark:text-zinc-900 uppercase">
+                            This one
+                          </span>
+                        )}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {washStageComparison.rows.map((row) => (
+                    <tr
+                      key={row.label}
+                      className="border-b border-zinc-200 dark:border-zinc-800 last:border-b-0"
+                    >
+                      <th
+                        scope="row"
+                        className="py-3.5 pr-4 text-left text-xs font-semibold tracking-wide text-zinc-500 dark:text-zinc-400 uppercase"
+                      >
+                        {row.label}
+                      </th>
+                      {row.values.map((value, index) => (
+                        <td
+                          key={index}
+                          className={`py-3.5 px-4 ${
+                            washStageComparison.columns[index] === product.name
+                              ? 'bg-zinc-50 dark:bg-zinc-900 font-medium text-zinc-900 dark:text-zinc-100'
+                              : 'text-zinc-600 dark:text-zinc-400'
+                          }`}
+                        >
+                          {value}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
 
         {/* Reviews */}
         <ReviewSection productId={product.id} />
@@ -418,7 +547,7 @@ function ProductView({ product }) {
                 <QtyStepper qty={qty} onChange={setQty} compact />
                 <button
                   type="button"
-                  onClick={() => addItem(product.id, qty, sizeLabel)}
+                  onClick={() => addItem(product.id, qty, sizeLabel, { plan })}
                   className="flex cursor-pointer items-center justify-center gap-2 bg-zinc-900 dark:bg-white px-6 py-3 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
                 >
                   <ShoppingCartIcon size={14} weight="light" />

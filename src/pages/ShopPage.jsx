@@ -5,7 +5,7 @@ import { PackageIcon } from '@phosphor-icons/react/dist/csr/Package'
 import PageHeader from '../components/PageHeader'
 import ProductCard from '../components/ProductCard'
 import NotFoundPage from './NotFoundPage'
-import { categoryRoutes, products } from '../data/catalog'
+import { categoryRoutes, purchasableProducts } from '../data/catalog'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 const SORT_OPTIONS = [
@@ -47,7 +47,9 @@ export default function ShopPage() {
   if (slug && !category) return <NotFoundPage />
 
   const visible = sortProducts(
-    category ? products.filter((p) => p.category === category.productCategory) : products,
+    category
+      ? purchasableProducts.filter((p) => p.category === category.productCategory)
+      : purchasableProducts,
     sort
   )
   const isEmpty = visible.length === 0

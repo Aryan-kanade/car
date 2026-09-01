@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import PageHeader from '../components/PageHeader'
-import { categoryRoutes, products } from '../data/catalog'
+import { categoryRoutes, purchasableProducts } from '../data/catalog'
 import { notes } from '../data/notes'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -16,7 +16,7 @@ const groups = [
   },
   {
     heading: 'Products',
-    links: products.map((p) => ({ label: p.name, to: `/product/${p.id}` })),
+    links: purchasableProducts.map((p) => ({ label: p.name, to: `/product/${p.id}` })),
   },
   {
     heading: 'Support',

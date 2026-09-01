@@ -9,7 +9,12 @@ import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import PageHeader from '../components/PageHeader'
 import Placeholder from '../components/Placeholder'
 import ProductCard from '../components/ProductCard'
-import { formatPrice, products, FREE_SHIPPING_THRESHOLD } from '../data/catalog'
+import {
+  formatPrice,
+  freeSamples,
+  purchasableProducts,
+  FREE_SHIPPING_THRESHOLD,
+} from '../data/catalog'
 import { promoGivesFreeShipping } from '../utils/promos'
 import { useCart } from '../context/CartContext'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -22,6 +27,7 @@ export default function CartPage() {
     subtotal,
     promo,
     discount,
+    addItem,
     applyPromo,
     clearPromo,
     setQty,
@@ -39,7 +45,7 @@ export default function CartPage() {
     items.length === 0 || freeShipping || promoGivesFreeShipping(promo) ? 0 : SHIPPING_FEE
   const total = Math.max(0, subtotal - discount) + shipping
 
-  const crossSells = products
+  const crossSells = purchasableProducts
     .filter((product) => !items.some((item) => item.product.id === product.id))
     .slice(0, 3)
 
@@ -84,9 +90,9 @@ export default function CartPage() {
         {/* Line items */}
         <div>
           <ul className="divide-y divide-zinc-200 dark:divide-zinc-800 border-y border-zinc-200 dark:border-zinc-800">
-            {items.map(({ product, size, qty, unitCompareAt, lineTotal }) => (
+            {items.map(({ product, size, plan, recurring, qty, unitCompareAt, lineTotal }) => (
               <m.li
-                key={`${product.id}|${size ?? 'kit'}`}
+                key={`${product.id}|${size ?? 'kit'}|${plan}`}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="flex gap-5 py-6"
@@ -121,12 +127,17 @@ export default function CartPage() {
                             {size}
                           </span>
                         )}
+                        {recurring && (
+                          <span className="ml-2 rounded-full border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-zinc-600 dark:text-zinc-300 uppercase">
+                            Subscription · 15% off
+                          </span>
+                        )}
                       </h2>
                     </div>
                     <button
                       type="button"
                       aria-label={`Remove ${product.name}${size ? ` ${size}` : ''} from cart`}
-                      onClick={() => removeItem(product.id, size)}
+                      onClick={() => removeItem(product.id, size, plan)}
                       className="cursor-pointer p-2 text-zinc-500 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                     >
                       <XIcon size={18} weight="light" />
@@ -138,7 +149,7 @@ export default function CartPage() {
                       <button
                         type="button"
                         aria-label={`Decrease quantity of ${product.name}`}
-                        onClick={() => setQty(product.id, size, qty - 1)}
+                        onClick={() => setQty(product.id, size, plan, qty - 1)}
                         className="cursor-pointer p-2.5 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                       >
                         <MinusIcon size={14} weight="light" />
@@ -149,7 +160,7 @@ export default function CartPage() {
                       <button
                         type="button"
                         aria-label={`Increase quantity of ${product.name}`}
-                        onClick={() => setQty(product.id, size, qty + 1)}
+                        onClick={() => setQty(product.id, size, plan, qty + 1)}
                         className="cursor-pointer p-2.5 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
                       >
                         <PlusIcon size={14} weight="light" />
@@ -184,6 +195,31 @@ export default function CartPage() {
               Clear cart
             </button>
           </div>
+
+          {/* Free sample picker */}
+          {!items.some((item) => item.product.category === 'Free Sample') && (
+            <div className="mt-14 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-7">
+              <h2 className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
+                Choose a complimentary sample
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                One free 50 ml vial with every order — try a formula before you commit to a bottle.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                {freeSamples.map((sample) => (
+                  <button
+                    key={sample.id}
+                    type="button"
+                    onClick={() => addItem(sample.id)}
+                    className="cursor-pointer rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 transition-colors hover:border-zinc-900 dark:hover:border-white"
+                  >
+                    {sample.name.replace(' Sample · 50 ml', '')}
+                    <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">Free</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Cross-sells */}
           {crossSells.length > 0 && (
