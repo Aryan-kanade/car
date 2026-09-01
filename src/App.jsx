@@ -4,6 +4,7 @@ import { LazyMotion, MotionConfig, domAnimation } from 'motion/react'
 import { CartProvider } from './context/CartContext'
 import { WishlistProvider } from './context/WishlistContext'
 import { LoyaltyProvider } from './context/LoyaltyContext'
+import { GarageProvider } from './context/GarageContext'
 import Layout from './components/Layout'
 
 // Route-level code splitting — every page is lazy; idle prefetch warms them after load
@@ -27,6 +28,7 @@ const BuilderPage = lazy(() => import('./pages/BuilderPage'))
 const QuizPage = lazy(() => import('./pages/QuizPage'))
 const DesignSystemPage = lazy(() => import('./pages/DesignSystemPage'))
 const OrdersPage = lazy(() => import('./pages/OrdersPage'))
+const GaragePage = lazy(() => import('./pages/GaragePage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 export default function App() {
@@ -37,36 +39,39 @@ export default function App() {
           <CartProvider>
             <WishlistProvider>
               <LoyaltyProvider>
-                <Routes>
-                  <Route element={<Layout />}>
-                    <Route index element={<HomePage />} />
-                    <Route path="shop" element={<ShopPage />} />
-                    <Route path="shop/:slug" element={<ShopPage />} />
-                    <Route path="product/:id" element={<ProductPage />} />
-                    <Route path="kits" element={<KitsPage />} />
-                    <Route path="builder" element={<BuilderPage />} />
-                    <Route path="quiz" element={<QuizPage />} />
-                    <Route path="cart" element={<CartPage />} />
-                    <Route path="checkout" element={<CheckoutPage />} />
-                    <Route path="wishlist" element={<WishlistPage />} />
-                    <Route path="calculator" element={<CalculatorPage />} />
-                    <Route path="help" element={<FaqPage />} />
-                    <Route path="order-lookup" element={<OrderLookupPage />} />
-                    <Route path="orders" element={<OrdersPage />} />
-                    <Route path="contact" element={<ContactPage />} />
-                    <Route path="about" element={<AboutPage />} />
-                    <Route path="notes" element={<NotesIndexPage />} />
-                    <Route path="notes/:slug" element={<NotePage />} />
-                    <Route path="shipping" element={<ContentPage slug="shipping" />} />
-                    <Route path="returns" element={<ContentPage slug="returns" />} />
-                    <Route path="accessibility" element={<ContentPage slug="accessibility" />} />
-                    <Route path="terms" element={<ContentPage slug="terms" />} />
-                    <Route path="privacy" element={<ContentPage slug="privacy" />} />
-                    <Route path="sitemap" element={<SitemapPage />} />
-                    <Route path="design" element={<DesignSystemPage />} />
-                    <Route path="*" element={<NotFoundPage />} />
-                  </Route>
-                </Routes>
+                <GarageProvider>
+                  <Routes>
+                    <Route element={<Layout />}>
+                      <Route index element={<HomePage />} />
+                      <Route path="shop" element={<ShopPage />} />
+                      <Route path="shop/:slug" element={<ShopPage />} />
+                      <Route path="product/:id" element={<ProductPage />} />
+                      <Route path="kits" element={<KitsPage />} />
+                      <Route path="builder" element={<BuilderPage />} />
+                      <Route path="quiz" element={<QuizPage />} />
+                      <Route path="cart" element={<CartPage />} />
+                      <Route path="checkout" element={<CheckoutPage />} />
+                      <Route path="wishlist" element={<WishlistPage />} />
+                      <Route path="calculator" element={<CalculatorPage />} />
+                      <Route path="help" element={<FaqPage />} />
+                      <Route path="order-lookup" element={<OrderLookupPage />} />
+                      <Route path="orders" element={<OrdersPage />} />
+                      <Route path="garage" element={<GaragePage />} />
+                      <Route path="contact" element={<ContactPage />} />
+                      <Route path="about" element={<AboutPage />} />
+                      <Route path="notes" element={<NotesIndexPage />} />
+                      <Route path="notes/:slug" element={<NotePage />} />
+                      <Route path="shipping" element={<ContentPage slug="shipping" />} />
+                      <Route path="returns" element={<ContentPage slug="returns" />} />
+                      <Route path="accessibility" element={<ContentPage slug="accessibility" />} />
+                      <Route path="terms" element={<ContentPage slug="terms" />} />
+                      <Route path="privacy" element={<ContentPage slug="privacy" />} />
+                      <Route path="sitemap" element={<SitemapPage />} />
+                      <Route path="design" element={<DesignSystemPage />} />
+                      <Route path="*" element={<NotFoundPage />} />
+                    </Route>
+                  </Routes>
+                </GarageProvider>
               </LoyaltyProvider>
             </WishlistProvider>
           </CartProvider>
