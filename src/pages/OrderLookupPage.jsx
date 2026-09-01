@@ -32,7 +32,7 @@ export default function OrderLookupPage() {
       />
 
       <div className="mx-auto max-w-xl px-6 py-14 md:py-20">
-        <form onSubmit={submit} className="space-y-5">
+        <form onSubmit={submit} className="no-print space-y-5">
           <div>
             <label
               htmlFor="order-id"

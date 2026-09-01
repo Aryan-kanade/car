@@ -11,6 +11,7 @@ import { useCart } from '../context/CartContext'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { saveOrder } from '../utils/orders'
 import { promoGivesFreeShipping } from '../utils/promos'
+import Confetti from '../components/Confetti'
 import { lookupGiftCard, redeemGiftCard, useGiftCard } from '../utils/giftcards'
 import { REDEEM_THRESHOLD, REDEEM_VALUE, useLoyalty } from '../context/LoyaltyContext'
 
@@ -213,102 +214,105 @@ export default function CheckoutPage() {
       <div className="mx-auto max-w-7xl px-6 py-14 md:py-20">
         {step === 3 && placedOrder ? (
           /* ── Confirmation ── */
-          <m.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="mx-auto max-w-2xl"
-          >
-            <div className="flex flex-col items-center rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-6 py-14 text-center">
-              <SealCheckIcon
-                size={48}
-                weight="light"
-                className="text-zinc-900 dark:text-zinc-100"
-                aria-hidden="true"
-              />
-              <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
-                Thank you, {placedOrder.name.split(' ')[0]}
-              </h2>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                Your order is in. A confirmation is on its way to {placedOrder.email}. This is a
-                demo storefront — no payment was taken.
-              </p>
-              <p className="font-display mt-8 text-3xl font-bold tracking-[0.1em] text-zinc-900 dark:text-zinc-100">
-                {placedOrder.number}
-              </p>
-              {placedOrder.pointsEarned > 0 && (
-                <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
-                  You earned{' '}
-                  <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                    {placedOrder.pointsEarned} Studio Points
-                  </span>{' '}
-                  on this order.
-                </p>
-              )}
-              <p className="mt-1.5 text-xs tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
-                Order number
-              </p>
-            </div>
-
-            <div className="mt-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-7">
-              <h3 className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
-                What you ordered
-              </h3>
-              <ul className="mt-4 divide-y divide-zinc-200 dark:divide-zinc-800">
-                {placedOrder.items.map((item) => (
-                  <li
-                    key={item.id}
-                    className="flex items-center justify-between gap-4 py-3.5 text-sm"
-                  >
-                    <span className="text-zinc-700 dark:text-zinc-300">
-                      {item.name}
-                      {item.size && (
-                        <span className="text-zinc-500 dark:text-zinc-400"> · {item.size}</span>
-                      )}{' '}
-                      <span className="text-zinc-500 dark:text-zinc-400">× {item.qty}</span>
-                    </span>
-                    <span className="font-medium text-zinc-900 dark:text-zinc-100">
-                      {formatPrice(item.unitPrice * item.qty)}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-4 flex items-baseline justify-between border-t border-zinc-200 dark:border-zinc-800 pt-4">
-                <span className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Total{placedOrder.shipping === 0 ? ' (free shipping)' : ''}
-                </span>
-                <span className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-                  {formatPrice(placedOrder.total)}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Link
-                to="/order-lookup"
-                className="group inline-flex items-center justify-center gap-3 bg-zinc-900 dark:bg-white px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
-              >
-                Track this order
-                <ArrowRightIcon
-                  size={14}
+          <div className="relative">
+            <Confetti />
+            <m.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+              className="mx-auto max-w-2xl"
+            >
+              <div className="flex flex-col items-center rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-6 py-14 text-center">
+                <SealCheckIcon
+                  size={48}
                   weight="light"
-                  className="transition-transform duration-300 group-hover:translate-x-1"
+                  className="text-zinc-900 dark:text-zinc-100"
+                  aria-hidden="true"
                 />
-              </Link>
-              <a
-                href={`upi://pay?pa=kmkiramyki@upi&pn=KMKIRAMYKI&am=${(placedOrder.total / 100).toFixed(2)}&cu=INR&tn=${encodeURIComponent(placedOrder.number)}`}
-                className="inline-flex items-center justify-center border border-zinc-300 dark:border-zinc-700 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
-              >
-                Pay via UPI (demo)
-              </a>
-              <Link
-                to="/shop"
-                className="inline-flex items-center justify-center border border-zinc-300 dark:border-zinc-700 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
-              >
-                Continue shopping
-              </Link>
-            </div>
-          </m.div>
+                <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
+                  Thank you, {placedOrder.name.split(' ')[0]}
+                </h2>
+                <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                  Your order is in. A confirmation is on its way to {placedOrder.email}. This is a
+                  demo storefront — no payment was taken.
+                </p>
+                <p className="font-display mt-8 text-3xl font-bold tracking-[0.1em] text-zinc-900 dark:text-zinc-100">
+                  {placedOrder.number}
+                </p>
+                {placedOrder.pointsEarned > 0 && (
+                  <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
+                    You earned{' '}
+                    <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                      {placedOrder.pointsEarned} Studio Points
+                    </span>{' '}
+                    on this order.
+                  </p>
+                )}
+                <p className="mt-1.5 text-xs tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
+                  Order number
+                </p>
+              </div>
+
+              <div className="mt-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-7">
+                <h3 className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
+                  What you ordered
+                </h3>
+                <ul className="mt-4 divide-y divide-zinc-200 dark:divide-zinc-800">
+                  {placedOrder.items.map((item) => (
+                    <li
+                      key={item.id}
+                      className="flex items-center justify-between gap-4 py-3.5 text-sm"
+                    >
+                      <span className="text-zinc-700 dark:text-zinc-300">
+                        {item.name}
+                        {item.size && (
+                          <span className="text-zinc-500 dark:text-zinc-400"> · {item.size}</span>
+                        )}{' '}
+                        <span className="text-zinc-500 dark:text-zinc-400">× {item.qty}</span>
+                      </span>
+                      <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                        {formatPrice(item.unitPrice * item.qty)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-4 flex items-baseline justify-between border-t border-zinc-200 dark:border-zinc-800 pt-4">
+                  <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                    Total{placedOrder.shipping === 0 ? ' (free shipping)' : ''}
+                  </span>
+                  <span className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+                    {formatPrice(placedOrder.total)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
+                <Link
+                  to="/order-lookup"
+                  className="group inline-flex items-center justify-center gap-3 bg-zinc-900 dark:bg-white px-8 py-4 text-xs font-semibold tracking-[0.2em] text-white dark:text-zinc-900 uppercase transition-colors hover:bg-zinc-800 dark:hover:bg-zinc-200"
+                >
+                  Track this order
+                  <ArrowRightIcon
+                    size={14}
+                    weight="light"
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </Link>
+                <a
+                  href={`upi://pay?pa=kmkiramyki@upi&pn=KMKIRAMYKI&am=${(placedOrder.total / 100).toFixed(2)}&cu=INR&tn=${encodeURIComponent(placedOrder.number)}`}
+                  className="inline-flex items-center justify-center border border-zinc-300 dark:border-zinc-700 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
+                >
+                  Pay via UPI (demo)
+                </a>
+                <Link
+                  to="/shop"
+                  className="inline-flex items-center justify-center border border-zinc-300 dark:border-zinc-700 px-8 py-4 text-xs font-semibold tracking-[0.2em] text-zinc-900 dark:text-zinc-100 uppercase transition-colors hover:border-zinc-900 dark:hover:border-white"
+                >
+                  Continue shopping
+                </Link>
+              </div>
+            </m.div>
+          </div>
         ) : (
           <div className="grid gap-12 lg:grid-cols-[1.6fr_1fr] lg:gap-16">
             {/* ── Active step form ── */}

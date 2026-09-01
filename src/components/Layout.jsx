@@ -7,6 +7,7 @@ import CartDrawer from './CartDrawer'
 import BackToTop from './BackToTop'
 import BottomNav from './BottomNav'
 import RouteFallback from './RouteFallback'
+import CommandPalette from './CommandPalette'
 import ErrorBoundary from './ErrorBoundary'
 import { useCart } from '../context/CartContext'
 import { prefetchRoutes } from '../utils/prefetch'
@@ -25,11 +26,24 @@ function ScrollToTop() {
 /** Shared chrome: fixed navbar, routed page content, footer, overlays. */
 export default function Layout() {
   const [searchOpen, setSearchOpen] = useState(false)
+  const [paletteOpen, setPaletteOpen] = useState(false)
   const { announcement } = useCart()
 
   // Warm lazy route chunks once the browser is idle
   useEffect(() => {
     prefetchRoutes()
+  }, [])
+
+  // Command palette: Ctrl/Cmd+K
+  useEffect(() => {
+    const onKey = (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        setPaletteOpen((open) => !open)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
   }, [])
 
   return (
@@ -65,6 +79,7 @@ export default function Layout() {
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       <CartDrawer />
       <BottomNav onOpenSearch={() => setSearchOpen(true)} />
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
       <BackToTop />
     </div>
   )

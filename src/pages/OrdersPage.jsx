@@ -94,7 +94,7 @@ export default function OrdersPage() {
                     ))}
                   </ul>
 
-                  <div className="mt-4 flex items-center justify-between border-t border-zinc-200 dark:border-zinc-800 pt-4">
+                  <div className="no-print mt-4 flex items-center justify-between border-t border-zinc-200 dark:border-zinc-800 pt-4">
                     <Link
                       to="/order-lookup"
                       className="text-xs font-semibold tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
