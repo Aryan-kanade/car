@@ -11,6 +11,7 @@ const groups = [
       { label: 'All Products', to: '/shop' },
       ...categoryRoutes.map((c) => ({ label: c.name, to: `/shop/${c.slug}` })),
       { label: 'Curated Bundles', to: '/kits' },
+      { label: 'Build Your Kit', to: '/builder' },
     ],
   },
   {

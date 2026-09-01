@@ -49,12 +49,20 @@ export default function MegaMenu() {
                 className="transition-transform duration-300 group-hover/all:translate-x-1"
               />
             </Link>
-            <Link
-              to="/calculator"
-              className="text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
-            >
-              Dilution calculator
-            </Link>
+            <span className="flex items-center gap-4">
+              <Link
+                to="/builder"
+                className="text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+              >
+                Build your kit
+              </Link>
+              <Link
+                to="/calculator"
+                className="text-[11px] font-semibold tracking-[0.2em] text-zinc-600 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white"
+              >
+                Dilution calculator
+              </Link>
+            </span>
           </div>
         </nav>
 

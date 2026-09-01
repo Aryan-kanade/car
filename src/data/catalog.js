@@ -500,6 +500,7 @@ export const footerColumns = [
       { label: 'Interior Care', to: '/shop/interior' },
       { label: 'Glass Care', to: '/shop/glass' },
       { label: 'Accessories', to: '/shop/accessories' },
+      { label: 'Build Your Kit', to: '/builder' },
     ],
   },
   {

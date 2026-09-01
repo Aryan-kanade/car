@@ -25,7 +25,7 @@ const steps = [
     number: '04',
     title: 'Protect & Dress',
     body: 'Lock in the finish for the season ahead.',
-    to: '/kits',
+    to: '/builder',
   },
 ]
 
