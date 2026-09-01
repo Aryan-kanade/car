@@ -9,6 +9,12 @@ export default [
   },
   js.configs.recommended,
   {
+    files: ['scripts/**'],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.browser },
+    },
+  },
+  {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2022,

@@ -4,6 +4,14 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  esbuild: {
+    jsx: 'automatic',
+  },
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['tests/setup.js'],
+    exclude: ['e2e/**', 'node_modules/**', 'dist/**'],
+  },
   plugins: [
     react(),
     tailwindcss(),

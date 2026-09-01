@@ -4,13 +4,12 @@ import { AnimatePresence, m } from 'motion/react'
 import { CheckCircleIcon } from '@phosphor-icons/react/dist/csr/CheckCircle'
 import { FireIcon } from '@phosphor-icons/react/dist/csr/Fire'
 import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
-import { MinusIcon } from '@phosphor-icons/react/dist/csr/Minus'
-import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus'
 import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
 import { StarIcon } from '@phosphor-icons/react/dist/csr/Star'
 import { TruckIcon } from '@phosphor-icons/react/dist/csr/Truck'
 import PageHeader from '../components/PageHeader'
-import Placeholder from '../components/Placeholder'
+import Gallery from '../components/product/Gallery'
+import QtyStepper from '../components/product/QtyStepper'
 import ProductCard from '../components/ProductCard'
 import ReviewSection from '../components/ReviewSection'
 import TrustRow from '../components/TrustRow'
@@ -40,37 +39,6 @@ function readRecentlyViewed() {
   } catch {
     return []
   }
-}
-
-function QtyStepper({ qty, onChange, compact = false }) {
-  const pad = compact ? 'p-2.5' : 'p-3'
-  const icon = compact ? 14 : 16
-  return (
-    <div className="flex items-center border border-zinc-200 dark:border-zinc-800">
-      <button
-        type="button"
-        aria-label="Decrease quantity"
-        onClick={() => onChange(Math.max(1, qty - 1))}
-        className={`cursor-pointer ${pad} text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white`}
-      >
-        <MinusIcon size={icon} weight="light" />
-      </button>
-      <span
-        aria-live="polite"
-        className={`${compact ? 'min-w-8 text-xs' : 'min-w-10 text-sm'} text-center font-semibold text-zinc-900 dark:text-zinc-100`}
-      >
-        {qty}
-      </span>
-      <button
-        type="button"
-        aria-label="Increase quantity"
-        onClick={() => onChange(Math.min(99, qty + 1))}
-        className={`cursor-pointer ${pad} text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white`}
-      >
-        <PlusIcon size={icon} weight="light" />
-      </button>
-    </div>
-  )
 }
 
 /** Product detail page — resolves the route, delegates to a keyed view. */
@@ -171,56 +139,7 @@ function ProductView({ product }) {
 
       <div className="mx-auto max-w-7xl px-6 pb-28 py-14 md:py-20">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Gallery */}
-          <m.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-          >
-            <AnimatePresence mode="popLayout">
-              <m.div
-                key={view}
-                initial={{ opacity: 0.4 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div
-                  className="group relative cursor-zoom-in overflow-hidden rounded-xl"
-                  onMouseMove={(event) => {
-                    const rect = event.currentTarget.getBoundingClientRect()
-                    const x = ((event.clientX - rect.left) / rect.width) * 100
-                    const y = ((event.clientY - rect.top) / rect.height) * 100
-                    event.currentTarget.style.setProperty('--zoom-origin', `${x}% ${y}%`)
-                  }}
-                >
-                  <div
-                    className="transition-transform duration-300 group-hover:scale-[1.6]"
-                    style={{ transformOrigin: 'var(--zoom-origin, 50% 50%)' }}
-                  >
-                    <Placeholder label={views[view]} iconSize={48} className="aspect-square" />
-                  </div>
-                </div>
-              </m.div>
-            </AnimatePresence>
-            <div className="mt-4 grid grid-cols-3 gap-4">
-              {views.map((label, index) => (
-                <button
-                  key={label}
-                  type="button"
-                  aria-label={`Show image ${index + 1} of 3`}
-                  aria-pressed={view === index}
-                  onClick={() => setView(index)}
-                  className={`cursor-pointer overflow-hidden rounded-lg border-2 transition-colors ${
-                    view === index
-                      ? 'border-zinc-900 dark:border-white'
-                      : 'border-transparent hover:border-zinc-300 dark:hover:border-zinc-600'
-                  }`}
-                >
-                  <Placeholder label={label} iconSize={20} className="aspect-square rounded-md" />
-                </button>
-              ))}
-            </div>
-          </m.div>
+          <Gallery views={views} view={view} onViewChange={setView} />
 
           {/* Buy box */}
           <m.div

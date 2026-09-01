@@ -4,13 +4,49 @@
 // ─────────────────────────────────────────────────────────────
 
 import { FREE_SHIPPING_THRESHOLD } from '../data/catalog'
-import { promoDiscount, promoGivesFreeShipping } from './promos'
+import { promoDiscount, promoGivesFreeShipping, type Promo } from './promos'
 
 const KEY = 'kmkiramyki-orders'
 
+export interface OrderItem {
+  id: string
+  name: string
+  size: string | null
+  qty: number
+  unitPrice: number
+}
+
+export interface Order {
+  number: string
+  email: string
+  name: string
+  items: OrderItem[]
+  subtotal: number
+  discount: number
+  promoCode: string | null
+  shipping: number
+  total: number
+  placedAt: number
+}
+
+interface CartLine {
+  product: { id: string; name: string }
+  size: string | null
+  qty: number
+  unitPrice: number
+}
+
+interface SaveOrderInput {
+  email: string
+  name: string
+  items: CartLine[]
+  subtotal: number
+  promo: Promo | null
+}
+
 export const SHIPPING_FEE = 199
 
-export function readOrders() {
+export function readOrders(): Order[] {
   try {
     const raw = window.localStorage.getItem(KEY)
     const parsed = raw ? JSON.parse(raw) : []
@@ -25,13 +61,13 @@ export function generateOrderNumber() {
 }
 
 /** Snapshot the current cart into a persisted order and return it. */
-export function saveOrder({ email, name, items, subtotal, promo }) {
+export function saveOrder({ email, name, items, subtotal, promo }: SaveOrderInput): Order {
   const discount = promoDiscount(promo, subtotal)
   const shipping =
     subtotal - discount >= FREE_SHIPPING_THRESHOLD || promoGivesFreeShipping(promo)
       ? 0
       : SHIPPING_FEE
-  const order = {
+  const order: Order = {
     number: generateOrderNumber(),
     email,
     name,
@@ -60,15 +96,20 @@ export function saveOrder({ email, name, items, subtotal, promo }) {
   return order
 }
 
-export function findOrder(number, email) {
-  const norm = (value) => (value ?? '').toString().trim().toLowerCase()
+export function findOrder(number: string, email: string): Order | undefined {
+  const norm = (value: string | null | undefined) => (value ?? '').toString().trim().toLowerCase()
   return readOrders().find(
     (order) => norm(order.number) === norm(number) && norm(order.email) === norm(email)
   )
 }
 
 /** Demo status derived from order age: Placed → Shipped → Out for delivery. */
-export function getOrderStatus(placedAt) {
+export interface OrderStatus {
+  label: string
+  detail: string
+}
+
+export function getOrderStatus(placedAt: number): OrderStatus {
   const ageHours = (Date.now() - placedAt) / 36e5
   if (ageHours < 24) {
     return { label: 'Placed', detail: 'We are preparing your parcel. Tracking arrives by email.' }

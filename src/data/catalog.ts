@@ -9,13 +9,58 @@ const inr = new Intl.NumberFormat('en-IN', {
   minimumFractionDigits: 2,
 })
 
-export const formatPrice = (value) => inr.format(value)
+export const formatPrice = (value: number) => inr.format(value)
+
+export interface Rating {
+  stars: number
+  reviews: number
+}
+
+export interface Product {
+  id: string
+  category: string
+  name: string
+  price: number
+  compareAt: number
+  badge: string
+  stock?: number
+  dilutionMlPerLitre?: number
+  imageLabel: string
+  description: string
+  usage?: string
+  highlights?: string[]
+  rating?: Rating
+}
+
+export interface CategoryRoute {
+  slug: string
+  name: string
+  productCategory: string
+  tagline: string
+  description: string
+}
+
+export interface NavLinkItem {
+  label: string
+  to: string
+}
+
+export interface Bundle {
+  title: string
+  category: string
+  productId: string
+  product: string
+  price: number
+  compareAt: number
+  imageLabel: string
+  includes: string[]
+}
 
 export const FREE_SHIPPING_THRESHOLD = 7155
 
 // ── Navigation ───────────────────────────────────────────────
 
-export const navLinks = [
+export const navLinks: NavLinkItem[] = [
   { label: 'Clean & Protect', to: '/shop/clean-protect' },
   { label: 'Wheel & Tire Care', to: '/shop/wheel-tire' },
   { label: 'Interior Care', to: '/shop/interior' },
@@ -26,7 +71,7 @@ export const navLinks = [
 
 // ── Categories ───────────────────────────────────────────────
 
-export const categoryRoutes = [
+export const categoryRoutes: CategoryRoute[] = [
   {
     slug: 'clean-protect',
     name: 'Clean & Protect',
@@ -77,12 +122,13 @@ export const categoryRoutes = [
   },
 ]
 
-export const getCategoryBySlug = (slug) => categoryRoutes.find((c) => c.slug === slug)
+export const getCategoryBySlug = (slug: string) =>
+  categoryRoutes.find((c: CategoryRoute) => c.slug === slug)
 
-export const getCategoryForProduct = (product) =>
-  categoryRoutes.find((c) => c.productCategory === product.category)
+export const getCategoryForProduct = (product: Product) =>
+  categoryRoutes.find((c: CategoryRoute) => c.productCategory === product.category)
 
-export const countProductsInCategory = (productCategory) =>
+export const countProductsInCategory = (productCategory: string): number =>
   products.filter((p) => p.category === productCategory).length
 
 // Home-page category showcase (numbered list)
@@ -121,7 +167,7 @@ export const categories = [
 
 // ── Products ─────────────────────────────────────────────────
 
-export const products = [
+export const products: Product[] = [
   {
     id: 'complete-detail-kit',
     category: 'Kits & Bundles',
@@ -387,7 +433,7 @@ export const products = [
   },
 ]
 
-export const getProductById = (id) => products.find((p) => p.id === id)
+export const getProductById = (id: string): Product | undefined => products.find((p) => p.id === id)
 
 // ── Size variants ────────────────────────────────────────────
 // Kits ship as single boxes; bottles come in two sizes each.
@@ -413,16 +459,31 @@ const sizeOptions = {
   'tyre-polish': SIZES_SMALL,
 }
 
-export const getSizes = (product) => sizeOptions[product.id] ?? null
+export interface SizeOption {
+  label: string
+  multiplier: number
+}
 
-export const defaultSizeLabel = (product) => getSizes(product)?.[0]?.label ?? null
+export const getSizes = (product: Product): SizeOption[] | null =>
+  (sizeOptions as Record<string, SizeOption[]>)[product.id] ?? null
+
+export const defaultSizeLabel = (product: Product): string | null =>
+  getSizes(product)?.[0]?.label ?? null
 
 /** Resolve a product + size label to concrete pricing (rounded to ₹10). */
-export function getVariant(product, sizeLabel) {
+export interface Variant {
+  label: string | null
+  multiplier: number
+  price: number
+  compareAt: number
+}
+
+export function getVariant(product: Product, sizeLabel: string | null): Variant {
   const sizes = getSizes(product)
-  const size = sizes?.find((s) => s.label === sizeLabel) ?? sizes?.[0]
+  const size: SizeOption | undefined =
+    sizes?.find((s: SizeOption) => s.label === sizeLabel) ?? sizes?.[0]
   const multiplier = size?.multiplier ?? 1
-  const round = (value) => Math.round((value * multiplier) / 10) * 10
+  const round = (value: number) => Math.round((value * multiplier) / 10) * 10
   return {
     label: size?.label ?? null,
     multiplier,
@@ -433,7 +494,7 @@ export function getVariant(product, sizeLabel) {
 
 // ── Bundles ──────────────────────────────────────────────────
 
-export const bundles = [
+export const bundles: Bundle[] = [
   {
     title: 'WASH',
     category: 'Kits & Bundles',
