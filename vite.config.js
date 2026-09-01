@@ -13,6 +13,9 @@ export default defineConfig({
     exclude: ['e2e/**', 'node_modules/**', 'dist/**'],
   },
   plugins: [
+    // NOTE: React Compiler (oxc-plugin-react-compiler@0.2.0) was trialed here and
+    // reverted — its output trips rolldown PARSE_ERRORs on this codebase
+    // (duplicate `_temp` declarations). Retry on a later plugin release.
     react(),
     tailwindcss(),
     VitePWA({
