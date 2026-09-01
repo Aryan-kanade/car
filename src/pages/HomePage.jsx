@@ -5,7 +5,6 @@ import FeaturedBanner from '../components/FeaturedBanner'
 import StoryStrip from '../components/StoryStrip'
 import DifferenceSection from '../components/DifferenceSection'
 import WeatherCoach from '../components/WeatherCoach'
-import BeadingSection from '../components/BeadingSection'
 import CategoryList from '../components/CategoryList'
 import RoutineStrip from '../components/RoutineStrip'
 import BestSellers from '../components/BestSellers'
@@ -55,7 +54,6 @@ export default function HomePage() {
         </section>
       )}
       <Testimonials />
-      <BeadingSection />
     </>
   )
 }
