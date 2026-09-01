@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'motion/react'
 import { StarIcon } from '@phosphor-icons/react/dist/csr/Star'
 import { useProductReviews } from '../hooks/useProductReviews'
 
@@ -192,7 +192,7 @@ export default function ReviewSection({ productId }) {
             </li>
           )}
           {reviews.map((review, index) => (
-            <motion.li
+            <m.li
               key={`${review.at}-${index}`}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -218,7 +218,7 @@ export default function ReviewSection({ productId }) {
               <p className="mt-3 max-w-[70ch] text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                 {review.text}
               </p>
-            </motion.li>
+            </m.li>
           ))}
         </ul>
       </div>

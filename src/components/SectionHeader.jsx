@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
-import { motion } from 'framer-motion'
+import { m } from 'motion/react'
 
 /** Shared section header: display-font title, muted subtext and a "View All →" link. */
 export default function SectionHeader({ title, subtext, to = '/shop' }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
@@ -33,6 +33,6 @@ export default function SectionHeader({ title, subtext, to = '/shop' }) {
           />
         </Link>
       )}
-    </motion.div>
+    </m.div>
   )
 }

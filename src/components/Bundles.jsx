@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { m } from 'motion/react'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import SectionHeader from './SectionHeader'
 import Placeholder from './Placeholder'
@@ -17,7 +17,7 @@ export default function Bundles() {
 
       <div className="grid gap-6 md:grid-cols-2 md:gap-8">
         {bundles.map((bundle, index) => (
-          <motion.div
+          <m.div
             key={bundle.title}
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -66,7 +66,7 @@ export default function Bundles() {
                 />
               </div>
             </Link>
-          </motion.div>
+          </m.div>
         ))}
       </div>
     </section>

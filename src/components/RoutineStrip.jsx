@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { m } from 'motion/react'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 
 const steps = [
@@ -35,7 +35,7 @@ export default function RoutineStrip() {
     <section className="mx-auto max-w-7xl px-6 pb-24 md:pb-32">
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {steps.map((step, index) => (
-          <motion.div
+          <m.div
             key={step.number}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -61,7 +61,7 @@ export default function RoutineStrip() {
                 className="mt-5 text-zinc-400 dark:text-zinc-500 transition-all duration-300 group-hover:translate-x-1 group-hover:text-zinc-900 dark:group-hover:text-white dark:hover:text-white"
               />
             </Link>
-          </motion.div>
+          </m.div>
         ))}
       </div>
     </section>

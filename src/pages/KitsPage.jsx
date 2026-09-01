@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'motion/react'
 import { CheckCircleIcon } from '@phosphor-icons/react/dist/csr/CheckCircle'
 import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
 import PageHeader from '../components/PageHeader'
@@ -28,7 +28,7 @@ export default function KitsPage() {
         {bundles.map((bundle, index) => {
           const saving = bundle.compareAt - bundle.price
           return (
-            <motion.section
+            <m.section
               key={bundle.title}
               aria-label={`${bundle.title} kit`}
               initial={{ opacity: 0, y: 32 }}
@@ -97,7 +97,7 @@ export default function KitsPage() {
                   </button>
                 </div>
               </div>
-            </motion.section>
+            </m.section>
           )
         })}
       </div>

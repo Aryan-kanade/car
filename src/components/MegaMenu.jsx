@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import Placeholder from './Placeholder'
 import { categoryRoutes, formatPrice, getProductById } from '../data/catalog'

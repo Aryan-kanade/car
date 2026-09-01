@@ -1,5 +1,5 @@
-import { Link, useParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link, useParams } from 'react-router'
+import { m } from 'motion/react'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import PageHeader from '../components/PageHeader'
 import NotFoundPage from './NotFoundPage'
@@ -34,7 +34,7 @@ export default function NotePage() {
         subtext={`${note.dek} · ${note.readingTime}`}
       />
 
-      <motion.article
+      <m.article
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -81,7 +81,7 @@ export default function NotePage() {
             />
           </Link>
         </div>
-      </motion.article>
+      </m.article>
     </>
   )
 }

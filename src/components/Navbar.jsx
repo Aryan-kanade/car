@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { AnimatePresence, m } from 'motion/react'
 import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
 import { ListIcon } from '@phosphor-icons/react/dist/csr/List'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
@@ -113,7 +113,7 @@ export default function Navbar({ onOpenSearch }) {
           >
             <HeartIcon size={20} weight="light" />
             {wishlistCount > 0 && (
-              <motion.span
+              <m.span
                 key={wishlistCount}
                 initial={{ scale: 0.4 }}
                 animate={{ scale: 1 }}
@@ -121,7 +121,7 @@ export default function Navbar({ onOpenSearch }) {
                 className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-zinc-900 dark:bg-white px-1 text-[10px] font-semibold text-white dark:text-zinc-900"
               >
                 {wishlistCount}
-              </motion.span>
+              </m.span>
             )}
           </Link>
           <button
@@ -131,7 +131,7 @@ export default function Navbar({ onOpenSearch }) {
             className="relative cursor-pointer p-3 text-zinc-600 dark:text-zinc-400 transition-colors hover:text-zinc-900 dark:hover:text-white"
           >
             <ShoppingCartIcon size={20} weight="light" />
-            <motion.span
+            <m.span
               key={count}
               initial={{ scale: 0.4 }}
               animate={{ scale: 1 }}
@@ -139,7 +139,7 @@ export default function Navbar({ onOpenSearch }) {
               className="absolute top-1 right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-zinc-900 dark:bg-white px-1 text-[10px] font-semibold text-white dark:text-zinc-900"
             >
               {count}
-            </motion.span>
+            </m.span>
           </button>
           <button
             type="button"
@@ -156,7 +156,7 @@ export default function Navbar({ onOpenSearch }) {
       {/* Mobile menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -194,7 +194,7 @@ export default function Navbar({ onOpenSearch }) {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

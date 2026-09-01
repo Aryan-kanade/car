@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'motion/react'
 import { ArrowUpIcon } from '@phosphor-icons/react/dist/csr/ArrowUp'
 
 /** Floating back-to-top button, appears after meaningful scroll. */
@@ -16,7 +16,7 @@ export default function BackToTop() {
   return (
     <AnimatePresence>
       {visible && (
-        <motion.button
+        <m.button
           type="button"
           aria-label="Back to top"
           initial={{ opacity: 0, y: 12 }}
@@ -27,7 +27,7 @@ export default function BackToTop() {
           className="fixed right-6 bottom-24 z-30 cursor-pointer rounded-full border border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 p-3.5 text-zinc-600 dark:text-zinc-300 shadow-lg backdrop-blur-md transition-colors hover:text-zinc-900 dark:hover:text-white md:bottom-6"
         >
           <ArrowUpIcon size={18} weight="light" />
-        </motion.button>
+        </m.button>
       )}
     </AnimatePresence>
   )

@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { m } from 'motion/react'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import PageHeader from '../components/PageHeader'
 import Placeholder from '../components/Placeholder'
@@ -24,7 +24,7 @@ export default function NotesIndexPage() {
       <div className="mx-auto max-w-7xl px-6 py-14 md:py-20">
         <div className="grid gap-8 md:grid-cols-3">
           {notes.map((note, index) => (
-            <motion.article
+            <m.article
               key={note.slug}
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -66,7 +66,7 @@ export default function NotesIndexPage() {
                   />
                 </Link>
               </div>
-            </motion.article>
+            </m.article>
           ))}
         </div>
       </div>

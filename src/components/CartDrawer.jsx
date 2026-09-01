@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { AnimatePresence, m } from 'motion/react'
 import { MinusIcon } from '@phosphor-icons/react/dist/csr/Minus'
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus'
 import { TruckIcon } from '@phosphor-icons/react/dist/csr/Truck'
@@ -42,7 +42,7 @@ export default function CartDrawer() {
     <AnimatePresence>
       {drawerOpen && (
         <>
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -51,7 +51,7 @@ export default function CartDrawer() {
             onClick={closeDrawer}
             aria-hidden="true"
           />
-          <motion.aside
+          <m.aside
             ref={drawerRef}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -199,7 +199,7 @@ export default function CartDrawer() {
                 </div>
               </>
             )}
-          </motion.aside>
+          </m.aside>
         </>
       )}
     </AnimatePresence>

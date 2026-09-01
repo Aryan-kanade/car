@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
 import PageHeader from '../components/PageHeader'
 import ProductCard from '../components/ProductCard'

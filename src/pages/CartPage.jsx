@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { m } from 'motion/react'
 import { MinusIcon } from '@phosphor-icons/react/dist/csr/Minus'
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus'
 import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
@@ -85,9 +85,8 @@ export default function CartPage() {
         <div>
           <ul className="divide-y divide-zinc-200 dark:divide-zinc-800 border-y border-zinc-200 dark:border-zinc-800">
             {items.map(({ product, size, qty, unitCompareAt, lineTotal }) => (
-              <motion.li
+              <m.li
                 key={`${product.id}|${size ?? 'kit'}`}
-                layout
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="flex gap-5 py-6"
@@ -166,7 +165,7 @@ export default function CartPage() {
                     </p>
                   </div>
                 </div>
-              </motion.li>
+              </m.li>
             ))}
           </ul>
 

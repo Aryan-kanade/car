@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { AnimatePresence, m } from 'motion/react'
 import { ArrowUpRightIcon } from '@phosphor-icons/react/dist/csr/ArrowUpRight'
 import SectionHeader from './SectionHeader'
 import Placeholder from './Placeholder'
@@ -22,7 +22,7 @@ export default function CategoryList() {
         <div className="pointer-events-none absolute inset-y-6 right-0 hidden w-[52%] lg:block">
           <AnimatePresence mode="popLayout">
             {active !== null && (
-              <motion.div
+              <m.div
                 key={active}
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -35,7 +35,7 @@ export default function CategoryList() {
                   iconSize={36}
                   className="h-full w-full rounded-lg opacity-90"
                 />
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>
@@ -45,7 +45,7 @@ export default function CategoryList() {
           {categories.map((category, index) => {
             const isActive = active === index
             return (
-              <motion.li
+              <m.li
                 key={category.number}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -88,7 +88,7 @@ export default function CategoryList() {
                     }`}
                   />
                 </Link>
-              </motion.li>
+              </m.li>
             )
           })}
         </ul>

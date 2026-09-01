@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from 'react'
-import { Link, Outlet, useLocation } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link, Outlet, useLocation } from 'react-router'
+import { m } from 'motion/react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import SearchOverlay from './SearchOverlay'
@@ -68,7 +68,7 @@ export default function Layout() {
       </header>
 
       <main id="main-content" className="flex-1 pt-16 md:pt-20">
-        <motion.div
+        <m.div
           key={pathname}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -79,7 +79,7 @@ export default function Layout() {
               <Outlet />
             </Suspense>
           </ErrorBoundary>
-        </motion.div>
+        </m.div>
       </main>
 
       <Footer />

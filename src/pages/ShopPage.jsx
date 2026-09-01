@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link, useParams } from 'react-router'
+import { m } from 'motion/react'
 import { PackageIcon } from '@phosphor-icons/react/dist/csr/Package'
 import PageHeader from '../components/PageHeader'
 import ProductCard from '../components/ProductCard'
@@ -144,7 +144,7 @@ export default function ShopPage() {
             <h2 className="sr-only">Products</h2>
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
               {visible.map((product, index) => (
-                <motion.div
+                <m.div
                   key={product.id}
                   initial={{ opacity: 0, y: 28 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -152,7 +152,7 @@ export default function ShopPage() {
                   transition={{ duration: 0.55, delay: (index % 3) * 0.08, ease: 'easeOut' }}
                 >
                   <ProductCard product={product} />
-                </motion.div>
+                </m.div>
               ))}
             </div>
           </>

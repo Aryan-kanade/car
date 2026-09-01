@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
+import { Link, useParams } from 'react-router'
+import { AnimatePresence, m } from 'motion/react'
 import { CheckCircleIcon } from '@phosphor-icons/react/dist/csr/CheckCircle'
 import { FireIcon } from '@phosphor-icons/react/dist/csr/Fire'
 import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
@@ -170,13 +170,13 @@ function ProductView({ product }) {
       <div className="mx-auto max-w-7xl px-6 pb-28 py-14 md:py-20">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Gallery */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
           >
             <AnimatePresence mode="popLayout">
-              <motion.div
+              <m.div
                 key={view}
                 initial={{ opacity: 0.4 }}
                 animate={{ opacity: 1 }}
@@ -187,7 +187,7 @@ function ProductView({ product }) {
                   iconSize={48}
                   className="aspect-square rounded-xl"
                 />
-              </motion.div>
+              </m.div>
             </AnimatePresence>
             <div className="mt-4 grid grid-cols-3 gap-4">
               {views.map((label, index) => (
@@ -207,10 +207,10 @@ function ProductView({ product }) {
                 </button>
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Buy box */}
-          <motion.div
+          <m.div
             ref={buyBoxRef}
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -379,7 +379,7 @@ function ProductView({ product }) {
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Reviews */}
@@ -392,7 +392,7 @@ function ProductView({ product }) {
           </h2>
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((p, index) => (
-              <motion.div
+              <m.div
                 key={p.id}
                 initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -400,7 +400,7 @@ function ProductView({ product }) {
                 transition={{ duration: 0.55, delay: index * 0.08, ease: 'easeOut' }}
               >
                 <ProductCard product={p} />
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -423,7 +423,7 @@ function ProductView({ product }) {
       {/* Sticky add-to-cart bar */}
       <AnimatePresence>
         {showStickyBar && (
-          <motion.div
+          <m.div
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
@@ -461,7 +461,7 @@ function ProductView({ product }) {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { AnimatePresence, m } from 'motion/react'
 import { MinusIcon } from '@phosphor-icons/react/dist/csr/Minus'
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus'
 import PageHeader from '../components/PageHeader'
@@ -28,7 +28,7 @@ function AccordionItem({ q, a, index }) {
       </button>
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div
+          <m.div
             id={`faq-answer-${index}`}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
@@ -39,7 +39,7 @@ function AccordionItem({ q, a, index }) {
             <p className="max-w-[70ch] pb-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
               {a}
             </p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

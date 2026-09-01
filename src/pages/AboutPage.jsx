@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { m } from 'motion/react'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import PageHeader from '../components/PageHeader'
 import Placeholder from '../components/Placeholder'
@@ -39,7 +39,7 @@ export default function AboutPage() {
       {/* Story sections */}
       <div className="mx-auto max-w-7xl space-y-20 px-6 py-16 md:space-y-28 md:py-24">
         {about.sections.map((section, index) => (
-          <motion.div
+          <m.div
             key={section.title}
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -62,7 +62,7 @@ export default function AboutPage() {
                 {section.body}
               </p>
             </div>
-          </motion.div>
+          </m.div>
         ))}
       </div>
 

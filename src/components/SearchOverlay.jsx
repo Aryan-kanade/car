@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { AnimatePresence, m } from 'motion/react'
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/csr/MagnifyingGlass'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import { formatPrice, products } from '../data/catalog'
@@ -43,7 +43,7 @@ export default function SearchOverlay({ open, onClose }) {
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -54,7 +54,7 @@ export default function SearchOverlay({ open, onClose }) {
           aria-modal="true"
           aria-label="Search products"
         >
-          <motion.div
+          <m.div
             ref={panelRef}
             initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -138,8 +138,8 @@ export default function SearchOverlay({ open, onClose }) {
                 </ul>
               )}
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   )

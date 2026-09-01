@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { m } from 'motion/react'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import { SealCheckIcon } from '@phosphor-icons/react/dist/csr/SealCheck'
 import { TruckIcon } from '@phosphor-icons/react/dist/csr/Truck'
@@ -184,7 +184,7 @@ export default function CheckoutPage() {
       <div className="mx-auto max-w-7xl px-6 py-14 md:py-20">
         {step === 3 && placedOrder ? (
           /* ── Confirmation ── */
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -264,13 +264,13 @@ export default function CheckoutPage() {
                 Continue shopping
               </Link>
             </div>
-          </motion.div>
+          </m.div>
         ) : (
           <div className="grid gap-12 lg:grid-cols-[1.6fr_1fr] lg:gap-16">
             {/* ── Active step form ── */}
             <div>
               {step === 1 && (
-                <motion.form
+                <m.form
                   key="shipping"
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -371,11 +371,11 @@ export default function CheckoutPage() {
                     Continue to payment
                     <ArrowRightIcon size={14} weight="light" />
                   </button>
-                </motion.form>
+                </m.form>
               )}
 
               {step === 2 && (
-                <motion.form
+                <m.form
                   key="payment"
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -498,7 +498,7 @@ export default function CheckoutPage() {
                       Place order · {formatPrice(total)}
                     </button>
                   </div>
-                </motion.form>
+                </m.form>
               )}
             </div>
 

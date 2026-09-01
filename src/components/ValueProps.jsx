@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'motion/react'
 import { DropIcon } from '@phosphor-icons/react/dist/csr/Drop'
 import { SealCheckIcon } from '@phosphor-icons/react/dist/csr/SealCheck'
 import { ShieldCheckIcon } from '@phosphor-icons/react/dist/csr/ShieldCheck'
@@ -18,7 +18,7 @@ export default function ValueProps() {
         {valueProps.map((prop, index) => {
           const Icon = icons[prop.icon]
           return (
-            <motion.div
+            <m.div
               key={prop.title}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -36,7 +36,7 @@ export default function ValueProps() {
                 {prop.title}
               </h3>
               <p className="mt-2.5 text-sm text-zinc-500 dark:text-zinc-400">{prop.subtext}</p>
-            </motion.div>
+            </m.div>
           )
         })}
       </div>

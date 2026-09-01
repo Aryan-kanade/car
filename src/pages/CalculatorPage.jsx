@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { Link } from 'react-router'
+import { m } from 'motion/react'
 import { FlaskIcon } from '@phosphor-icons/react/dist/csr/Flask'
 import PageHeader from '../components/PageHeader'
 import Placeholder from '../components/Placeholder'
@@ -68,7 +68,7 @@ export default function CalculatorPage() {
       <div className="mx-auto max-w-4xl px-6 py-14 md:py-20">
         <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           {/* Controls */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -129,10 +129,10 @@ export default function CalculatorPage() {
             <p className="mt-6 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
               {product.usage}
             </p>
-          </motion.div>
+          </m.div>
 
           {/* Product card */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
@@ -159,7 +159,7 @@ export default function CalculatorPage() {
               A 500 ml bottle yields {Math.floor(500 / product.dilutionMlPerLitre)} litres of ready
               mix — roughly {Math.floor(500 / product.dilutionMlPerLitre / 10)} full bucket washes.
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </>

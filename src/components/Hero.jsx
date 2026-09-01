@@ -1,6 +1,6 @@
 import { useRef } from 'react'
-import { Link } from 'react-router-dom'
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { Link } from 'react-router'
+import { m, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import Placeholder from './Placeholder'
 
@@ -30,7 +30,7 @@ export default function Hero() {
       className="relative flex min-h-[calc(100svh-5rem)] items-center overflow-hidden"
     >
       {/* Background image placeholder + soft white gradients (parallax drift) */}
-      <motion.div style={reduceMotion ? undefined : { y: bgY }} className="absolute inset-0">
+      <m.div style={reduceMotion ? undefined : { y: bgY }} className="absolute inset-0">
         <Placeholder
           background
           label="Dramatic, low-light wide shot of a freshly detailed luxury car"
@@ -39,14 +39,14 @@ export default function Hero() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-white via-white/75 to-white/30 dark:from-zinc-950 dark:via-zinc-950/75 dark:to-zinc-950/30" />
         <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/60 dark:from-zinc-950 dark:via-transparent dark:to-zinc-950/60" />
-      </motion.div>
+      </m.div>
 
       {/* Copy */}
-      <motion.div
+      <m.div
         style={reduceMotion ? undefined : { y: copyY, opacity: copyOpacity }}
         className="relative mx-auto w-full max-w-7xl px-6 py-32 md:py-40"
       >
-        <motion.h1
+        <m.h1
           custom={0}
           variants={fadeUp}
           initial="hidden"
@@ -58,9 +58,9 @@ export default function Hero() {
           Professional Detailing.
           <br />
           <span className="text-zinc-500 dark:text-zinc-400">Obsessive by Design.</span>
-        </motion.h1>
+        </m.h1>
 
-        <motion.p
+        <m.p
           custom={1}
           variants={fadeUp}
           initial="hidden"
@@ -69,9 +69,9 @@ export default function Hero() {
         >
           pH-balanced chemistry, ceramic-grade protection and studio-tested tools, built for the
           enthusiast who notices every detail.
-        </motion.p>
+        </m.p>
 
-        <motion.div
+        <m.div
           custom={2}
           variants={fadeUp}
           initial="hidden"
@@ -95,8 +95,8 @@ export default function Hero() {
           >
             Explore Kits
           </Link>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </section>
   )
 }

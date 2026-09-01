@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { FireIcon } from '@phosphor-icons/react/dist/csr/Fire'
 import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
 import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'

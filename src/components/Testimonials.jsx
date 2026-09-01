@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'motion/react'
 import { QuotesIcon } from '@phosphor-icons/react/dist/csr/Quotes'
 import { StarIcon } from '@phosphor-icons/react/dist/csr/Star'
 import SectionHeader from './SectionHeader'
@@ -16,7 +16,7 @@ export default function Testimonials() {
 
       <div className="grid gap-6 md:grid-cols-3">
         {testimonials.map((testimonial, index) => (
-          <motion.figure
+          <m.figure
             key={testimonial.name}
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -52,7 +52,7 @@ export default function Testimonials() {
               </p>
               <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">{testimonial.car}</p>
             </figcaption>
-          </motion.figure>
+          </m.figure>
         ))}
       </div>
     </section>

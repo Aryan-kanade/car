@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import Newsletter from './Newsletter'
 import { footerColumns, legalLinks, paymentMethods } from '../data/catalog'
 

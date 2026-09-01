@@ -1,6 +1,6 @@
 import { lazy } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { MotionConfig } from 'framer-motion'
+import { BrowserRouter, Route, Routes } from 'react-router'
+import { LazyMotion, MotionConfig, domAnimation } from 'motion/react'
 import { CartProvider } from './context/CartContext'
 import { WishlistProvider } from './context/WishlistContext'
 import Layout from './components/Layout'
@@ -27,38 +27,40 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
-      <BrowserRouter>
-        <CartProvider>
-          <WishlistProvider>
-            <Routes>
-              <Route element={<Layout />}>
-                <Route index element={<HomePage />} />
-                <Route path="shop" element={<ShopPage />} />
-                <Route path="shop/:slug" element={<ShopPage />} />
-                <Route path="product/:id" element={<ProductPage />} />
-                <Route path="kits" element={<KitsPage />} />
-                <Route path="cart" element={<CartPage />} />
-                <Route path="checkout" element={<CheckoutPage />} />
-                <Route path="wishlist" element={<WishlistPage />} />
-                <Route path="calculator" element={<CalculatorPage />} />
-                <Route path="help" element={<FaqPage />} />
-                <Route path="order-lookup" element={<OrderLookupPage />} />
-                <Route path="contact" element={<ContactPage />} />
-                <Route path="about" element={<AboutPage />} />
-                <Route path="notes" element={<NotesIndexPage />} />
-                <Route path="notes/:slug" element={<NotePage />} />
-                <Route path="shipping" element={<ContentPage slug="shipping" />} />
-                <Route path="returns" element={<ContentPage slug="returns" />} />
-                <Route path="accessibility" element={<ContentPage slug="accessibility" />} />
-                <Route path="terms" element={<ContentPage slug="terms" />} />
-                <Route path="privacy" element={<ContentPage slug="privacy" />} />
-                <Route path="sitemap" element={<SitemapPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Route>
-            </Routes>
-          </WishlistProvider>
-        </CartProvider>
-      </BrowserRouter>
+      <LazyMotion features={domAnimation} strict>
+        <BrowserRouter>
+          <CartProvider>
+            <WishlistProvider>
+              <Routes>
+                <Route element={<Layout />}>
+                  <Route index element={<HomePage />} />
+                  <Route path="shop" element={<ShopPage />} />
+                  <Route path="shop/:slug" element={<ShopPage />} />
+                  <Route path="product/:id" element={<ProductPage />} />
+                  <Route path="kits" element={<KitsPage />} />
+                  <Route path="cart" element={<CartPage />} />
+                  <Route path="checkout" element={<CheckoutPage />} />
+                  <Route path="wishlist" element={<WishlistPage />} />
+                  <Route path="calculator" element={<CalculatorPage />} />
+                  <Route path="help" element={<FaqPage />} />
+                  <Route path="order-lookup" element={<OrderLookupPage />} />
+                  <Route path="contact" element={<ContactPage />} />
+                  <Route path="about" element={<AboutPage />} />
+                  <Route path="notes" element={<NotesIndexPage />} />
+                  <Route path="notes/:slug" element={<NotePage />} />
+                  <Route path="shipping" element={<ContentPage slug="shipping" />} />
+                  <Route path="returns" element={<ContentPage slug="returns" />} />
+                  <Route path="accessibility" element={<ContentPage slug="accessibility" />} />
+                  <Route path="terms" element={<ContentPage slug="terms" />} />
+                  <Route path="privacy" element={<ContentPage slug="privacy" />} />
+                  <Route path="sitemap" element={<SitemapPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Route>
+              </Routes>
+            </WishlistProvider>
+          </CartProvider>
+        </BrowserRouter>
+      </LazyMotion>
     </MotionConfig>
   )
 }
