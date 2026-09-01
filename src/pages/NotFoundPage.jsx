@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { LostKey } from '../components/illustrations'
 
 /** 404 — on-brand, with a route back into the store. */
 export default function NotFoundPage() {
@@ -8,7 +9,8 @@ export default function NotFoundPage() {
 
   return (
     <div className="relative flex min-h-[calc(100svh-5rem)] flex-col items-center justify-center overflow-hidden bg-zinc-50 dark:bg-zinc-900 px-6 py-24 text-center">
-      <p className="text-xs font-medium tracking-[0.35em] text-zinc-500 dark:text-zinc-400 uppercase">
+      <LostKey className="h-32 w-32 text-zinc-400 dark:text-zinc-600" />
+      <p className="mt-6 text-xs font-medium tracking-[0.35em] text-zinc-500 dark:text-zinc-400 uppercase">
         Error 404
       </p>
       <h1 className="font-display mt-4 text-7xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 uppercase md:text-9xl">

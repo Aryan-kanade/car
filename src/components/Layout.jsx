@@ -6,6 +6,7 @@ import SearchOverlay from './SearchOverlay'
 import CartDrawer from './CartDrawer'
 import BackToTop from './BackToTop'
 import BottomNav from './BottomNav'
+import RouteFallback from './RouteFallback'
 import ErrorBoundary from './ErrorBoundary'
 import { useCart } from '../context/CartContext'
 import { prefetchRoutes } from '../utils/prefetch'
@@ -19,21 +20,6 @@ function ScrollToTop() {
   }, [pathname])
 
   return null
-}
-
-/** Minimal route fallback while lazy pages load. */
-function RouteFallback() {
-  return (
-    <div
-      className="flex min-h-[60vh] items-center justify-center"
-      role="status"
-      aria-label="Loading page"
-    >
-      <span className="font-display text-sm font-bold tracking-[0.4em] text-zinc-300 dark:text-zinc-600 uppercase select-none">
-        KMKIRAMYKI
-      </span>
-    </div>
-  )
 }
 
 /** Shared chrome: fixed navbar, routed page content, footer, overlays. */

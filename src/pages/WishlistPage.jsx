@@ -1,10 +1,10 @@
 import { Link } from 'react-router'
-import { HeartIcon } from '@phosphor-icons/react/dist/csr/Heart'
 import PageHeader from '../components/PageHeader'
 import ProductCard from '../components/ProductCard'
 import { products } from '../data/catalog'
 import { useWishlist } from '../context/WishlistContext'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { EmptyHeart } from '../components/illustrations'
 
 /** Wishlist — saved products with a graceful empty state. */
 export default function WishlistPage() {
@@ -29,12 +29,7 @@ export default function WishlistPage() {
       <div className="mx-auto max-w-7xl px-6 py-14 md:py-20">
         {saved.length === 0 ? (
           <div className="flex flex-col items-center rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-6 py-20 text-center">
-            <HeartIcon
-              size={44}
-              weight="light"
-              className="text-zinc-400 dark:text-zinc-500"
-              aria-hidden="true"
-            />
+            <EmptyHeart className="h-28 w-28 text-zinc-400 dark:text-zinc-600" />
             <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
               Nothing saved yet
             </h2>

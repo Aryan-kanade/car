@@ -3,7 +3,6 @@ import { Link } from 'react-router'
 import { m } from 'motion/react'
 import { MinusIcon } from '@phosphor-icons/react/dist/csr/Minus'
 import { PlusIcon } from '@phosphor-icons/react/dist/csr/Plus'
-import { ShoppingCartIcon } from '@phosphor-icons/react/dist/csr/ShoppingCart'
 import { TruckIcon } from '@phosphor-icons/react/dist/csr/Truck'
 import { XIcon } from '@phosphor-icons/react/dist/csr/X'
 import PageHeader from '../components/PageHeader'
@@ -18,6 +17,7 @@ import {
 import { promoGivesFreeShipping } from '../utils/promos'
 import { useCart } from '../context/CartContext'
 import { usePageMeta } from '../hooks/usePageMeta'
+import { EmptyBucket } from '../components/illustrations'
 import { SHIPPING_FEE } from '../utils/orders'
 
 /** Cart — line items, cross-sells, promo code, free-shipping progress and order summary. */
@@ -54,12 +54,7 @@ export default function CartPage() {
       <>
         <PageHeader breadcrumb={[{ label: 'Cart' }]} title="Your Cart" />
         <div className="mx-auto flex max-w-7xl flex-col items-center px-6 py-24 text-center md:py-32">
-          <ShoppingCartIcon
-            size={48}
-            weight="light"
-            className="text-zinc-400 dark:text-zinc-500"
-            aria-hidden="true"
-          />
+          <EmptyBucket className="h-28 w-28 text-zinc-400 dark:text-zinc-600" />
           <h2 className="font-display mt-6 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100">
             Your cart is empty
           </h2>

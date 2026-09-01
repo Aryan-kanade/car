@@ -13,6 +13,7 @@ import QtyStepper from '../components/product/QtyStepper'
 import ProductCard from '../components/ProductCard'
 import ReviewSection from '../components/ReviewSection'
 import TrustRow from '../components/TrustRow'
+import ArrivesBy from '../components/ArrivesBy'
 import NotFoundPage from './NotFoundPage'
 import {
   sizeLitres,
@@ -116,6 +117,7 @@ function ProductView({ product }) {
     `${product.imageLabel} (front)`,
     `${product.imageLabel} (angle)`,
     `${product.imageLabel} (in use)`,
+    `Product demo video for ${product.name}`,
   ]
 
   const productJsonLd = {
@@ -386,6 +388,10 @@ function ProductView({ product }) {
               Ordered before 4 PM IST on working days ships the same day · Metro delivery in 2–3
               days
             </p>
+
+            <div className="mt-5">
+              <ArrivesBy />
+            </div>
 
             <TrustRow />
 
