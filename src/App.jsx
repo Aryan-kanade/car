@@ -31,6 +31,9 @@ const OrdersPage = lazy(() => import('./pages/OrdersPage'))
 const GaragePage = lazy(() => import('./pages/GaragePage'))
 const AccountPage = lazy(() => import('./pages/AccountPage'))
 const ReferralPage = lazy(() => import('./pages/ReferralPage'))
+const SessionPage = lazy(() => import('./pages/SessionPage'))
+const ShineScorePage = lazy(() => import('./pages/ShineScorePage'))
+const ShelfPage = lazy(() => import('./pages/ShelfPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 export default function App() {
@@ -61,6 +64,9 @@ export default function App() {
                       <Route path="garage" element={<GaragePage />} />
                       <Route path="account" element={<AccountPage />} />
                       <Route path="referral" element={<ReferralPage />} />
+                      <Route path="session" element={<SessionPage />} />
+                      <Route path="shine-score" element={<ShineScorePage />} />
+                      <Route path="shelf" element={<ShelfPage />} />
                       <Route path="contact" element={<ContactPage />} />
                       <Route path="about" element={<AboutPage />} />
                       <Route path="notes" element={<NotesIndexPage />} />

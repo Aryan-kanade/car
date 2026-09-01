@@ -9,6 +9,7 @@ import { useLoyalty, REDEEM_THRESHOLD } from '../context/LoyaltyContext'
 import { useWishlist } from '../context/WishlistContext'
 import { useGarage } from '../context/GarageContext'
 import { getOrderStatus, readOrders } from '../utils/orders'
+import { sessionStreak } from '../utils/sessions'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 const TIERS = [
@@ -27,6 +28,15 @@ export default function AccountPage() {
   const { ids: wishlistIds } = useWishlist()
   const { cars } = useGarage()
   const orders = readOrders()
+  const streak = sessionStreak()
+  const shelfCount = (() => {
+    try {
+      const parsed = JSON.parse(window.localStorage.getItem('kmkiramyki-shelf') ?? '[]')
+      return Array.isArray(parsed) ? parsed.length : 0
+    } catch {
+      return 0
+    }
+  })()
 
   const tier = [...TIERS].reverse().find((t) => balance >= t.min) ?? TIERS[0]
   const nextTier = TIERS.find((t) => t.min > balance)
@@ -100,8 +110,10 @@ export default function AccountPage() {
         <div className="mt-6 grid gap-6 sm:grid-cols-3">
           {[
             { to: '/orders', icon: PackageIcon, label: 'Orders', count: orders.length },
+            { to: '/session', icon: HeartIcon, label: 'Wash streak', count: streak },
             { to: '/wishlist', icon: HeartIcon, label: 'Wishlist', count: wishlistIds.length },
             { to: '/garage', icon: CarIcon, label: 'Garage', count: cars.length },
+            { to: '/shelf', icon: PackageIcon, label: 'Shelf', count: shelfCount },
           ].map(({ to, icon: Icon, label, count }) => (
             <Link
               key={to}
