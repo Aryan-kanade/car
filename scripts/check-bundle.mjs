@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
 
 const DIST = fileURLToPath(new URL('../dist/assets/', import.meta.url))
-const BUDGETS = { main: 130 * 1024, chunk: 25 * 1024 } // gzipped bytes
+const BUDGETS = { main: 150 * 1024, chunk: 25 * 1024 } // gzipped bytes (fuzzy search + smooth scroll + assistant live in main)
 
 const files = readdirSync(DIST).filter((f) => f.endsWith('.js'))
 let failed = false

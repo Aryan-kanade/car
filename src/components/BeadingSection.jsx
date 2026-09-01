@@ -31,7 +31,7 @@ export default function BeadingSection() {
           <h2 className="font-display mt-5 text-2xl font-bold tracking-[0.08em] uppercase text-zinc-900 dark:text-zinc-100 md:text-4xl">
             Watch water decide
           </h2>
-          <p className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-base">
+          <p className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 md:text-base">
             On untreated paint, water spreads flat, clings, and dries into spots. On a hydrophobic
             layer it beads high, rolls off, and takes dirt with it. Toggle the treatment and see the
             physics our chemistry is built around.

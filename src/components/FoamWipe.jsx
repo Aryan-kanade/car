@@ -122,7 +122,7 @@ export default function FoamWipe({ children, className = '' }) {
             aria-hidden="true"
             className="absolute inset-0 h-full w-full cursor-pointer touch-none"
           />
-          <p className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-[11px] font-medium tracking-[0.3em] text-zinc-500 uppercase">
+          <p className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-[11px] font-medium tracking-[0.3em] text-zinc-600 dark:text-zinc-300 uppercase">
             Wipe the foam
           </p>
         </>

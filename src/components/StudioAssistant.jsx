@@ -182,7 +182,7 @@ export default function StudioAssistant() {
             : { opacity: 0, y: 16, pointerEvents: 'none' }
         }
         transition={{ duration: 0.25, ease: 'easeOut' }}
-        className="fixed right-6 bottom-40 z-50 flex max-h-[26rem] w-[calc(100vw-3rem)] max-w-sm flex-col overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-2xl md:bottom-24"
+        className="fixed right-6 bottom-40 z-50 flex max-h-[26rem] w-[calc(100vw-3rem)] max-w-sm flex-col overflow-hidden rounded-2xl bg-white dark:bg-zinc-950 shadow-2xl md:bottom-24"
       >
         {/* Messages */}
         <div ref={scrollRef} className="flex-1 overflow-y-auto p-4">

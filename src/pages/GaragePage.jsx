@@ -61,7 +61,7 @@ export default function GaragePage() {
         {/* Add form */}
         <form
           onSubmit={submit}
-          className="h-fit space-y-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-7 lg:sticky lg:top-28"
+          className="h-fit space-y-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900 p-7 lg:sticky lg:top-28"
         >
           <h2 className="flex items-center gap-2.5 text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
             <CarIcon size={18} weight="light" aria-hidden="true" />

@@ -35,7 +35,7 @@ export default function ScrubManifesto({ className = '' }) {
 function Word({ children, progress, range }) {
   const opacity = useTransform(progress, range, [0.15, 1])
   return (
-    <m.span style={{ opacity }} className="inline-block text-zinc-900 dark:text-zinc-100">
+    <m.span style={{ opacity }} className="inline-block">
       {children}
     </m.span>
   )

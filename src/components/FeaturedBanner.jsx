@@ -30,10 +30,10 @@ export default function FeaturedBanner() {
             <br />
             One box.
           </h2>
-          <ScrubManifesto className="text-zinc-400 dark:text-zinc-600" />
+          <ScrubManifesto className="text-zinc-300 dark:text-zinc-600" />
           <div className="flex flex-wrap items-baseline gap-3">
             <span className="text-2xl font-bold">{formatPrice(kit.price)}</span>
-            <span className="text-sm text-zinc-400 dark:text-zinc-500 line-through">
+            <span className="text-sm text-zinc-300 dark:text-zinc-400 line-through">
               {formatPrice(kit.compareAt)}
             </span>
             <span className="rounded-full border border-white/40 dark:border-zinc-900/30 px-2.5 py-1 text-[11px] font-semibold tracking-wider uppercase">
