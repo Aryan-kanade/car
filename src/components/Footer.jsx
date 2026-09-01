@@ -23,7 +23,7 @@ export default function Footer() {
             </div>
 
             {/* Studio Points widget */}
-            <div className="mt-6 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3.5">
+            <div className="mt-6 border-t border-zinc-200 dark:border-zinc-800 pt-4">
               <p className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
                 Studio Points
               </p>

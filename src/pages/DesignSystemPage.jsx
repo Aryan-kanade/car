@@ -1,5 +1,7 @@
 import { Link } from 'react-router'
 import PageHeader from '../components/PageHeader'
+import TrustRow from '../components/TrustRow'
+import BeforeAfterSlider from '../components/BeforeAfterSlider'
 import { usePageMeta } from '../hooks/usePageMeta'
 
 const palette = [
@@ -43,8 +45,8 @@ const spacing = [1, 2, 3, 4, 6, 8, 12, 16, 20, 24]
 
 function Section({ title, children }) {
   return (
-    <section className="border-t border-zinc-200 dark:border-zinc-800 py-10 first:border-t-0 first:pt-0">
-      <h2 className="font-display text-lg font-bold tracking-[0.1em] uppercase text-zinc-900 dark:text-zinc-100">
+    <section className="py-10 first:pt-0">
+      <h2 className="font-display border-b border-zinc-200 dark:border-zinc-800 pb-3 text-lg font-bold tracking-[0.1em] uppercase text-zinc-900 dark:text-zinc-100">
         {title}
       </h2>
       <div className="mt-6">{children}</div>
@@ -188,6 +190,21 @@ export default function DesignSystemPage() {
               Zero JavaScript — animated with ::details-content where supported.
             </p>
           </details>
+        </Section>
+
+        <Section title="Trust row">
+          <TrustRow />
+        </Section>
+
+        <Section title="Comparison slider">
+          <p className="mb-5 max-w-[62ch] text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+            Range-input driven — keyboard operable, drag optional.
+          </p>
+          <BeforeAfterSlider
+            beforeLabel="Swirl-marked paint before detailing"
+            afterLabel="Glossy corrected paint after detailing"
+            className="max-w-xl"
+          />
         </Section>
 
         <Section title="Spacing scale">

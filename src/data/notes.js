@@ -96,6 +96,99 @@ export const notes = [
       },
     ],
   },
+  {
+    slug: 'interior-detailing-basics',
+    title: 'Interior Detailing Basics',
+    dek: 'The cabin is where you live with the car. A gentle, methodical approach beats aggressive chemistry every time.',
+    readingTime: '5 min read',
+    date: '2026-08-20',
+    category: 'Interior',
+    sections: [
+      {
+        heading: 'Work top to bottom, back to front',
+        body: [
+          'Dust falls. Start with the headliner — brushed or blown only, never soaked — then work down through the dash, console, seats and finally the carpets. Every pass pushes debris downward, so the floor comes last.',
+          'One chemistry rule: interior plastics are softer than paint. Diluted all-purpose cleaner is plenty; full-strength degreaser is for engine bays, not dashboards.',
+        ],
+      },
+      {
+        heading: 'The two-towel system',
+        body: [
+          'One damp towel to clean, one dry towel to buff — for every surface, every time. The damp towel lifts the film, the dry towel catches the residue before it dries into streaks.',
+          'On glass, the tight-weave side of our dual-layer towels. Spray product onto the towel, never the glass, so you control exactly where chemistry lands near vents and switches.',
+        ],
+      },
+      {
+        heading: 'Protect what you cleaned',
+        body: [
+          'Clean trim looks grey because the oils are gone. A satin protectant with UV inhibitors — one thin coat, buffed after five minutes — restores the factory finish and slows the fading that sun through the windshield accelerates.',
+          'Skip the glossy shine. Factory matte is what a well-kept interior looks like.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'tyre-care-calendar',
+    title: 'The Tyre Care Calendar',
+    dek: 'Rubber ages faster than any other surface on the car. A quarterly rhythm keeps it black, supple and crack-free.',
+    readingTime: '4 min read',
+    date: '2026-08-08',
+    category: 'Wheels',
+    sections: [
+      {
+        heading: 'Every wash: clean, then dress',
+        body: [
+          'Tyre dressing on a dirty sidewall is paint on a rusty panel. Scrub the rubber with a stiff brush and all-purpose cleaner until the foam runs white, then dry before dressing.',
+          'One thin coat of a water-based dressing for a factory satin finish; a second coat only when you want the deeper showroom look.',
+        ],
+      },
+      {
+        heading: 'Quarterly: inspect and deep-clean',
+        body: [
+          'Every three months, run a finger along the sidewall. Brown film that does not wash off is blooming — the antiozonants in the rubber doing their job, oxidised on the surface. A dedicated rubber cleaner removes it; dressing alone just buries it.',
+          'Check for hairline cracks at the sidewall bulges and between tread blocks. Dressing masks them visually — make sure you inspect before you dress.',
+        ],
+      },
+      {
+        heading: 'Annually: consider the age, not the tread',
+        body: [
+          'Rubber hardens with time regardless of kilometres. Most manufacturers recommend replacement at six years — the DOT date code on the sidewall tells you the birth week.',
+          'A dressing routine keeps the surface supple, but it cannot reverse ageing. Budget for the replacement before the cracks budget it for you.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'monsoon-detailing-routine',
+    title: 'The Monsoon Detailing Routine',
+    dek: 'Four months of rain, mud and road grime. A defensive wash routine keeps the monsoon from leaving permanent marks.',
+    readingTime: '5 min read',
+    date: '2026-07-30',
+    category: 'Protection',
+    sections: [
+      {
+        heading: 'The pre-wash is non-negotiable',
+        body: [
+          'Monsoon grime is 80% mud, and mud is abrasive. A touchless pre-wash soak lifts the bulk of it before your mitt makes contact — in heavy weeks, do this every single wash, no exceptions.',
+          'Foam the lower third of the car twice if needed. The rocker panels and wheel arches carry the worst of it.',
+        ],
+      },
+      {
+        heading: 'Beading is your fuel gauge',
+        body: [
+          'Watch how water behaves on the roof after a drive in the rain. Tight beads sliding off means your wax or coating is alive; a flat sheet of water means it has worn and the paint is exposed.',
+          'When beading dies, refresh the protection. In the monsoon, a spray wax after every second wash keeps the layer topped up without a full detail.',
+        ],
+      },
+      {
+        heading: 'Dry what the sun will not',
+        body: [
+          'Water spots etch fastest when sun hits droplets on warm paint. In dry spells, at least towel the glass and horizontal panels — roof, bonnet, boot.',
+          'Door seals and jambs matter more now too. A damp microfibre in each jamb prevents that musty smell from taking residence.',
+        ],
+      },
+    ],
+  },
 ]
 
 export const getNoteBySlug = (slug) => notes.find((note) => note.slug === slug)
