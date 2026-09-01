@@ -33,6 +33,7 @@ test('complete purchase loop', async ({ page }) => {
     total: 1297,
     placedAt: Date.now(),
     paymentMethod: 'cod',
+    shippingMethod: 'standard',
     razorpayPaymentId: null,
     shiprocketOrderId: null,
     awb: null,
@@ -117,14 +118,15 @@ test('complete purchase loop', async ({ page }) => {
   await page.getByRole('button', { name: 'Apply' }).click()
   await expect(page.getByText('WELCOME10 · 10% off your order')).toBeVisible()
 
-  // Checkout: shipping step
+  // Checkout: shipping step (state is a <select>)
   await page.getByRole('link', { name: 'Proceed to checkout' }).click()
   await page.getByLabel('Full name').fill('E2E Runner')
   await page.getByLabel('Email').fill('e2e@example.com')
   await page.getByLabel('Phone').fill('9876543210')
   await page.getByLabel('Street address').fill('1 Test Lane')
+  await page.getByLabel('Apartment, suite, landmark (optional)').fill('Flat 4B')
   await page.getByLabel('City').fill('Bengaluru')
-  await page.getByLabel('State').fill('Karnataka')
+  await page.getByLabel('State').selectOption('Karnataka')
   await page.getByLabel('PIN code').fill('560001')
   await page.getByRole('button', { name: 'Continue to payment' }).click()
   await expect(page.getByRole('heading', { name: 'Payment' })).toBeVisible()
@@ -144,4 +146,105 @@ test('complete purchase loop', async ({ page }) => {
   await page.getByLabel('Email address').fill('e2e@example.com')
   await page.getByRole('button', { name: 'Find my order' }).click()
   await expect(page.getByText(orderNumber ?? '').first()).toBeVisible()
+})
+
+test('studio pickup skips the address and the courier', async ({ page }) => {
+  const mockedOrder = {
+    number: 'KMK-424243',
+    email: 'pickup@example.com',
+    name: 'Pickup Runner',
+    phone: '9876543210',
+    items: [
+      {
+        id: 'wheel-cleaner',
+        name: 'Wheel Cleaner',
+        size: '500 ml',
+        subscription: false,
+        qty: 1,
+        unitPrice: 679,
+      },
+    ],
+    subtotal: 679,
+    discount: 0,
+    promoCode: null,
+    shipping: 0, // pickup — no courier fee
+    pointsDiscount: 0,
+    giftDiscount: 0,
+    total: 679,
+    placedAt: Date.now(),
+    paymentMethod: 'cod',
+    shippingMethod: 'pickup',
+    razorpayPaymentId: null,
+    shiprocketOrderId: null,
+    awb: null,
+  }
+
+  let createOrderPayload = null
+  await page.route('**/api/create-order', (route) => {
+    createOrderPayload = route.request().postDataJSON()
+    return route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        orderNumber: mockedOrder.number,
+        totals: {
+          subtotal: mockedOrder.subtotal,
+          discount: 0,
+          shipping: 0,
+          pointsDiscount: 0,
+          giftDiscount: 0,
+          total: mockedOrder.total,
+        },
+        amount: mockedOrder.total * 100,
+        keyId: null,
+        razorpayOrderId: null,
+        cod: true,
+        order: mockedOrder,
+      }),
+    })
+  })
+  await page.route('**/api/track**', (route) =>
+    route.fulfill({
+      status: 404,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'not-found' }),
+    })
+  )
+  await page.route('**/api/serviceability**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ available: true, serviceable: true, codAvailable: true }),
+    })
+  )
+
+  // Shop → add → cart → checkout
+  await page.goto('/shop')
+  await page.getByRole('button', { name: 'Add to cart' }).first().click()
+  const drawer = page.getByRole('dialog', { name: 'Cart quick view' })
+  await drawer.getByRole('link', { name: 'View full cart' }).click()
+  await page.getByRole('link', { name: 'Proceed to checkout' }).click()
+
+  // Studio pickup drops the courier address form (contact stays)
+  await page.getByRole('radio', { name: /Studio pickup/i }).check()
+  await expect(page.getByLabel('Street address')).toBeHidden()
+  await expect(page.getByText(/KMKIRAMYKI Studio, Mumbai/i)).toBeVisible()
+
+  await page.getByLabel('Full name').fill('Pickup Runner')
+  await page.getByLabel('Email').fill('pickup@example.com')
+  await page.getByLabel('Phone').fill('9876543210')
+  await page.getByRole('button', { name: 'Continue to payment' }).click()
+  await expect(page.getByRole('heading', { name: 'Payment' })).toBeVisible()
+
+  // COD reads "pay at the studio", shipping shows Free
+  await page.getByRole('radio', { name: /Cash on Delivery/i }).check()
+  await expect(page.getByText('Pay at the studio when you collect')).toBeVisible()
+  await page.getByRole('button', { name: /^Place order/ }).click()
+
+  await expect(page.getByRole('heading', { name: /Thank you, Pickup/ })).toBeVisible()
+  await expect(page.getByText('(studio pickup)')).toBeVisible()
+
+  // The API received the pickup method with no courier address
+  expect(createOrderPayload.shippingMethod).toBe('pickup')
+  expect(createOrderPayload.customer.address).toBe('')
 })

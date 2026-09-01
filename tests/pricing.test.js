@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { computeTotals, resolveUnitPrice, subscribePrice } from '../src/utils/pricing'
+import {
+  computeTotals,
+  normalizeShippingMethod,
+  resolveUnitPrice,
+  subscribePrice,
+} from '../src/utils/pricing'
 
 describe('resolveUnitPrice', () => {
   it('prices base size from the catalog', () => {
@@ -79,5 +84,44 @@ describe('computeTotals', () => {
         { id: 'not-a-product', size: null, plan: 'once', qty: 1 },
       ])
     ).toBeNull()
+  })
+})
+
+describe('computeTotals shipping methods', () => {
+  const line = { id: 'wheel-cleaner', size: '500 ml', plan: 'once', qty: 1 } // ₹679
+
+  it('priority adds the dispatch fee on top of standard shipping', () => {
+    const totals = computeTotals([line], null, 0, 0, 'priority')
+    expect(totals.shipping).toBe(199 + 99)
+    expect(totals.total).toBe(679 + 199 + 99)
+  })
+
+  it('priority keeps the fee even when free shipping is unlocked', () => {
+    const overThreshold = [{ ...line, qty: 12 }] // 12 × 679 = 8148 ≥ 7155
+    const totals = computeTotals(overThreshold, null, 0, 0, 'priority')
+    expect(totals.shipping).toBe(99)
+  })
+
+  it('pickup never charges shipping', () => {
+    const totals = computeTotals([line], null, 0, 0, 'pickup')
+    expect(totals.shipping).toBe(0)
+    expect(totals.total).toBe(679)
+  })
+
+  it('unknown methods fall back to standard', () => {
+    expect(computeTotals([line], null, 0, 0, 'teleport')).toMatchObject({
+      shipping: 199,
+      total: 878,
+    })
+  })
+})
+
+describe('normalizeShippingMethod', () => {
+  it('accepts whitelisted methods and falls back to standard', () => {
+    expect(normalizeShippingMethod('pickup')).toBe('pickup')
+    expect(normalizeShippingMethod('priority')).toBe('priority')
+    expect(normalizeShippingMethod('standard')).toBe('standard')
+    expect(normalizeShippingMethod('drone')).toBe('standard')
+    expect(normalizeShippingMethod(undefined)).toBe('standard')
   })
 })

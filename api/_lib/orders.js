@@ -13,12 +13,19 @@ export function generateOrderNumber() {
   return `KMK-${Math.floor(100000 + Math.random() * 900000)}`
 }
 
-export function validateCustomer(customer) {
+/**
+ * Validate + normalize the customer block. In `pickup` mode the courier
+ * address fields are optional (no shipment is created — contact only).
+ */
+export function validateCustomer(customer, { pickup = false } = {}) {
   const errors = {}
   const name = String(customer?.name ?? '').trim()
   const email = String(customer?.email ?? '').trim()
   const phone = String(customer?.phone ?? '').replace(/\D/g, '')
   const address = String(customer?.address ?? '').trim()
+  const address2 = String(customer?.address2 ?? '')
+    .trim()
+    .slice(0, 100)
   const city = String(customer?.city ?? '').trim()
   const state = String(customer?.state ?? '').trim()
   const pincode = String(customer?.pincode ?? '').trim()
@@ -27,15 +34,26 @@ export function validateCustomer(customer) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = 'Enter a valid email address.'
   // Indian mobile numbers (optionally prefixed with 91)
   if (!/^(0?91)?[6-9]\d{9}$/.test(phone)) errors.phone = 'Enter a valid 10-digit mobile number.'
-  if (address.length < 5) errors.address = 'Enter your street address.'
-  if (!city) errors.city = 'Enter your city.'
-  if (!state) errors.state = 'Enter your state.'
-  if (!/^\d{6}$/.test(pincode)) errors.pincode = 'PIN code must be 6 digits.'
+  if (!pickup) {
+    if (address.length < 5) errors.address = 'Enter your street address.'
+    if (!city) errors.city = 'Enter your city.'
+    if (!state) errors.state = 'Select your state.'
+    if (!/^\d{6}$/.test(pincode)) errors.pincode = 'PIN code must be 6 digits.'
+  }
 
   return {
     ok: Object.keys(errors).length === 0,
     errors,
-    customer: { name, email, phone: phone.replace(/^(0?91)/, ''), address, city, state, pincode },
+    customer: {
+      name,
+      email,
+      phone: phone.replace(/^(0?91)/, ''),
+      address,
+      address2: address2 || null,
+      city,
+      state,
+      pincode,
+    },
   }
 }
 
@@ -90,6 +108,8 @@ export function toClientOrder(record) {
     state: record.customer.state ?? null,
     pincode: record.customer.pincode ?? null,
     address: record.customer.address ?? null,
+    address2: record.customer.address2 ?? null,
+    shippingMethod: record.shippingMethod ?? 'standard',
     giftNote: record.gift?.note ?? null,
     giftHidePrices: record.gift?.hidePrices === true,
     gstin: record.customer.gstin ?? null,

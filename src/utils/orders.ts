@@ -14,6 +14,7 @@ export { SHIPPING_FEE } from './pricing'
 const KEY = 'kmkiramyki-orders'
 
 export type PaymentMethod = 'online' | 'cod'
+export type ShippingMethod = 'standard' | 'priority' | 'pickup'
 
 export interface OrderItem {
   id: string
@@ -42,6 +43,12 @@ export interface Order {
   /** Set for server-confirmed orders (Razorpay/Shiprocket checkout). */
   phone?: string
   paymentMethod?: PaymentMethod
+  shippingMethod?: ShippingMethod
+  address?: string | null
+  address2?: string | null
+  city?: string | null
+  state?: string | null
+  pincode?: string | null
   razorpayPaymentId?: string | null
   shiprocketOrderId?: string | null
   awb?: string | null

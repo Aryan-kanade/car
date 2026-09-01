@@ -5,15 +5,19 @@ import { ArrowRightIcon } from '@phosphor-icons/react/dist/csr/ArrowRight'
 import { SealCheckIcon } from '@phosphor-icons/react/dist/csr/SealCheck'
 import { TruckIcon } from '@phosphor-icons/react/dist/csr/Truck'
 import { MapPinIcon } from '@phosphor-icons/react/dist/csr/MapPin'
+import { LockKeyIcon } from '@phosphor-icons/react/dist/csr/LockKey'
+import { CaretDownIcon } from '@phosphor-icons/react/dist/csr/CaretDown'
+import { StorefrontIcon } from '@phosphor-icons/react/dist/csr/Storefront'
+import { LightningIcon } from '@phosphor-icons/react/dist/csr/Lightning'
 import PageHeader from '../components/PageHeader'
 import Placeholder from '../components/Placeholder'
 import OrderByCountdown from '../components/OrderByCountdown'
 import DetailDayPlanner from '../components/DetailDayPlanner'
-import { formatPrice } from '../data/catalog'
+import { formatPrice, FREE_SHIPPING_THRESHOLD, paymentMethods } from '../data/catalog'
 import { useCart } from '../context/CartContext'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { saveServerOrder } from '../utils/orders'
-import { computeTotals } from '../utils/pricing'
+import { computeTotals, PRIORITY_DISPATCH_FEE } from '../utils/pricing'
 import { loadRazorpay } from '../utils/razorpay'
 import {
   buildProfileFromForm,
@@ -52,19 +56,81 @@ function Field({ id, label, error, children }) {
   )
 }
 
-function validateShipping(form) {
+function validateShipping(form, { pickup = false } = {}) {
   const errors = {}
   if (!form.name.trim()) errors.name = 'Enter your full name.'
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
     errors.email = 'Enter a valid email address.'
   if (!/^[6-9]\d{9}$/.test(form.phone.replace(/\D/g, '').replace(/^0?91/, '')))
     errors.phone = 'Enter a valid 10-digit mobile number.'
-  if (!form.address.trim()) errors.address = 'Enter your street address.'
-  if (!form.city.trim()) errors.city = 'Enter your city.'
-  if (!form.state.trim()) errors.state = 'Enter your state.'
-  if (!/^\d{6}$/.test(form.pincode.trim())) errors.pincode = 'PIN code must be 6 digits.'
+  if (!pickup) {
+    if (!form.address.trim()) errors.address = 'Enter your street address.'
+    if (!form.city.trim()) errors.city = 'Enter your city.'
+    if (!form.state.trim()) errors.state = 'Select your state.'
+    if (!/^\d{6}$/.test(form.pincode.trim())) errors.pincode = 'PIN code must be 6 digits.'
+  }
   return errors
 }
+
+/** Delivery methods — pickup skips the courier, priority jumps the packing queue. */
+const SHIPPING_OPTIONS = [
+  {
+    value: 'standard',
+    label: 'Standard delivery',
+    sub: `3–5 business days · free over ${formatPrice(FREE_SHIPPING_THRESHOLD)}`,
+    icon: TruckIcon,
+  },
+  {
+    value: 'priority',
+    label: 'Priority dispatch',
+    sub: `+${formatPrice(PRIORITY_DISPATCH_FEE)} — jumps the packing queue, same-day dispatch before 2 PM IST`,
+    icon: LightningIcon,
+  },
+  {
+    value: 'pickup',
+    label: 'Studio pickup',
+    sub: 'Free — collect from our Mumbai studio, ready the same day',
+    icon: StorefrontIcon,
+  },
+]
+
+const INDIAN_STATES = [
+  'Andhra Pradesh',
+  'Arunachal Pradesh',
+  'Assam',
+  'Bihar',
+  'Chhattisgarh',
+  'Delhi',
+  'Goa',
+  'Gujarat',
+  'Haryana',
+  'Himachal Pradesh',
+  'Jammu & Kashmir',
+  'Jharkhand',
+  'Karnataka',
+  'Kerala',
+  'Ladakh',
+  'Madhya Pradesh',
+  'Maharashtra',
+  'Manipur',
+  'Meghalaya',
+  'Mizoram',
+  'Nagaland',
+  'Odisha',
+  'Puducherry',
+  'Punjab',
+  'Rajasthan',
+  'Sikkim',
+  'Tamil Nadu',
+  'Telangana',
+  'Tripura',
+  'Uttar Pradesh',
+  'Uttarakhand',
+  'West Bengal',
+]
+
+/** Online payments are only offered when the public Razorpay key is present. */
+const gatewayConfigured = Boolean(import.meta.env.VITE_RAZORPAY_KEY_ID)
 
 const PAYMENT_METHODS = [
   {
@@ -92,7 +158,8 @@ export default function CheckoutPage() {
   const savedAddress = profile ? defaultAddress(profile) : null
   // Returning customers with a saved address start at payment (express)
   const [step, setStep] = useState(savedAddress ? 2 : 1)
-  const [method, setMethod] = useState('online')
+  const [method, setMethod] = useState(gatewayConfigured ? 'online' : 'cod')
+  const [shippingMethod, setShippingMethod] = useState('standard')
   const [errors, setErrors] = useState({})
   const [placedOrder, setPlacedOrder] = useState(null)
   const [submitting, setSubmitting] = useState(false)
@@ -117,6 +184,7 @@ export default function CheckoutPage() {
     email: profile?.email ?? '',
     phone: profile?.phone ?? '',
     address: savedAddress?.address ?? '',
+    address2: savedAddress?.address2 ?? '',
     city: savedAddress?.city ?? '',
     state: savedAddress?.state ?? '',
     pincode: savedAddress?.pincode ?? '',
@@ -130,17 +198,22 @@ export default function CheckoutPage() {
   // this client copy drives the display.
   const pointsDiscount = redeemPoints && canRedeem ? REDEEM_VALUE : 0
   const giftCard = giftCode ? lookupGiftCard(giftCode) : null
+  const pickup = shippingMethod === 'pickup'
   const totals = computeTotals(
     items.map(({ product, size, plan, qty }) => ({ id: product.id, size, plan, qty })),
     promo?.code ?? null,
     pointsDiscount,
-    giftCard?.balance ?? 0
+    giftCard?.balance ?? 0,
+    shippingMethod
   ) ?? { subtotal: 0, discount: 0, shipping: 0, pointsDiscount: 0, giftDiscount: 0, total: 0 }
   const { subtotal, discount, shipping } = totals
   const giftDiscount = totals.giftDiscount
+  // Prices are GST-inclusive — surface the embedded 18% like the invoice does
+  const gstIncluded = Math.round(totals.total - totals.total / 1.18)
+  const freeShippingRemaining = Math.max(0, FREE_SHIPPING_THRESHOLD - (subtotal - discount))
 
   const svc = serviceability?.result
-  const codAllowed = !svc || !svc.serviceable || svc.codAvailable
+  const codAllowed = pickup || !svc || !svc.serviceable || svc.codAvailable
   const edd = svc?.serviceable ? svc.edd : null
 
   // Empty cart (and not showing a confirmation) → guide back to the shop
@@ -181,9 +254,16 @@ export default function CheckoutPage() {
 
   const goToPayment = async (event) => {
     event.preventDefault()
-    const next = validateShipping(form)
+    const next = validateShipping(form, { pickup })
     setErrors(next)
     if (Object.keys(next).length > 0) return
+
+    if (pickup) {
+      // No courier for studio pickup — skip the PIN serviceability check
+      setStep(2)
+      window.scrollTo({ top: 0, behavior: 'instant' })
+      return
+    }
 
     rememberPin(form.pincode.trim())
     const svcData = await checkServiceability(form.pincode.trim())
@@ -207,8 +287,9 @@ export default function CheckoutPage() {
       pointsEarned,
       giftCode: totals.giftDiscount > 0 ? giftCode : null,
     })
-    // Remember the customer for next time (local-only, no accounts)
-    if (!giftEnabled) saveProfile(buildProfileFromForm(form))
+    // Remember the customer for next time (local-only, no accounts) —
+    // pickup orders carry no courier address worth saving
+    if (!giftEnabled && !pickup && form.address.trim()) saveProfile(buildProfileFromForm(form))
     if (totals.pointsDiscount > 0) spendPoints(REDEEM_THRESHOLD)
     addPoints(pointsEarned)
     if (totals.giftDiscount > 0 && giftCode) redeemGiftCard(giftCode, totals.giftDiscount)
@@ -297,6 +378,7 @@ export default function CheckoutPage() {
           pointsDiscount,
           giftDiscount,
           paymentMethod: method,
+          shippingMethod,
           idempotencyKey: idemRef.current,
           giftNote: giftEnabled && giftNote.trim() ? giftNote.trim() : null,
           giftHidePrices: giftEnabled && giftHidePrices,
@@ -417,9 +499,13 @@ export default function CheckoutPage() {
                 </h2>
                 <p className="mt-3 max-w-md text-sm leading-relaxed text-zinc-800 dark:text-zinc-400">
                   Your order is in and a confirmation is on its way to {placedOrder.email}.{' '}
-                  {placedOrder.paymentMethod === 'cod'
-                    ? `Keep ${formatPrice(placedOrder.total)} ready for the courier.`
-                    : 'Paid online — your parcel ships from our studio shortly.'}
+                  {placedOrder.shippingMethod === 'pickup'
+                    ? placedOrder.paymentMethod === 'cod'
+                      ? 'We will message you as soon as it is packed and ready — pay at the studio when you collect.'
+                      : 'Paid online — we will message you as soon as it is packed and ready for studio pickup.'
+                    : placedOrder.paymentMethod === 'cod'
+                      ? `Keep ${formatPrice(placedOrder.total)} ready for the courier.`
+                      : 'Paid online — your parcel ships from our studio shortly.'}
                 </p>
                 <p className="font-display mt-8 text-3xl font-bold tracking-[0.1em] text-zinc-900 dark:text-zinc-100">
                   {placedOrder.number}
@@ -469,7 +555,12 @@ export default function CheckoutPage() {
                 </ul>
                 <div className="mt-4 flex items-baseline justify-between border-t border-zinc-200 dark:border-zinc-800 pt-4">
                   <span className="text-sm text-zinc-800 dark:text-zinc-400">
-                    Total{placedOrder.shipping === 0 ? ' (free shipping)' : ''}
+                    Total
+                    {placedOrder.shippingMethod === 'pickup'
+                      ? ' (studio pickup)'
+                      : placedOrder.shipping === 0
+                        ? ' (free shipping)'
+                        : ''}
                   </span>
                   <span className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                     {formatPrice(placedOrder.total)}
@@ -522,8 +613,56 @@ export default function CheckoutPage() {
                     Contact & shipping
                   </h2>
 
-                  {/* Saved addresses (address book) */}
-                  {profile?.addresses?.length > 0 && (
+                  {/* Delivery method — first, so pickup can drop the address form */}
+                  <fieldset>
+                    <legend className="mb-3 text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase">
+                      Delivery
+                    </legend>
+                    <div className="grid gap-3">
+                      {SHIPPING_OPTIONS.map((option) => (
+                        <label
+                          key={option.value}
+                          className={`flex items-start gap-3 rounded-md border px-4 py-3.5 text-sm transition-colors ${
+                            shippingMethod === option.value
+                              ? 'cursor-pointer border-zinc-900 dark:border-white bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100'
+                              : 'cursor-pointer border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 hover:border-zinc-400 dark:hover:border-zinc-600'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="shipping-method"
+                            value={option.value}
+                            checked={shippingMethod === option.value}
+                            onChange={() => setShippingMethod(option.value)}
+                            className="mt-0.5 accent-zinc-900 dark:accent-white"
+                          />
+                          <span>
+                            <option.icon
+                              size={15}
+                              weight="light"
+                              aria-hidden="true"
+                              className="mr-1.5 inline-block align-[-2px]"
+                            />
+                            {option.label}
+                            <span className="mt-1 block text-xs font-normal text-zinc-800 dark:text-zinc-400">
+                              {option.sub}
+                            </span>
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+
+                  {pickup && (
+                    <p className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3 text-xs leading-relaxed text-zinc-800 dark:text-zinc-300">
+                      KMKIRAMYKI Studio, Mumbai — no courier, no shipping fee. We&apos;ll
+                      WhatsApp/email you as soon as your order is packed and ready (usually within 2
+                      hours).
+                    </p>
+                  )}
+
+                  {/* Saved addresses (address book) — courier delivery only */}
+                  {!pickup && profile?.addresses?.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                       {profile.addresses.map((address, index) => (
                         <button
@@ -594,65 +733,85 @@ export default function CheckoutPage() {
                       />
                     </Field>
                   </div>
-                  <Field id="co-address" label="Street address" error={errors.address}>
-                    <input
-                      id="co-address"
-                      type="text"
-                      required
-                      autoComplete="street-address"
-                      value={form.address}
-                      onChange={set('address')}
-                      className={inputClasses}
-                      placeholder="House, street, landmark"
-                      aria-invalid={!!errors.address}
-                    />
-                  </Field>
-                  <div className="grid gap-5 sm:grid-cols-3">
-                    <Field id="co-city" label="City" error={errors.city}>
-                      <input
-                        id="co-city"
-                        type="text"
-                        required
-                        autoComplete="address-level2"
-                        value={form.city}
-                        onChange={set('city')}
-                        className={inputClasses}
-                        placeholder="City"
-                        aria-invalid={!!errors.city}
-                      />
-                    </Field>
-                    <Field id="co-state" label="State" error={errors.state}>
-                      <input
-                        id="co-state"
-                        type="text"
-                        required
-                        autoComplete="address-level1"
-                        value={form.state}
-                        onChange={set('state')}
-                        className={inputClasses}
-                        placeholder="State"
-                        aria-invalid={!!errors.state}
-                      />
-                    </Field>
-                    <div>
-                      <Field id="co-pin" label="PIN code" error={errors.pincode}>
+                  {!pickup && (
+                    <>
+                      <Field id="co-address" label="Street address" error={errors.address}>
                         <input
-                          id="co-pin"
+                          id="co-address"
                           type="text"
                           required
-                          inputMode="numeric"
-                          maxLength={6}
-                          autoComplete="postal-code"
-                          value={form.pincode}
-                          onChange={set('pincode')}
+                          autoComplete="street-address"
+                          value={form.address}
+                          onChange={set('address')}
                           className={inputClasses}
-                          placeholder="560001"
-                          aria-invalid={!!errors.pincode}
+                          placeholder="House, street"
+                          aria-invalid={!!errors.address}
                         />
                       </Field>
-                      {serviceabilityLine()}
-                    </div>
-                  </div>
+                      <Field id="co-address2" label="Apartment, suite, landmark (optional)">
+                        <input
+                          id="co-address2"
+                          type="text"
+                          autoComplete="address-line2"
+                          value={form.address2}
+                          onChange={set('address2')}
+                          className={inputClasses}
+                          placeholder="Flat 4B, near the park"
+                        />
+                      </Field>
+                      <div className="grid gap-5 sm:grid-cols-3">
+                        <Field id="co-city" label="City" error={errors.city}>
+                          <input
+                            id="co-city"
+                            type="text"
+                            required
+                            autoComplete="address-level2"
+                            value={form.city}
+                            onChange={set('city')}
+                            className={inputClasses}
+                            placeholder="City"
+                            aria-invalid={!!errors.city}
+                          />
+                        </Field>
+                        <Field id="co-state" label="State" error={errors.state}>
+                          <select
+                            id="co-state"
+                            required
+                            autoComplete="address-level1"
+                            value={form.state}
+                            onChange={set('state')}
+                            className={inputClasses}
+                            aria-invalid={!!errors.state}
+                          >
+                            <option value="">Select state</option>
+                            {INDIAN_STATES.map((state) => (
+                              <option key={state} value={state}>
+                                {state}
+                              </option>
+                            ))}
+                          </select>
+                        </Field>
+                        <div>
+                          <Field id="co-pin" label="PIN code" error={errors.pincode}>
+                            <input
+                              id="co-pin"
+                              type="text"
+                              required
+                              inputMode="numeric"
+                              maxLength={6}
+                              autoComplete="postal-code"
+                              value={form.pincode}
+                              onChange={set('pincode')}
+                              className={inputClasses}
+                              placeholder="560001"
+                              aria-invalid={!!errors.pincode}
+                            />
+                          </Field>
+                          {serviceabilityLine()}
+                        </div>
+                      </div>
+                    </>
+                  )}
 
                   {/* GST invoice (optional) */}
                   <details className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3">
@@ -719,16 +878,32 @@ export default function CheckoutPage() {
                     </p>
                   )}
 
-                  {/* Express-mode shipping summary (profiled customers) */}
-                  {form.address && (
+                  {!gatewayConfigured && (
+                    <p
+                      role="status"
+                      className="rounded-md border border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950 px-4 py-3 text-xs leading-relaxed text-amber-800 dark:text-amber-300"
+                    >
+                      Online payments aren&apos;t configured yet — place your order via Cash on
+                      Delivery{pickup ? ' and pay at the studio' : ''}.
+                    </p>
+                  )}
+
+                  {/* Express-mode summary (profiled customers) + chosen delivery */}
+                  {(form.address || pickup) && (
                     <div className="flex items-start justify-between gap-4 rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3.5">
                       <p className="text-sm text-zinc-800 dark:text-zinc-300">
                         <span className="flex items-center gap-1.5 font-medium text-zinc-900 dark:text-zinc-100">
-                          <MapPinIcon size={14} weight="light" aria-hidden="true" />
+                          {pickup ? (
+                            <StorefrontIcon size={14} weight="light" aria-hidden="true" />
+                          ) : (
+                            <MapPinIcon size={14} weight="light" aria-hidden="true" />
+                          )}
                           {form.name}
                         </span>
                         <span className="mt-1 block text-xs text-zinc-800 dark:text-zinc-400">
-                          {form.address}, {form.city}, {form.state} {form.pincode} · {form.phone}
+                          {!pickup && form.address
+                            ? `${form.address}${form.address2 ? `, ${form.address2}` : ''}, ${form.city}, ${form.state} ${form.pincode} · ${form.phone}`
+                            : `${SHIPPING_OPTIONS.find((o) => o.value === shippingMethod)?.label ?? 'Delivery'} · ${form.phone}`}
                         </span>
                       </p>
                       <button
@@ -741,9 +916,13 @@ export default function CheckoutPage() {
                     </div>
                   )}
 
-                  {/* Order-by countdown + Detail-Day planner */}
-                  <OrderByCountdown edd={edd} />
-                  <DetailDayPlanner edd={edd} />
+                  {/* Order-by countdown + Detail-Day planner (courier delivery only) */}
+                  {!pickup && (
+                    <>
+                      <OrderByCountdown edd={edd} />
+                      <DetailDayPlanner edd={edd} />
+                    </>
+                  )}
 
                   {/* Studio Points */}
                   <div className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3.5">
@@ -873,7 +1052,17 @@ export default function CheckoutPage() {
                     </legend>
                     <div className="grid gap-3 sm:grid-cols-2">
                       {PAYMENT_METHODS.map((option) => {
-                        const disabled = option.value === 'cod' && !codAllowed
+                        const disabled =
+                          (option.value === 'cod' && !codAllowed) ||
+                          (option.value === 'online' && !gatewayConfigured)
+                        const sub =
+                          disabled && option.value === 'cod'
+                            ? 'Not available for this PIN code'
+                            : disabled && option.value === 'online'
+                              ? 'Temporarily unavailable'
+                              : option.value === 'cod' && pickup
+                                ? 'Pay at the studio when you collect'
+                                : option.sub
                         return (
                           <label
                             key={option.value}
@@ -897,9 +1086,7 @@ export default function CheckoutPage() {
                             <span>
                               {option.label}
                               <span className="mt-1 block text-xs font-normal text-zinc-800 dark:text-zinc-400">
-                                {disabled && option.value === 'cod'
-                                  ? 'Not available for this PIN code'
-                                  : option.sub}
+                                {sub}
                               </span>
                             </span>
                           </label>
@@ -911,8 +1098,30 @@ export default function CheckoutPage() {
                   <p className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-4 py-3 text-xs leading-relaxed text-zinc-800 dark:text-zinc-300">
                     {method === 'online'
                       ? 'After you place the order, a secure Razorpay window opens to complete payment — UPI, cards, netbanking and wallets. Card details are entered there and never touch our site.'
-                      : `Order now and keep ${formatPrice(totals.total)} ready — pay the courier in cash when your parcel arrives.`}
+                      : pickup
+                        ? `Order now and keep ${formatPrice(totals.total)} ready — pay in cash at the studio when you collect.`
+                        : `Order now and keep ${formatPrice(totals.total)} ready — pay the courier in cash when your parcel arrives.`}
                   </p>
+
+                  {/* Trust row — what Razorpay accepts + secure-handling note */}
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                    <span className="inline-flex items-center gap-1.5 text-xs text-zinc-800 dark:text-zinc-400">
+                      <LockKeyIcon size={14} weight="light" aria-hidden="true" />
+                      {gatewayConfigured ? 'Secured by Razorpay' : 'Payments secured by Razorpay'}
+                    </span>
+                    <span className="flex flex-wrap gap-1.5">
+                      {paymentMethods
+                        .filter((label) => label !== 'COD')
+                        .map((label) => (
+                          <span
+                            key={label}
+                            className="rounded-full border border-zinc-300 dark:border-zinc-700 px-2.5 py-1 text-[10px] font-semibold tracking-[0.1em] text-zinc-800 dark:text-zinc-300 uppercase"
+                          >
+                            {label}
+                          </span>
+                        ))}
+                    </span>
+                  </div>
 
                   <div className="flex flex-col gap-4 pt-2 sm:flex-row">
                     <button
@@ -943,31 +1152,57 @@ export default function CheckoutPage() {
               <h2 className="text-[11px] font-semibold tracking-[0.25em] text-zinc-900 dark:text-zinc-100 uppercase">
                 Order summary
               </h2>
-              <ul className="mt-5 space-y-4">
-                {items.map(({ product, size, qty, lineTotal }) => (
-                  <li key={`${product.id}|${size ?? 'kit'}`} className="flex items-center gap-4">
-                    <Placeholder
-                      label={product.imageLabel}
-                      iconSize={14}
-                      className="w-12 shrink-0 rounded-md"
-                    />
-                    <span className="flex-1 text-sm text-zinc-800 dark:text-zinc-300">
-                      {product.name}
-                      {size && (
+              <details open className="group mt-4">
+                <summary className="flex cursor-pointer items-center justify-between gap-3 text-xs font-medium tracking-[0.15em] text-zinc-800 dark:text-zinc-300 uppercase">
+                  Your cart ({items.reduce((sum, { qty }) => sum + qty, 0)}{' '}
+                  {items.length === 1 ? 'item' : 'items'})
+                  <CaretDownIcon
+                    size={13}
+                    weight="light"
+                    aria-hidden="true"
+                    className="shrink-0 transition-transform duration-200 group-open:rotate-180"
+                  />
+                </summary>
+                <ul className="mt-4 space-y-4">
+                  {items.map(({ product, size, qty, lineTotal }) => (
+                    <li key={`${product.id}|${size ?? 'kit'}`} className="flex items-center gap-4">
+                      <Placeholder
+                        label={product.imageLabel}
+                        iconSize={14}
+                        className="w-12 shrink-0 rounded-md"
+                      />
+                      <span className="flex-1 text-sm text-zinc-800 dark:text-zinc-300">
+                        {product.name}
+                        {size && (
+                          <span className="block text-xs text-zinc-800 dark:text-zinc-400">
+                            {size}
+                          </span>
+                        )}
                         <span className="block text-xs text-zinc-800 dark:text-zinc-400">
-                          {size}
+                          Qty {qty}
                         </span>
-                      )}
-                      <span className="block text-xs text-zinc-800 dark:text-zinc-400">
-                        Qty {qty}
                       </span>
-                    </span>
-                    <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                      {formatPrice(lineTotal)}
-                    </span>
-                  </li>
+                      <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                        {formatPrice(lineTotal)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+
+              {/* Free-shipping progress (courier delivery only) */}
+              {!pickup &&
+                (freeShippingRemaining > 0 ? (
+                  <p className="mt-4 text-xs text-zinc-800 dark:text-zinc-400">
+                    Add {formatPrice(freeShippingRemaining)} more for free shipping
+                  </p>
+                ) : (
+                  <p className="mt-4 flex items-center gap-1.5 text-xs font-medium text-emerald-800 dark:text-emerald-400">
+                    <TruckIcon size={13} weight="light" aria-hidden="true" />
+                    Free shipping unlocked
+                  </p>
                 ))}
-              </ul>
+
               <dl className="mt-6 space-y-3 border-t border-zinc-200 dark:border-zinc-800 pt-5 text-sm">
                 <div className="flex justify-between text-zinc-800 dark:text-zinc-400">
                   <dt>Subtotal</dt>
@@ -985,8 +1220,12 @@ export default function CheckoutPage() {
                 )}
                 <div className="flex items-center justify-between text-zinc-800 dark:text-zinc-400">
                   <dt className="flex items-center gap-1.5">
-                    <TruckIcon size={15} weight="light" aria-hidden="true" />
-                    Shipping
+                    {pickup ? (
+                      <StorefrontIcon size={15} weight="light" aria-hidden="true" />
+                    ) : (
+                      <TruckIcon size={15} weight="light" aria-hidden="true" />
+                    )}
+                    {pickup ? 'Pickup' : 'Shipping'}
                   </dt>
                   <dd className="font-medium text-zinc-900 dark:text-zinc-100">
                     {shipping === 0 ? 'Free' : formatPrice(shipping)}
@@ -1008,13 +1247,30 @@ export default function CheckoutPage() {
                     </dd>
                   </div>
                 )}
+                <div className="flex justify-between text-zinc-800 dark:text-zinc-400">
+                  <dt>Tax (GST 18%, included)</dt>
+                  <dd className="font-medium text-zinc-900 dark:text-zinc-100">
+                    {formatPrice(gstIncluded)}
+                  </dd>
+                </div>
                 <div className="flex justify-between border-t border-zinc-200 dark:border-zinc-800 pt-3 text-base font-semibold text-zinc-900 dark:text-zinc-100">
                   <dt>Total</dt>
                   <dd>{formatPrice(totals.total)}</dd>
                 </div>
                 <div>
-                  <OrderByCountdown edd={edd} compact />
+                  <p className="text-[11px] leading-relaxed text-zinc-800 dark:text-zinc-400">
+                    {pickup
+                      ? 'Studio pickup — no courier, no shipping fee.'
+                      : shippingMethod === 'priority'
+                        ? `Priority dispatch — your parcel jumps the packing queue (+${formatPrice(PRIORITY_DISPATCH_FEE)}).`
+                        : `Standard delivery — free over ${formatPrice(FREE_SHIPPING_THRESHOLD)}.`}
+                  </p>
                 </div>
+                {!pickup && (
+                  <div>
+                    <OrderByCountdown edd={edd} compact />
+                  </div>
+                )}
               </dl>
             </aside>
           </div>

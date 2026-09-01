@@ -60,7 +60,11 @@ export default async function handler(req, res) {
           record.status = 'paid'
           record.razorpayPaymentId = paymentId ?? record.razorpayPaymentId
           record.paidAt = Date.now()
-          if (shiprocketConfigured() && !record.shiprocket?.ok) {
+          if (
+            shiprocketConfigured() &&
+            record.shippingMethod !== 'pickup' &&
+            !record.shiprocket?.ok
+          ) {
             record.shiprocket = await createShiprocketOrder(record)
           }
           await saveOrderRecord(record)

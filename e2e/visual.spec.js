@@ -42,7 +42,14 @@ for (const { name, path } of pages) {
         })
       }
       await page.goto(path, { waitUntil: 'domcontentloaded' })
-      await page.waitForTimeout(1200)
+      // Deterministic capture: on Vite's dev server React mounts well after
+      // DOMContentLoaded (cold module graph), and hero entrance animations run
+      // ~1.3s past mount. Wait for fonts, then a settle window that covers
+      // cold-mount + animation tails before screenshotting.
+      await page
+        .waitForFunction(() => document.fonts?.status === 'loaded', { timeout: 10_000 })
+        .catch(() => {})
+      await page.waitForTimeout(3200)
 
       expect(await page.screenshot({ fullPage: false })).toMatchSnapshot(`${name}-${theme}.png`, {
         maxDiffPixels: 200,
