@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import Logo from './Logo'
 import Newsletter from './Newsletter'
 import { footerColumns, legalLinks, paymentMethods } from '../data/catalog'
 
@@ -10,12 +11,7 @@ export default function Footer() {
         <div className="grid gap-14 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] lg:gap-10">
           {/* Brand */}
           <div>
-            <Link
-              to="/"
-              className="font-display text-base font-bold tracking-[0.3em] text-zinc-900 dark:text-zinc-100 select-none"
-            >
-              KMKIRAMYKI
-            </Link>
+            <Logo />
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
               Professional-grade detailing chemistry for enthusiasts who obsess over the details.
             </p>

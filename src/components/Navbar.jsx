@@ -13,6 +13,7 @@ import { useCart } from '../context/CartContext'
 import { useWishlist } from '../context/WishlistContext'
 import { useTheme } from '../hooks/useTheme'
 import MegaMenu from './MegaMenu'
+import Logo from './Logo'
 
 const linkClasses =
   'relative text-[11px] font-medium tracking-[0.15em] text-zinc-500 dark:text-zinc-400 uppercase transition-colors hover:text-zinc-900 dark:hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-zinc-900 dark:after:bg-white after:transition-all after:duration-300 hover:after:w-full'
@@ -59,12 +60,7 @@ export default function Navbar({ onOpenSearch }) {
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 md:h-20">
         {/* Logo */}
-        <Link
-          to="/"
-          className="font-display text-base font-bold tracking-[0.3em] text-zinc-900 dark:text-zinc-100 select-none md:text-lg"
-        >
-          KMKIRAMYKI
-        </Link>
+        <Logo />
 
         {/* Desktop links — Shop opens the mega menu */}
         <ul className="hidden items-center gap-9 lg:flex">
